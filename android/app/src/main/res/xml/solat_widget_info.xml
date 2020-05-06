@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:initialLayout="@layout/solat_widget"
+    android:minWidth="333dp"
+    android:minHeight="87dp"
+    android:previewImage="@drawable/solat_widget_preview"
+    android:updatePeriodMillis="0"
+    android:widgetCategory="home_screen" />
