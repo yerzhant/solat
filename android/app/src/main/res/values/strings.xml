@@ -2,4 +2,6 @@
 <resources>
     <string name="app_label">Время намаза</string>
     <string name="logo">Лого</string>
+    <string name="fadjr">Фаджр</string>
+    <string name="divider">Разделитель</string>
 </resources>

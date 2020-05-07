@@ -12,7 +12,7 @@
         android:layout_height="16dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="14dp"
+        android:layout_marginStart="15dp"
         android:layout_marginTop="8dp"
         android:contentDescription="@string/logo"
         android:src="@drawable/ic_logo"
@@ -25,7 +25,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="7dp"
+        android:layout_marginTop="6dp"
         android:layout_marginEnd="15dp"
         android:layout_toEndOf="@+id/widget_date"
         android:fontFamily="@font/oswald_light"
@@ -46,4 +46,113 @@
         android:textColor="@android:color/white"
         android:textSize="13sp"
         tools:text="12 Рамадан 1441" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:paddingStart="7dp"
+        android:paddingEnd="7dp">
+
+        <LinearLayout
+            android:id="@+id/fadjr_layout"
+            android:layout_width="54dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:fontFamily="@font/oswald_light"
+                android:text="@string/fadjr"
+                android:textColor="@android:color/white"
+                android:textSize="11sp"
+                tools:ignore="SmallSp" />
+
+            <ImageView
+                android:id="@+id/fadjr_divider"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/divider"
+                android:src="@drawable/time_divider" />
+
+            <TextView
+                android:id="@+id/fadjr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/montserrat"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:textSize="13sp"
+                tools:text="04:08" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/sunrise_layout"
+            android:layout_width="54dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/active_time_background"
+            android:elevation="5dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/sunrise_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:fontFamily="@font/oswald_light"
+                android:text="@string/fadjr"
+                android:textColor="@android:color/white"
+                android:textSize="11sp"
+                tools:ignore="SmallSp" />
+
+            <TextView
+                android:id="@+id/sunrise_label_active"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:fontFamily="@font/oswald"
+                android:text="@string/fadjr"
+                android:textColor="@android:color/white"
+                android:textSize="11sp"
+                android:visibility="gone"
+                tools:ignore="SmallSp" />
+
+            <ImageView
+                android:id="@+id/sunrise_divider"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/divider"
+                android:src="@drawable/time_divider" />
+
+            <TextView
+                android:id="@+id/sunrise"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/montserrat"
+                android:textColor="@android:color/white"
+                android:textSize="13sp"
+                tools:text="04:08" />
+
+            <TextView
+                android:id="@+id/sunrise_active"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/montserrat_medium"
+                android:textColor="@android:color/white"
+                android:textSize="13sp"
+                android:visibility="gone"
+                tools:text="04:08" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
 </RelativeLayout>
