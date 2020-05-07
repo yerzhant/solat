@@ -25,6 +25,9 @@ class SolatWidget : AppWidgetProvider() {
                     setOnClickPendingIntent(R.id.solat_widget, mainActivityIntent)
                 }
 
+        views.setTextViewText(R.id.widget_date, "12 Рамадан 1441")
+        views.setTextViewText(R.id.widget_city, "Алматы")
+
         appWidgetManager.updateAppWidget(appWidgetId, views)
     }
 }
