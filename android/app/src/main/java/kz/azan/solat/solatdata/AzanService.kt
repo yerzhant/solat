@@ -4,23 +4,23 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 
-interface ApiService {
+interface AzanService {
 
     @GET("site/current-date-by-hidjra")
     suspend fun getCurrentDateByHidjra(): String
 
     companion object {
-        fun create(): ApiService {
+        fun create(): AzanService {
             val retrofit = Retrofit.Builder()
-                    .addConverterFactory(GsonConverterFactory.create())
                     .baseUrl("https://azan.kz/api/")
+                    .addConverterFactory(GsonConverterFactory.create())
                     .build()
 
-            return retrofit.create(ApiService::class.java)
+            return retrofit.create(AzanService::class.java)
         }
     }
 }
 
-val apiService by lazy {
-    ApiService.create()
+val azanService by lazy {
+    AzanService.create()
 }

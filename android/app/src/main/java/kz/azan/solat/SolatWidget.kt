@@ -10,7 +10,7 @@ import android.widget.RemoteViews
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kz.azan.solat.solatdata.apiService
+import kz.azan.solat.solatdata.azanService
 
 class SolatWidget : AppWidgetProvider() {
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
@@ -30,7 +30,7 @@ class SolatWidget : AppWidgetProvider() {
                     .apply {
                         setOnClickPendingIntent(R.id.solat_widget, mainActivityIntent)
 
-                        setTextViewText(R.id.widget_date, apiService.getCurrentDateByHidjra())
+                        setTextViewText(R.id.widget_date, azanService.getCurrentDateByHidjra())
                         setTextViewText(R.id.widget_city, "111 Алматы Алматы Алматы Алматы Алматы Алматы Алматы Алматы 999")
 
                         setTextViewText(R.id.fadjr, "04:08")
