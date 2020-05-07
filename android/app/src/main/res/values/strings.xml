@@ -2,6 +2,11 @@
 <resources>
     <string name="app_label">Время намаза</string>
     <string name="logo">Лого</string>
-    <string name="fadjr">Фаджр</string>
     <string name="divider">Разделитель</string>
+    <string name="fadjr">Фаджр</string>
+    <string name="sunrise">Восход</string>
+    <string name="dhuhr">Зухр</string>
+    <string name="asr">Аср</string>
+    <string name="maghrib">Магриб</string>
+    <string name="isha">Иша</string>
 </resources>

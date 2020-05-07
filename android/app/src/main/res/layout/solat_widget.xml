@@ -59,10 +59,24 @@
             android:id="@+id/fadjr_layout"
             android:layout_width="54dp"
             android:layout_height="match_parent"
+            android:elevation="5dp"
             android:gravity="center"
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/fadjr_label_active"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:fontFamily="@font/oswald"
+                android:text="@string/fadjr"
+                android:textColor="@android:color/white"
+                android:textSize="11sp"
+                android:visibility="gone"
+                tools:ignore="SmallSp" />
+
+            <TextView
+                android:id="@+id/fadjr_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
@@ -85,31 +99,34 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:fontFamily="@font/montserrat"
-                android:textAllCaps="true"
                 android:textColor="@android:color/white"
                 android:textSize="13sp"
                 tools:text="04:08" />
+
+            <TextView
+                android:id="@+id/fadjr_active"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/montserrat_medium"
+                android:textColor="@android:color/white"
+                android:textSize="13sp"
+                android:visibility="gone"
+                tools:text="04:08" />
         </LinearLayout>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
 
         <LinearLayout
             android:id="@+id/sunrise_layout"
             android:layout_width="54dp"
             android:layout_height="match_parent"
-            android:background="@drawable/active_time_background"
             android:elevation="5dp"
             android:gravity="center"
             android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/sunrise_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:fontFamily="@font/oswald_light"
-                android:text="@string/fadjr"
-                android:textColor="@android:color/white"
-                android:textSize="11sp"
-                tools:ignore="SmallSp" />
 
             <TextView
                 android:id="@+id/sunrise_label_active"
@@ -117,10 +134,21 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:fontFamily="@font/oswald"
-                android:text="@string/fadjr"
+                android:text="@string/sunrise"
                 android:textColor="@android:color/white"
                 android:textSize="11sp"
                 android:visibility="gone"
+                tools:ignore="SmallSp" />
+
+            <TextView
+                android:id="@+id/sunrise_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:fontFamily="@font/oswald_light"
+                android:text="@string/sunrise"
+                android:textColor="@android:color/white"
+                android:textSize="11sp"
                 tools:ignore="SmallSp" />
 
             <ImageView
@@ -152,6 +180,263 @@
                 tools:text="04:08" />
         </LinearLayout>
 
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:id="@+id/dhuhr_layout"
+            android:layout_width="54dp"
+            android:layout_height="match_parent"
+            android:elevation="5dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/dhuhr_label_active"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:fontFamily="@font/oswald"
+                android:text="@string/dhuhr"
+                android:textColor="@android:color/white"
+                android:textSize="11sp"
+                android:visibility="gone"
+                tools:ignore="SmallSp" />
+
+            <TextView
+                android:id="@+id/dhuhr_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:fontFamily="@font/oswald_light"
+                android:text="@string/dhuhr"
+                android:textColor="@android:color/white"
+                android:textSize="11sp"
+                tools:ignore="SmallSp" />
+
+            <ImageView
+                android:id="@+id/dhuhr_divider"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/divider"
+                android:src="@drawable/time_divider" />
+
+            <TextView
+                android:id="@+id/dhuhr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/montserrat"
+                android:textColor="@android:color/white"
+                android:textSize="13sp"
+                tools:text="04:08" />
+
+            <TextView
+                android:id="@+id/dhuhr_active"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/montserrat_medium"
+                android:textColor="@android:color/white"
+                android:textSize="13sp"
+                android:visibility="gone"
+                tools:text="04:08" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+        
+        <LinearLayout
+            android:id="@+id/asr_layout"
+            android:layout_width="54dp"
+            android:layout_height="match_parent"
+            android:elevation="5dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/asr_label_active"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:fontFamily="@font/oswald"
+                android:text="@string/asr"
+                android:textColor="@android:color/white"
+                android:textSize="11sp"
+                android:visibility="gone"
+                tools:ignore="SmallSp" />
+
+            <TextView
+                android:id="@+id/asr_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:fontFamily="@font/oswald_light"
+                android:text="@string/asr"
+                android:textColor="@android:color/white"
+                android:textSize="11sp"
+                tools:ignore="SmallSp" />
+
+            <ImageView
+                android:id="@+id/asr_divider"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/divider"
+                android:src="@drawable/time_divider" />
+
+            <TextView
+                android:id="@+id/asr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/montserrat"
+                android:textColor="@android:color/white"
+                android:textSize="13sp"
+                tools:text="04:08" />
+
+            <TextView
+                android:id="@+id/asr_active"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/montserrat_medium"
+                android:textColor="@android:color/white"
+                android:textSize="13sp"
+                android:visibility="gone"
+                tools:text="04:08" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+        <LinearLayout
+            android:id="@+id/maghrib_layout"
+            android:layout_width="54dp"
+            android:layout_height="match_parent"
+            android:elevation="5dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/maghrib_label_active"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:fontFamily="@font/oswald"
+                android:text="@string/maghrib"
+                android:textColor="@android:color/white"
+                android:textSize="11sp"
+                android:visibility="gone"
+                tools:ignore="SmallSp" />
+
+            <TextView
+                android:id="@+id/maghrib_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:fontFamily="@font/oswald_light"
+                android:text="@string/maghrib"
+                android:textColor="@android:color/white"
+                android:textSize="11sp"
+                tools:ignore="SmallSp" />
+
+            <ImageView
+                android:id="@+id/maghrib_divider"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/divider"
+                android:src="@drawable/time_divider" />
+
+            <TextView
+                android:id="@+id/maghrib"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/montserrat"
+                android:textColor="@android:color/white"
+                android:textSize="13sp"
+                tools:text="04:08" />
+
+            <TextView
+                android:id="@+id/maghrib_active"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/montserrat_medium"
+                android:textColor="@android:color/white"
+                android:textSize="13sp"
+                android:visibility="gone"
+                tools:text="04:08" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+        <LinearLayout
+            android:id="@+id/isha_layout"
+            android:layout_width="54dp"
+            android:layout_height="match_parent"
+            android:elevation="5dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/isha_label_active"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:fontFamily="@font/oswald"
+                android:text="@string/isha"
+                android:textColor="@android:color/white"
+                android:textSize="11sp"
+                android:visibility="gone"
+                tools:ignore="SmallSp" />
+
+            <TextView
+                android:id="@+id/isha_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:fontFamily="@font/oswald_light"
+                android:text="@string/isha"
+                android:textColor="@android:color/white"
+                android:textSize="11sp"
+                tools:ignore="SmallSp" />
+
+            <ImageView
+                android:id="@+id/isha_divider"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/divider"
+                android:src="@drawable/time_divider" />
+
+            <TextView
+                android:id="@+id/isha"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/montserrat"
+                android:textColor="@android:color/white"
+                android:textSize="13sp"
+                tools:text="04:08" />
+
+            <TextView
+                android:id="@+id/isha_active"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/montserrat_medium"
+                android:textColor="@android:color/white"
+                android:textSize="13sp"
+                android:visibility="gone"
+                tools:text="04:08" />
+        </LinearLayout>
 
     </LinearLayout>
 
