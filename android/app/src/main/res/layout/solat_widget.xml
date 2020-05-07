@@ -28,11 +28,13 @@
         android:layout_marginTop="6dp"
         android:layout_marginEnd="15dp"
         android:layout_toEndOf="@+id/widget_date"
+        android:ellipsize="end"
         android:fontFamily="@font/oswald_light"
+        android:lines="1"
         android:textAlignment="textEnd"
         android:textColor="@android:color/white"
         android:textSize="12sp"
-        tools:text="Алматы" />
+        tools:text="Алматы Алматы Алматы Алматы Алматы Алматы Алматы Алматы Алматы Алматы Алматы  777" />
 
     <TextView
         android:id="@+id/widget_date"
