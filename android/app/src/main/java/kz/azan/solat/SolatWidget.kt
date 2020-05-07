@@ -26,27 +26,26 @@ class SolatWidget : AppWidgetProvider() {
                 }
 
         CoroutineScope(Dispatchers.IO).launch {
-            val views = RemoteViews(context.packageName, R.layout.solat_widget)
-                    .apply {
-                        setOnClickPendingIntent(R.id.solat_widget, mainActivityIntent)
+            val views = RemoteViews(context.packageName, R.layout.solat_widget).apply {
+                setOnClickPendingIntent(R.id.solat_widget, mainActivityIntent)
 
-                        setTextViewText(R.id.widget_date, azanService.getCurrentDateByHidjra())
-                        setTextViewText(R.id.widget_city, "111 Алматы Алматы Алматы Алматы Алматы Алматы Алматы Алматы 999")
+                setTextViewText(R.id.widget_date, azanService.getCurrentDateByHidjra())
+                setTextViewText(R.id.widget_city, "111 Алматы Алматы Алматы Алматы Алматы Алматы Алматы Алматы 999")
 
-                        setTextViewText(R.id.fadjr, "04:08")
-                        setTextViewText(R.id.sunrise_active, "05:37")
-                        setTextViewText(R.id.dhuhr, "12:52")
-                        setTextViewText(R.id.asr, "17:53")
-                        setTextViewText(R.id.maghrib, "20:01")
-                        setTextViewText(R.id.isha, "21:31")
+                setTextViewText(R.id.fadjr, "04:08")
+                setTextViewText(R.id.sunrise_active, "05:37")
+                setTextViewText(R.id.dhuhr, "12:52")
+                setTextViewText(R.id.asr, "17:53")
+                setTextViewText(R.id.maghrib, "20:01")
+                setTextViewText(R.id.isha, "21:31")
 
-                        setInt(R.id.sunrise_layout, "setBackgroundResource", R.drawable.active_time_background)
-                        setImageViewResource(R.id.sunrise_divider, R.drawable.active_time_divider)
-                        setViewVisibility(R.id.sunrise_label, View.GONE)
-                        setViewVisibility(R.id.sunrise_label_active, View.VISIBLE)
-                        setViewVisibility(R.id.sunrise, View.GONE)
-                        setViewVisibility(R.id.sunrise_active, View.VISIBLE)
-                    }
+                setInt(R.id.sunrise_layout, "setBackgroundResource", R.drawable.active_time_background)
+                setImageViewResource(R.id.sunrise_divider, R.drawable.active_time_divider)
+                setViewVisibility(R.id.sunrise_label, View.GONE)
+                setViewVisibility(R.id.sunrise_label_active, View.VISIBLE)
+                setViewVisibility(R.id.sunrise, View.GONE)
+                setViewVisibility(R.id.sunrise_active, View.VISIBLE)
+            }
 
             appWidgetManager.updateAppWidget(appWidgetId, views)
         }
