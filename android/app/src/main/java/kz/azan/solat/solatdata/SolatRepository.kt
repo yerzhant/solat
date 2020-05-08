@@ -14,8 +14,13 @@ class SolatRepository(context: Context) {
             "solat.db"
     ).build()
 
-    fun getTodayTimes(): Times? {
-        return solatDatabase.timesDao().findByDate("08-05-2020")
+    suspend fun getTodayTimes(): Times? {
+        val calendar = Calendar.getInstance()
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+        val month = calendar.get(Calendar.MONTH) + 1
+        val year = calendar.get(Calendar.YEAR)
+        val date = "%02d-%02d-%d".format(day, month, year)
+        return solatDatabase.timesDao().findByDate(date)
     }
 
     fun getCityName(): String {
@@ -31,6 +36,7 @@ class SolatRepository(context: Context) {
     private suspend fun getTimes(latitude: String, longitude: String): Array<Times> {
         val year = Calendar.getInstance().get(Calendar.YEAR)
         val muftiyatDto = muftiyatService.getTimes(year, latitude, longitude)
+
         if (muftiyatDto.success) {
             return muftiyatDto.result.map {
                 Times(it.date.trim(),
@@ -42,6 +48,7 @@ class SolatRepository(context: Context) {
                         it.Isha.trim())
             }.toTypedArray()
         }
+
         throw Exception("Failed to retrieve solat times from muftiyat.")
     }
 
