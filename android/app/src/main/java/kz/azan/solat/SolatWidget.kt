@@ -35,13 +35,13 @@ class SolatWidget : AppWidgetProvider() {
 
                 val solatRepository = SolatRepository(context)
 //                solatRepository.refresh("Almaty7", "43.238293", "76.945465")
+                val cityName = solatRepository.getCityName()
                 val times = solatRepository.getTodayTimes()
 
-                if (times == null) {
+                if (cityName == null || times == null) {
                     setTextViewText(R.id.widget_city, context.getString(R.string.selectCity))
                 } else {
-                    setTextViewText(R.id.widget_city, solatRepository.getCityName())
-
+                    setTextViewText(R.id.widget_city, cityName)
                     setTimes(times)
                     setActiveTime(times)
                 }

@@ -6,7 +6,13 @@ import kz.azan.solat.solatdata.database.SolatDatabase
 import kz.azan.solat.solatdata.model.Times
 import java.util.*
 
-class SolatRepository(context: Context) {
+class SolatRepository(private val context: Context) {
+
+    private val settingsName = "kz.azan.solat.settings"
+    private val settingCity = "city"
+    private val settingLatitude = "latitude"
+    private val settingLongitude = "longitude"
+    private val settingRefreshedOn = "refreshedOn"
 
     private val solatDatabase = Room.databaseBuilder(
             context,
@@ -23,14 +29,30 @@ class SolatRepository(context: Context) {
         return solatDatabase.timesDao().findByDate(date)
     }
 
-    fun getCityName(): String {
-        return "Almaty"
+    fun getCityName(): String? {
+        val settings = context.getSharedPreferences(settingsName, Context.MODE_PRIVATE)
+        return settings.getString(settingCity, null)
     }
 
     suspend fun refresh(city: String, latitude: String, longitude: String) {
         val times = getTimes(latitude, longitude)
+
+        val settings = context.getSharedPreferences(settingsName, Context.MODE_PRIVATE)
+        with(settings.edit()) {
+            remove(settingCity)
+            apply()
+        }
+
         solatDatabase.timesDao().deleteAll()
         solatDatabase.timesDao().addAll(*times)
+
+        with(settings.edit()) {
+            putString(settingCity, city)
+            putString(settingLatitude, latitude)
+            putString(settingLongitude, longitude)
+            putLong(settingRefreshedOn, Calendar.getInstance().timeInMillis)
+            apply()
+        }
     }
 
     private suspend fun getTimes(latitude: String, longitude: String): Array<Times> {
