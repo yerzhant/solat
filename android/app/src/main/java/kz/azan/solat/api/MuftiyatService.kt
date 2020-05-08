@@ -1,6 +1,6 @@
-package kz.azan.solat.solatdata.api
+package kz.azan.solat.api
 
-import kz.azan.solat.solatdata.model.MuftiyatDto
+import kz.azan.solat.model.MuftiyatDto
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET

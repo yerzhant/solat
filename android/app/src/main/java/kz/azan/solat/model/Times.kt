@@ -1,4 +1,4 @@
-package kz.azan.solat.solatdata.model
+package kz.azan.solat.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

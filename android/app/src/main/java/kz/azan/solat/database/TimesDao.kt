@@ -1,9 +1,9 @@
-package kz.azan.solat.solatdata.database
+package kz.azan.solat.database
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import kz.azan.solat.solatdata.model.Times
+import kz.azan.solat.model.Times
 
 @Dao
 interface TimesDao {

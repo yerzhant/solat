@@ -1,4 +1,4 @@
-package kz.azan.solat.solatdata.api
+package kz.azan.solat.api
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

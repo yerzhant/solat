@@ -10,9 +10,9 @@ import android.widget.RemoteViews
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kz.azan.solat.solatdata.SolatRepository
-import kz.azan.solat.solatdata.api.azanService
-import kz.azan.solat.solatdata.model.Times
+import kz.azan.solat.repository.SolatRepository
+import kz.azan.solat.api.azanService
+import kz.azan.solat.model.Times
 import java.util.*
 
 class SolatWidget : AppWidgetProvider() {
