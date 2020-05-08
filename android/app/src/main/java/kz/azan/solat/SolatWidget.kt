@@ -22,10 +22,9 @@ class SolatWidget : AppWidgetProvider() {
     }
 
     private fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) {
-        val mainActivityIntent = Intent(context, MainActivity::class.java)
-                .let {
-                    PendingIntent.getActivity(context, 0, it, 0)
-                }
+        val mainActivityIntent = Intent(context, MainActivity::class.java).let {
+            PendingIntent.getActivity(context, 0, it, 0)
+        }
 
         CoroutineScope(Dispatchers.IO).launch {
             val views = RemoteViews(context.packageName, R.layout.solat_widget).apply {
@@ -34,7 +33,7 @@ class SolatWidget : AppWidgetProvider() {
                 setTextViewText(R.id.widget_date, azanService.getCurrentDateByHidjra())
 
                 val solatRepository = SolatRepository(context)
-                solatRepository.refresh("Almaty7", "43.238293", "76.945465")
+//                solatRepository.refresh("Almaty7", "43.238293", "76.945465")
                 val times = solatRepository.getTodayTimes()
 
                 if (times == null) {
@@ -52,13 +51,33 @@ class SolatWidget : AppWidgetProvider() {
     }
 
     private fun RemoteViews.setActiveTime(times: Times) {
-        setTextViewText(R.id.sunrise_active, times.sunrise)
-        setInt(R.id.sunrise_layout, "setBackgroundResource", R.drawable.active_time_background)
-        setImageViewResource(R.id.sunrise_divider, R.drawable.active_time_divider)
-        setViewVisibility(R.id.sunrise_label, View.GONE)
-        setViewVisibility(R.id.sunrise_label_active, View.VISIBLE)
-        setViewVisibility(R.id.sunrise, View.GONE)
-        setViewVisibility(R.id.sunrise_active, View.VISIBLE)
+        setActive(
+                times.sunrise,
+                R.id.sunrise,
+                R.id.sunrise_active,
+                R.id.sunrise_label,
+                R.id.sunrise_label_active,
+                R.id.sunrise_divider,
+                R.id.sunrise_layout
+        )
+    }
+
+    private fun RemoteViews.setActive(
+            time: String,
+            value: Int,
+            valueActive: Int,
+            label: Int,
+            labelActive: Int,
+            divider: Int,
+            layout: Int
+    ) {
+        setTextViewText(valueActive, time)
+        setViewVisibility(label, View.GONE)
+        setViewVisibility(labelActive, View.VISIBLE)
+        setViewVisibility(value, View.GONE)
+        setViewVisibility(valueActive, View.VISIBLE)
+        setImageViewResource(divider, R.drawable.active_time_divider)
+        setInt(layout, "setBackgroundResource", R.drawable.active_time_background)
     }
 
     private fun RemoteViews.setTimes(times: Times) {
