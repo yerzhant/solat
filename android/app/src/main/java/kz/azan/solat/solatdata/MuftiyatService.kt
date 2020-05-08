@@ -1,6 +1,6 @@
 package kz.azan.solat.solatdata
 
-import kz.azan.solat.solatdata.model.MuftiyatTimes
+import kz.azan.solat.solatdata.model.MuftiyatDto
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
@@ -11,7 +11,7 @@ interface MuftiyatService {
     @GET("times/{year}/{latitude}/{longitude}")
     suspend fun getTimes(@Path("year") year: Int,
                          @Path("latitude") latitude: String,
-                         @Path("longitude") longitude: String): MuftiyatTimes
+                         @Path("longitude") longitude: String): MuftiyatDto
 
     companion object {
         fun create(): MuftiyatService {

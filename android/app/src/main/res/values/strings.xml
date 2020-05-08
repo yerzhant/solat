@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_label">Время намаза</string>
+
     <string name="logo">Лого</string>
     <string name="divider">Разделитель</string>
+
+    <string name="selectCity">Выберите город</string>
+
     <string name="fadjr">Фаджр</string>
     <string name="sunrise">Восход</string>
     <string name="dhuhr">Зухр</string>

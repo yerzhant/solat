@@ -1,11 +1,11 @@
 package kz.azan.solat.solatdata.model
 
-data class MuftiyatTimes(
+data class MuftiyatDto(
         val success: Boolean,
-        val result: List<Times>
+        val result: List<TimesDto>
 )
 
-data class Times(
+data class TimesDto(
         val date: String,
         val Fajr: String,
         val Sunrise: String,
