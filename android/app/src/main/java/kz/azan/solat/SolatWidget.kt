@@ -13,6 +13,7 @@ import kotlinx.coroutines.launch
 import kz.azan.solat.solatdata.SolatRepository
 import kz.azan.solat.solatdata.azanService
 import kz.azan.solat.solatdata.model.Times
+import java.util.*
 
 class SolatWidget : AppWidgetProvider() {
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
@@ -51,6 +52,43 @@ class SolatWidget : AppWidgetProvider() {
     }
 
     private fun RemoteViews.setActiveTime(times: Times) {
+        val currentHours = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+        val currentMinutes = Calendar.getInstance().get(Calendar.MINUTE)
+
+        when {
+            isBefore(currentHours, currentMinutes, times.fadjr) -> setIshaActive(times)
+            isBefore(currentHours, currentMinutes, times.sunrise) -> setFadjrActive(times)
+            isBefore(currentHours, currentMinutes, times.dhuhr) -> setSunriseActive(times)
+            isBefore(currentHours, currentMinutes, times.asr) -> setDhuhrActive(times)
+            isBefore(currentHours, currentMinutes, times.maghrib) -> setAsrActive(times)
+            isBefore(currentHours, currentMinutes, times.isha) -> setMaghribActive(times)
+            else -> setIshaActive(times)
+        }
+    }
+
+    private fun isBefore(currentHours: Int, currentMinutes: Int, time: String): Boolean {
+        val timeParts = time.split(":")
+        val hours = timeParts[0].toInt()
+        val minutes = timeParts[1].toInt()
+
+        if (currentHours < hours) return true
+        if (currentHours == hours && currentMinutes < minutes) return true
+        return false
+    }
+
+    private fun RemoteViews.setFadjrActive(times: Times) {
+        setActive(
+                times.fadjr,
+                R.id.fadjr,
+                R.id.fadjr_active,
+                R.id.fadjr_label,
+                R.id.fadjr_label_active,
+                R.id.fadjr_divider,
+                R.id.fadjr_layout
+        )
+    }
+
+    private fun RemoteViews.setSunriseActive(times: Times) {
         setActive(
                 times.sunrise,
                 R.id.sunrise,
@@ -59,6 +97,54 @@ class SolatWidget : AppWidgetProvider() {
                 R.id.sunrise_label_active,
                 R.id.sunrise_divider,
                 R.id.sunrise_layout
+        )
+    }
+
+    private fun RemoteViews.setDhuhrActive(times: Times) {
+        setActive(
+                times.dhuhr,
+                R.id.dhuhr,
+                R.id.dhuhr_active,
+                R.id.dhuhr_label,
+                R.id.dhuhr_label_active,
+                R.id.dhuhr_divider,
+                R.id.dhuhr_layout
+        )
+    }
+
+    private fun RemoteViews.setAsrActive(times: Times) {
+        setActive(
+                times.asr,
+                R.id.asr,
+                R.id.asr_active,
+                R.id.asr_label,
+                R.id.asr_label_active,
+                R.id.asr_divider,
+                R.id.asr_layout
+        )
+    }
+
+    private fun RemoteViews.setMaghribActive(times: Times) {
+        setActive(
+                times.maghrib,
+                R.id.maghrib,
+                R.id.maghrib_active,
+                R.id.maghrib_label,
+                R.id.maghrib_label_active,
+                R.id.maghrib_divider,
+                R.id.maghrib_layout
+        )
+    }
+
+    private fun RemoteViews.setIshaActive(times: Times) {
+        setActive(
+                times.isha,
+                R.id.isha,
+                R.id.isha_active,
+                R.id.isha_label,
+                R.id.isha_label_active,
+                R.id.isha_divider,
+                R.id.isha_layout
         )
     }
 
