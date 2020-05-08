@@ -2,6 +2,7 @@ package kz.azan.solat.solatdata
 
 import android.content.Context
 import androidx.room.Room
+import kz.azan.solat.solatdata.api.muftiyatService
 import kz.azan.solat.solatdata.database.SolatDatabase
 import kz.azan.solat.solatdata.model.Times
 import java.util.*

@@ -11,7 +11,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kz.azan.solat.solatdata.SolatRepository
-import kz.azan.solat.solatdata.azanService
+import kz.azan.solat.solatdata.api.azanService
 import kz.azan.solat.solatdata.model.Times
 import java.util.*
 

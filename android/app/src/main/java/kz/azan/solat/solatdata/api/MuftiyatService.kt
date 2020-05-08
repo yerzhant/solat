@@ -1,4 +1,4 @@
-package kz.azan.solat.solatdata
+package kz.azan.solat.solatdata.api
 
 import kz.azan.solat.solatdata.model.MuftiyatDto
 import retrofit2.Retrofit
