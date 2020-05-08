@@ -9,11 +9,11 @@ import kz.azan.solat.solatdata.model.Times
 interface TimesDao {
 
     @Query("SELECT * FROM times WHERE date = :date")
-    fun findByDate(date: String): Times?
+    suspend fun findByDate(date: String): Times?
 
     @Insert
-    fun addAll(vararg times: Times)
+    suspend fun addAll(vararg times: Times)
 
     @Query("DELETE FROM times")
-    fun deleteAll()
+    suspend fun deleteAll()
 }
