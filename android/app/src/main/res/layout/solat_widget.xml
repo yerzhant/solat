@@ -61,7 +61,6 @@
             android:id="@+id/fadjr_layout"
             android:layout_width="54dp"
             android:layout_height="match_parent"
-            android:elevation="5dp"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -108,7 +107,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
-                android:layout_marginBottom="1dp"
+                android:layout_marginBottom="5dp"
                 android:fontFamily="@font/montserrat_medium"
                 android:textColor="@android:color/white"
                 android:textSize="13sp"
@@ -125,7 +124,6 @@
             android:id="@+id/sunrise_layout"
             android:layout_width="54dp"
             android:layout_height="match_parent"
-            android:elevation="5dp"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -172,7 +170,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
-                android:layout_marginBottom="1dp"
+                android:layout_marginBottom="5dp"
                 android:fontFamily="@font/montserrat_medium"
                 android:textColor="@android:color/white"
                 android:textSize="13sp"
@@ -189,7 +187,6 @@
             android:id="@+id/dhuhr_layout"
             android:layout_width="54dp"
             android:layout_height="match_parent"
-            android:elevation="5dp"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -236,7 +233,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
-                android:layout_marginBottom="1dp"
+                android:layout_marginBottom="5dp"
                 android:fontFamily="@font/montserrat_medium"
                 android:textColor="@android:color/white"
                 android:textSize="13sp"
@@ -253,7 +250,6 @@
             android:id="@+id/asr_layout"
             android:layout_width="54dp"
             android:layout_height="match_parent"
-            android:elevation="5dp"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -300,7 +296,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
-                android:layout_marginBottom="1dp"
+                android:layout_marginBottom="5dp"
                 android:fontFamily="@font/montserrat_medium"
                 android:textColor="@android:color/white"
                 android:textSize="13sp"
@@ -316,7 +312,6 @@
             android:id="@+id/maghrib_layout"
             android:layout_width="54dp"
             android:layout_height="match_parent"
-            android:elevation="5dp"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -363,7 +358,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
-                android:layout_marginBottom="1dp"
+                android:layout_marginBottom="5dp"
                 android:fontFamily="@font/montserrat_medium"
                 android:textColor="@android:color/white"
                 android:textSize="13sp"
@@ -379,7 +374,6 @@
             android:id="@+id/isha_layout"
             android:layout_width="54dp"
             android:layout_height="match_parent"
-            android:elevation="2dp"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -426,7 +420,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
-                android:layout_marginBottom="1dp"
+                android:layout_marginBottom="5dp"
                 android:fontFamily="@font/montserrat_semi_bold"
                 android:textColor="@android:color/white"
                 android:textSize="13sp"
