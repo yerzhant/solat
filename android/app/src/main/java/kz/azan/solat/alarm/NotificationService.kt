@@ -8,6 +8,7 @@ import androidx.core.app.NotificationManagerCompat
 import kz.azan.solat.MainActivity
 import kz.azan.solat.R
 import kz.azan.solat.repository.SETTINGS_NAME
+import kz.azan.solat.repository.SolatRepository
 
 const val AZAN_CHANNEL_ID = "azan"
 
@@ -32,9 +33,13 @@ class NotificationService(private val context: Context) {
             PendingIntent.getActivity(context, 0, it, 0)
         }
 
+        val solatRepository = SolatRepository(context)
+        val cityName = solatRepository.getCityName()
+
         val builder = NotificationCompat.Builder(context, AZAN_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_logo)
-                .setContentTitle("$title $time")
+                .setContentTitle("$title · $time")
+                .setContentText(cityName)
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setCategory(NotificationCompat.CATEGORY_ALARM)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
