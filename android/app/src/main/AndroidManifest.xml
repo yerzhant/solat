@@ -3,7 +3,7 @@
     package="kz.azan.solat">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <!--    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />-->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <application
         android:name="io.flutter.app.FlutterApplication"
@@ -62,6 +62,12 @@
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/solat_widget_info" />
+        </receiver>
+
+        <receiver android:name=".alarm.AlarmService">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
         </receiver>
     </application>
 </manifest>
