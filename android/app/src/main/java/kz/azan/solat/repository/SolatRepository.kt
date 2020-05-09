@@ -2,14 +2,16 @@ package kz.azan.solat.repository
 
 import android.content.Context
 import androidx.room.Room
+import kz.azan.solat.alarm.AlarmService
 import kz.azan.solat.api.muftiyatService
 import kz.azan.solat.database.SolatDatabase
 import kz.azan.solat.model.Times
 import java.util.*
 
+const val SETTINGS_NAME = "kz.azan.solat.settings"
+
 class SolatRepository(private val context: Context) {
 
-    private val settingsName = "kz.azan.solat.settings"
     private val settingCity = "city"
     private val settingLatitude = "latitude"
     private val settingLongitude = "longitude"
@@ -28,17 +30,18 @@ class SolatRepository(private val context: Context) {
         val year = calendar.get(Calendar.YEAR)
         val date = "%02d-%02d-%d".format(day, month, year)
         return solatDatabase.timesDao().findByDate(date)
+//        return Times("", "04:40", "07:02", "13:01", "19:11", "22:22", "23:23")
     }
 
     fun getCityName(): String? {
-        val settings = context.getSharedPreferences(settingsName, Context.MODE_PRIVATE)
+        val settings = context.getSharedPreferences(SETTINGS_NAME, Context.MODE_PRIVATE)
         return settings.getString(settingCity, null)
     }
 
-    suspend fun refresh(city: String, latitude: String, longitude: String) {
+    suspend fun refresh(context: Context, city: String, latitude: String, longitude: String) {
         val times = getTimes(latitude, longitude)
 
-        val settings = context.getSharedPreferences(settingsName, Context.MODE_PRIVATE)
+        val settings = context.getSharedPreferences(SETTINGS_NAME, Context.MODE_PRIVATE)
         with(settings.edit()) {
             remove(settingCity)
             apply()
@@ -46,6 +49,8 @@ class SolatRepository(private val context: Context) {
 
         solatDatabase.timesDao().deleteAll()
         solatDatabase.timesDao().addAll(*times)
+
+        AlarmService().init(context)
 
         with(settings.edit()) {
             putString(settingCity, city)
@@ -74,5 +79,4 @@ class SolatRepository(private val context: Context) {
 
         throw Exception("Failed to retrieve solat times from muftiyat.")
     }
-
 }
