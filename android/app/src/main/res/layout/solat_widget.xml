@@ -69,24 +69,22 @@
                 android:id="@+id/fadjr_label_active"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="3dp"
                 android:fontFamily="@font/oswald"
                 android:text="@string/fadjr"
                 android:textColor="@android:color/white"
-                android:textSize="11sp"
-                android:visibility="gone"
-                tools:ignore="SmallSp" />
+                android:textSize="12sp"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/fadjr_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="3dp"
                 android:fontFamily="@font/oswald_light"
                 android:text="@string/fadjr"
                 android:textColor="@android:color/white"
-                android:textSize="11sp"
-                tools:ignore="SmallSp" />
+                android:textSize="12sp" />
 
             <ImageView
                 android:id="@+id/fadjr_divider"
@@ -99,7 +97,7 @@
                 android:id="@+id/fadjr"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginBottom=".5dp"
                 android:fontFamily="@font/montserrat"
                 android:textColor="@android:color/white"
                 android:textSize="13sp"
@@ -109,7 +107,8 @@
                 android:id="@+id/fadjr_active"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp"
                 android:fontFamily="@font/montserrat_medium"
                 android:textColor="@android:color/white"
                 android:textSize="13sp"
@@ -134,24 +133,22 @@
                 android:id="@+id/sunrise_label_active"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="3dp"
                 android:fontFamily="@font/oswald"
                 android:text="@string/sunrise"
                 android:textColor="@android:color/white"
-                android:textSize="11sp"
-                android:visibility="gone"
-                tools:ignore="SmallSp" />
+                android:textSize="12sp"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/sunrise_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="3dp"
                 android:fontFamily="@font/oswald_light"
                 android:text="@string/sunrise"
                 android:textColor="@android:color/white"
-                android:textSize="11sp"
-                tools:ignore="SmallSp" />
+                android:textSize="12sp" />
 
             <ImageView
                 android:id="@+id/sunrise_divider"
@@ -164,7 +161,7 @@
                 android:id="@+id/sunrise"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop=".5dp"
                 android:fontFamily="@font/montserrat"
                 android:textColor="@android:color/white"
                 android:textSize="13sp"
@@ -174,7 +171,8 @@
                 android:id="@+id/sunrise_active"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp"
                 android:fontFamily="@font/montserrat_medium"
                 android:textColor="@android:color/white"
                 android:textSize="13sp"
@@ -199,24 +197,22 @@
                 android:id="@+id/dhuhr_label_active"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="3dp"
                 android:fontFamily="@font/oswald"
                 android:text="@string/dhuhr"
                 android:textColor="@android:color/white"
-                android:textSize="11sp"
-                android:visibility="gone"
-                tools:ignore="SmallSp" />
+                android:textSize="12sp"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/dhuhr_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="3dp"
                 android:fontFamily="@font/oswald_light"
                 android:text="@string/dhuhr"
                 android:textColor="@android:color/white"
-                android:textSize="11sp"
-                tools:ignore="SmallSp" />
+                android:textSize="12sp" />
 
             <ImageView
                 android:id="@+id/dhuhr_divider"
@@ -229,7 +225,7 @@
                 android:id="@+id/dhuhr"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop=".5dp"
                 android:fontFamily="@font/montserrat"
                 android:textColor="@android:color/white"
                 android:textSize="13sp"
@@ -239,7 +235,8 @@
                 android:id="@+id/dhuhr_active"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp"
                 android:fontFamily="@font/montserrat_medium"
                 android:textColor="@android:color/white"
                 android:textSize="13sp"
@@ -264,24 +261,22 @@
                 android:id="@+id/asr_label_active"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="3dp"
                 android:fontFamily="@font/oswald"
                 android:text="@string/asr"
                 android:textColor="@android:color/white"
-                android:textSize="11sp"
-                android:visibility="gone"
-                tools:ignore="SmallSp" />
+                android:textSize="12sp"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/asr_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="3dp"
                 android:fontFamily="@font/oswald_light"
                 android:text="@string/asr"
                 android:textColor="@android:color/white"
-                android:textSize="11sp"
-                tools:ignore="SmallSp" />
+                android:textSize="12sp" />
 
             <ImageView
                 android:id="@+id/asr_divider"
@@ -294,7 +289,7 @@
                 android:id="@+id/asr"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop=".5dp"
                 android:fontFamily="@font/montserrat"
                 android:textColor="@android:color/white"
                 android:textSize="13sp"
@@ -304,7 +299,8 @@
                 android:id="@+id/asr_active"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp"
                 android:fontFamily="@font/montserrat_medium"
                 android:textColor="@android:color/white"
                 android:textSize="13sp"
@@ -328,24 +324,22 @@
                 android:id="@+id/maghrib_label_active"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="3dp"
                 android:fontFamily="@font/oswald"
                 android:text="@string/maghrib"
                 android:textColor="@android:color/white"
-                android:textSize="11sp"
-                android:visibility="gone"
-                tools:ignore="SmallSp" />
+                android:textSize="12sp"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/maghrib_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="3dp"
                 android:fontFamily="@font/oswald_light"
                 android:text="@string/maghrib"
                 android:textColor="@android:color/white"
-                android:textSize="11sp"
-                tools:ignore="SmallSp" />
+                android:textSize="12sp" />
 
             <ImageView
                 android:id="@+id/maghrib_divider"
@@ -358,7 +352,7 @@
                 android:id="@+id/maghrib"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop=".5dp"
                 android:fontFamily="@font/montserrat"
                 android:textColor="@android:color/white"
                 android:textSize="13sp"
@@ -368,7 +362,8 @@
                 android:id="@+id/maghrib_active"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp"
                 android:fontFamily="@font/montserrat_medium"
                 android:textColor="@android:color/white"
                 android:textSize="13sp"
@@ -384,7 +379,7 @@
             android:id="@+id/isha_layout"
             android:layout_width="54dp"
             android:layout_height="match_parent"
-            android:elevation="5dp"
+            android:elevation="2dp"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -392,24 +387,22 @@
                 android:id="@+id/isha_label_active"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="3dp"
                 android:fontFamily="@font/oswald"
                 android:text="@string/isha"
                 android:textColor="@android:color/white"
-                android:textSize="11sp"
-                android:visibility="gone"
-                tools:ignore="SmallSp" />
+                android:textSize="12sp"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/isha_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="3dp"
                 android:fontFamily="@font/oswald_light"
                 android:text="@string/isha"
                 android:textColor="@android:color/white"
-                android:textSize="11sp"
-                tools:ignore="SmallSp" />
+                android:textSize="12sp" />
 
             <ImageView
                 android:id="@+id/isha_divider"
@@ -422,7 +415,7 @@
                 android:id="@+id/isha"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop=".5dp"
                 android:fontFamily="@font/montserrat"
                 android:textColor="@android:color/white"
                 android:textSize="13sp"
@@ -432,8 +425,9 @@
                 android:id="@+id/isha_active"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:fontFamily="@font/montserrat_medium"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp"
+                android:fontFamily="@font/montserrat_semi_bold"
                 android:textColor="@android:color/white"
                 android:textSize="13sp"
                 android:visibility="gone"
