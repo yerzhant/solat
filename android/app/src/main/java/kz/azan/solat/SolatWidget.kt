@@ -3,6 +3,7 @@ package kz.azan.solat
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.view.View
@@ -10,16 +11,32 @@ import android.widget.RemoteViews
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kz.azan.solat.repository.SolatRepository
+import kz.azan.solat.alarm.ALARM_TYPE
 import kz.azan.solat.api.azanService
 import kz.azan.solat.model.Times
+import kz.azan.solat.repository.SolatRepository
 import java.util.*
 
 class SolatWidget : AppWidgetProvider() {
+
+    override fun onReceive(context: Context?, intent: Intent?) {
+        super.onReceive(context, intent)
+
+        val alarmType = intent?.getIntExtra(ALARM_TYPE, -1) ?: return
+        if (alarmType > 0) {
+            val appWidgetManager = AppWidgetManager.getInstance(context)
+            val provider = ComponentName(context!!, this::class.java)
+            val ids = appWidgetManager.getAppWidgetIds(provider)
+            onUpdate(context, appWidgetManager, ids)
+        }
+    }
+
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
         for (appWidgetId in appWidgetIds) {
             updateAppWidget(context, appWidgetManager, appWidgetId)
         }
+//                solatRepository.refresh("Almaty7", "43.238293", "76.945465")
+//        AlarmService(context).setAll()
     }
 
     private fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) {
@@ -34,7 +51,6 @@ class SolatWidget : AppWidgetProvider() {
                 setTextViewText(R.id.widget_date, azanService.getCurrentDateByHidjra())
 
                 val solatRepository = SolatRepository(context)
-//                solatRepository.refresh("Almaty7", "43.238293", "76.945465")
                 val cityName = solatRepository.getCityName()
                 val times = solatRepository.getTodayTimes()
 
@@ -43,6 +59,7 @@ class SolatWidget : AppWidgetProvider() {
                 } else {
                     setTextViewText(R.id.widget_city, cityName)
                     setTimes(times)
+                    setAllInactive()
                     setActiveTime(times)
                 }
             }
@@ -164,6 +181,73 @@ class SolatWidget : AppWidgetProvider() {
         setViewVisibility(valueActive, View.VISIBLE)
         setImageViewResource(divider, R.drawable.active_time_divider)
         setInt(layout, "setBackgroundResource", R.drawable.active_time_background)
+    }
+
+    private fun RemoteViews.setAllInactive() {
+        setInactive(
+                R.id.fadjr,
+                R.id.fadjr_active,
+                R.id.fadjr_label,
+                R.id.fadjr_label_active,
+                R.id.fadjr_divider,
+                R.id.fadjr_layout
+        )
+        setInactive(
+                R.id.sunrise,
+                R.id.sunrise_active,
+                R.id.sunrise_label,
+                R.id.sunrise_label_active,
+                R.id.sunrise_divider,
+                R.id.sunrise_layout
+        )
+        setInactive(
+                R.id.dhuhr,
+                R.id.dhuhr_active,
+                R.id.dhuhr_label,
+                R.id.dhuhr_label_active,
+                R.id.dhuhr_divider,
+                R.id.dhuhr_layout
+        )
+        setInactive(
+                R.id.asr,
+                R.id.asr_active,
+                R.id.asr_label,
+                R.id.asr_label_active,
+                R.id.asr_divider,
+                R.id.asr_layout
+        )
+        setInactive(
+                R.id.maghrib,
+                R.id.maghrib_active,
+                R.id.maghrib_label,
+                R.id.maghrib_label_active,
+                R.id.maghrib_divider,
+                R.id.maghrib_layout
+        )
+        setInactive(
+                R.id.isha,
+                R.id.isha_active,
+                R.id.isha_label,
+                R.id.isha_label_active,
+                R.id.isha_divider,
+                R.id.isha_layout
+        )
+    }
+
+    private fun RemoteViews.setInactive(
+            value: Int,
+            valueActive: Int,
+            label: Int,
+            labelActive: Int,
+            divider: Int,
+            layout: Int
+    ) {
+        setViewVisibility(label, View.VISIBLE)
+        setViewVisibility(labelActive, View.GONE)
+        setViewVisibility(value, View.VISIBLE)
+        setViewVisibility(valueActive, View.GONE)
+        setImageViewResource(divider, R.drawable.time_divider)
+        setInt(layout, "setBackgroundResource", 0)
     }
 
     private fun RemoteViews.setTimes(times: Times) {
