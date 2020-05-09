@@ -3,6 +3,7 @@ package kz.azan.solat.alarm
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import kz.azan.solat.MainActivity
@@ -54,5 +55,19 @@ class NotificationService(private val context: Context) {
     private fun enabled(type: Int): Boolean {
         val settings = context.getSharedPreferences(SETTINGS_NAME, Context.MODE_PRIVATE)
         return settings.getBoolean("$azanNotificationPrefix-$type", false)
+    }
+
+    fun setDefaultAzanFlags(settings: SharedPreferences) {
+        if (settings.contains("$azanNotificationPrefix-$AZAN_FADJR")) return
+
+        with(settings.edit()) {
+            putBoolean("$azanNotificationPrefix-$AZAN_FADJR", true)
+            putBoolean("$azanNotificationPrefix-$AZAN_SUNRISE", false)
+            putBoolean("$azanNotificationPrefix-$AZAN_DHUHR", true)
+            putBoolean("$azanNotificationPrefix-$AZAN_ASR", true)
+            putBoolean("$azanNotificationPrefix-$AZAN_MAGHRIB", true)
+            putBoolean("$azanNotificationPrefix-$AZAN_ISHA", true)
+            apply()
+        }
     }
 }

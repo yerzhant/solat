@@ -3,6 +3,7 @@ package kz.azan.solat.repository
 import android.content.Context
 import androidx.room.Room
 import kz.azan.solat.alarm.AlarmService
+import kz.azan.solat.alarm.NotificationService
 import kz.azan.solat.api.muftiyatService
 import kz.azan.solat.database.SolatDatabase
 import kz.azan.solat.model.Times
@@ -42,6 +43,7 @@ class SolatRepository(private val context: Context) {
         val times = getTimes(latitude, longitude)
 
         val settings = context.getSharedPreferences(SETTINGS_NAME, Context.MODE_PRIVATE)
+        NotificationService(context).setDefaultAzanFlags(settings)
         with(settings.edit()) {
             remove(settingCity)
             apply()

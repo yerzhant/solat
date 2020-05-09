@@ -7,16 +7,12 @@ import android.os.Build
 import android.os.Bundle
 import io.flutter.embedding.android.FlutterActivity
 import kz.azan.solat.alarm.AZAN_CHANNEL_ID
-import kz.azan.solat.alarm.AlarmService
 
 class MainActivity : FlutterActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         createNotificationChannel()
-
-        AlarmService().init(context)
-//        solatRepository.refresh(context, "Almaty77", "43.238293", "76.945465")
     }
 
     private fun createNotificationChannel() {
