@@ -3,7 +3,6 @@ package kz.azan.solat
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
-import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.view.View
@@ -11,7 +10,6 @@ import android.widget.RemoteViews
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kz.azan.solat.alarm.ALARM_TYPE
 import kz.azan.solat.api.azanService
 import kz.azan.solat.model.Times
 import kz.azan.solat.repository.SolatRepository
@@ -19,24 +17,10 @@ import java.util.*
 
 class SolatWidget : AppWidgetProvider() {
 
-    override fun onReceive(context: Context?, intent: Intent?) {
-        super.onReceive(context, intent)
-
-        val alarmType = intent?.getIntExtra(ALARM_TYPE, -1) ?: return
-        if (alarmType > 0) {
-            val appWidgetManager = AppWidgetManager.getInstance(context)
-            val provider = ComponentName(context!!, this::class.java)
-            val ids = appWidgetManager.getAppWidgetIds(provider)
-            onUpdate(context, appWidgetManager, ids)
-        }
-    }
-
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
         for (appWidgetId in appWidgetIds) {
             updateAppWidget(context, appWidgetManager, appWidgetId)
         }
-//                solatRepository.refresh("Almaty7", "43.238293", "76.945465")
-//        AlarmService(context).setAll()
     }
 
     private fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) {

@@ -13,4 +13,6 @@
     <string name="asr">Аср</string>
     <string name="maghrib">Магриб</string>
     <string name="isha">Иша</string>
+
+    <string name="azan">Азан</string>
 </resources>

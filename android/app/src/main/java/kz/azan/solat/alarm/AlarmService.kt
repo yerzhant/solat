@@ -2,9 +2,12 @@ package kz.azan.solat.alarm
 
 import android.app.AlarmManager
 import android.app.PendingIntent
+import android.appwidget.AppWidgetManager
 import android.content.BroadcastReceiver
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -12,18 +15,29 @@ import kz.azan.solat.SolatWidget
 import kz.azan.solat.repository.SolatRepository
 import java.util.*
 
-const val ALARM_TYPE = "kz.azan.solat.alarm-type"
-const val ALARM_FADJR = 1
-const val ALARM_SUNRISE = 2
-const val ALARM_DHUHR = 3
-const val ALARM_ASR = 4
-const val ALARM_MAGHRIB = 5
-const val ALARM_ISHA = 6
+const val AZAN_FADJR = 1
+const val AZAN_SUNRISE = 2
+const val AZAN_DHUHR = 3
+const val AZAN_ASR = 4
+const val AZAN_MAGHRIB = 5
+const val AZAN_ISHA = 6
 
 class AlarmService : BroadcastReceiver() {
 
+    private val actionSetAll = "kz.azan.solat.action.SET_ALL"
+    private val actionAzan = "kz.azan.solat.action.AZAN"
+    private val azanType = "kz.azan.solat.azan.TYPE"
+    private val azanTime = "kz.azan.solat.azan.TIME"
     private val setAllHours = 0
     private val setAllMinutes = 7
+
+    override fun onReceive(context: Context, intent: Intent) {
+        when (intent.action) {
+            "android.intent.action.BOOT_COMPLETED" -> init(context)
+            actionAzan -> azan(context, intent)
+            actionSetAll -> setAll(context)
+        }
+    }
 
     fun init(context: Context) {
         val calendar = Calendar.getInstance().apply {
@@ -32,7 +46,8 @@ class AlarmService : BroadcastReceiver() {
             set(Calendar.MINUTE, setAllMinutes)
         }
 
-        val intent = Intent(context, AlarmService::class.java).let {
+        val intent = Intent(context, this::class.java).let {
+            it.action = actionSetAll
             PendingIntent.getBroadcast(context, 0, it, 0)
         }
 
@@ -43,6 +58,23 @@ class AlarmService : BroadcastReceiver() {
                 AlarmManager.INTERVAL_DAY,
                 intent
         )
+
+        setAll(context)
+    }
+
+    private fun azan(context: Context, intent: Intent) {
+        val type = intent.getIntExtra(azanType, 0)
+        val time = intent.getStringExtra(azanTime) ?: ""
+        NotificationService(context).notify(type, time)
+
+        val appWidgetManager = AppWidgetManager.getInstance(context)
+        val provider = ComponentName(context, SolatWidget::class.java)
+        val appWidgetIds = appWidgetManager.getAppWidgetIds(provider)
+        val solatWidgetIntent = Intent(context, SolatWidget::class.java).apply {
+            action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
+            putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds)
+        }
+        context.sendBroadcast(solatWidgetIntent)
     }
 
     private fun setAll(context: Context) {
@@ -53,16 +85,16 @@ class AlarmService : BroadcastReceiver() {
             val currentHours = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
             val currentMinutes = Calendar.getInstance().get(Calendar.MINUTE)
 
-            if (isBefore(currentHours, currentMinutes, times.fadjr)) setAt(times.fadjr, ALARM_FADJR, context)
-            if (isBefore(currentHours, currentMinutes, times.sunrise)) setAt(times.sunrise, ALARM_SUNRISE, context)
-            if (isBefore(currentHours, currentMinutes, times.dhuhr)) setAt(times.dhuhr, ALARM_DHUHR, context)
-            if (isBefore(currentHours, currentMinutes, times.asr)) setAt(times.asr, ALARM_ASR, context)
-            if (isBefore(currentHours, currentMinutes, times.maghrib)) setAt(times.maghrib, ALARM_MAGHRIB, context)
-            if (isBefore(currentHours, currentMinutes, times.isha)) setAt(times.isha, ALARM_ISHA, context)
+            if (isBefore(currentHours, currentMinutes, times.fadjr)) setAt(AZAN_FADJR, times.fadjr, context)
+            if (isBefore(currentHours, currentMinutes, times.sunrise)) setAt(AZAN_SUNRISE, times.sunrise, context)
+            if (isBefore(currentHours, currentMinutes, times.dhuhr)) setAt(AZAN_DHUHR, times.dhuhr, context)
+            if (isBefore(currentHours, currentMinutes, times.asr)) setAt(AZAN_ASR, times.asr, context)
+            if (isBefore(currentHours, currentMinutes, times.maghrib)) setAt(AZAN_MAGHRIB, times.maghrib, context)
+            if (isBefore(currentHours, currentMinutes, times.isha)) setAt(AZAN_ISHA, times.isha, context)
         }
     }
 
-    private fun setAt(time: String, type: Int, context: Context) {
+    private fun setAt(type: Int, time: String, context: Context) {
         val (hours, minutes) = parseTime(time)
 
         val calendar = Calendar.getInstance().apply {
@@ -72,13 +104,19 @@ class AlarmService : BroadcastReceiver() {
             set(Calendar.SECOND, 0)
         }
 
-        val intent = Intent(context, SolatWidget::class.java).let {
-            it.putExtra(ALARM_TYPE, type)
+        val intent = Intent(context, this::class.java).let {
+            it.action = actionAzan
+            it.putExtra(azanType, type)
+            it.putExtra(azanTime, time)
             PendingIntent.getBroadcast(context, type, it, 0)
         }
 
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, intent)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, intent)
+        } else {
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, intent)
+        }
     }
 
     private fun isBefore(currentHours: Int, currentMinutes: Int, time: String): Boolean {
@@ -95,13 +133,5 @@ class AlarmService : BroadcastReceiver() {
         val hours = timeParts[0].toInt()
         val minutes = timeParts[1].toInt()
         return Pair(hours, minutes)
-    }
-
-    override fun onReceive(context: Context, intent: Intent) {
-        if (intent.action == "android.intent.action.BOOT_COMPLETED") {
-            init(context)
-        } else {
-            setAll(context)
-        }
     }
 }
