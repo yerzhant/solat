@@ -15,10 +15,10 @@ const val AZAN_CHANNEL_ID = "azan"
 
 class NotificationService(private val context: Context) {
 
-    private val azanNotificationPrefix = "azan-notification"
+    private val azanTypePrefix = "azan-type"
 
     fun notify(type: Int, time: String) {
-        if (!enabled(type)) return
+        if (!isEnabled(type)) return
 
         val title = when (type) {
             AZAN_FADJR -> context.getString(R.string.fadjr)
@@ -52,22 +52,41 @@ class NotificationService(private val context: Context) {
         }
     }
 
-    private fun enabled(type: Int): Boolean {
+    private fun isEnabled(type: Int): Boolean {
         val settings = context.getSharedPreferences(SETTINGS_NAME, Context.MODE_PRIVATE)
-        return settings.getBoolean("$azanNotificationPrefix-$type", false)
+        return settings.getBoolean("$azanTypePrefix-$type", false)
+    }
+
+    fun setFlag(type: Int, value: Boolean) {
+        val settings = context.getSharedPreferences(SETTINGS_NAME, Context.MODE_PRIVATE)
+        with(settings.edit()) {
+            putBoolean("$azanTypePrefix-$type", value)
+            apply()
+        }
     }
 
     fun setDefaultAzanFlags(settings: SharedPreferences) {
-        if (settings.contains("$azanNotificationPrefix-$AZAN_FADJR")) return
+        if (settings.contains("$azanTypePrefix-$AZAN_FADJR")) return
 
         with(settings.edit()) {
-            putBoolean("$azanNotificationPrefix-$AZAN_FADJR", true)
-            putBoolean("$azanNotificationPrefix-$AZAN_SUNRISE", false)
-            putBoolean("$azanNotificationPrefix-$AZAN_DHUHR", true)
-            putBoolean("$azanNotificationPrefix-$AZAN_ASR", true)
-            putBoolean("$azanNotificationPrefix-$AZAN_MAGHRIB", true)
-            putBoolean("$azanNotificationPrefix-$AZAN_ISHA", true)
+            putBoolean("$azanTypePrefix-$AZAN_FADJR", true)
+            putBoolean("$azanTypePrefix-$AZAN_SUNRISE", false)
+            putBoolean("$azanTypePrefix-$AZAN_DHUHR", true)
+            putBoolean("$azanTypePrefix-$AZAN_ASR", true)
+            putBoolean("$azanTypePrefix-$AZAN_MAGHRIB", true)
+            putBoolean("$azanTypePrefix-$AZAN_ISHA", true)
             apply()
         }
+    }
+
+    fun getAzanFlags(): HashMap<Int, Boolean> {
+        return hashMapOf(
+                AZAN_FADJR to isEnabled(AZAN_FADJR),
+                AZAN_SUNRISE to isEnabled(AZAN_SUNRISE),
+                AZAN_DHUHR to isEnabled(AZAN_DHUHR),
+                AZAN_ASR to isEnabled(AZAN_ASR),
+                AZAN_MAGHRIB to isEnabled(AZAN_MAGHRIB),
+                AZAN_ISHA to isEnabled(AZAN_ISHA)
+        )
     }
 }

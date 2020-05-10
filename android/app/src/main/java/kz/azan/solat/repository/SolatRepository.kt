@@ -39,11 +39,13 @@ class SolatRepository(private val context: Context) {
         return settings.getString(settingCity, null)
     }
 
-    suspend fun refresh(context: Context, city: String, latitude: String, longitude: String) {
+    suspend fun refresh(city: String, latitude: String, longitude: String) {
         val times = getTimes(latitude, longitude)
 
         val settings = context.getSharedPreferences(SETTINGS_NAME, Context.MODE_PRIVATE)
+
         NotificationService(context).setDefaultAzanFlags(settings)
+
         with(settings.edit()) {
             remove(settingCity)
             apply()

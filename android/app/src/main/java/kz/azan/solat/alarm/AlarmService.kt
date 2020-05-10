@@ -60,6 +60,7 @@ class AlarmService : BroadcastReceiver() {
         )
 
         setAll(context)
+        refreshWidget(context)
     }
 
     private fun azan(context: Context, intent: Intent) {
@@ -67,13 +68,19 @@ class AlarmService : BroadcastReceiver() {
         val time = intent.getStringExtra(azanTime) ?: ""
         NotificationService(context).notify(type, time)
 
+        refreshWidget(context)
+    }
+
+    private fun refreshWidget(context: Context) {
         val appWidgetManager = AppWidgetManager.getInstance(context)
         val provider = ComponentName(context, SolatWidget::class.java)
         val appWidgetIds = appWidgetManager.getAppWidgetIds(provider)
+
         val solatWidgetIntent = Intent(context, SolatWidget::class.java).apply {
             action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
             putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds)
         }
+
         context.sendBroadcast(solatWidgetIntent)
     }
 
