@@ -3,7 +3,13 @@ class City {
   final double lat;
   final double lng;
 
-  const City(this.title, this.lat, this.lng);
+  const City(
+    this.title,
+    this.lat,
+    this.lng,
+  )   : assert(title != null),
+        assert(lat != null),
+        assert(lng != null);
 
   factory City.fromJson(Map<String, dynamic> json) {
     return City(
