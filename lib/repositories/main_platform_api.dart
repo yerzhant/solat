@@ -15,9 +15,12 @@ class MainPlatformApi {
   static const maghrib = 5;
   static const isha = 6;
 
-  static const azanFlags = "azanFlags";
   static const azanFlagType = "azanFlagType";
   static const azanFlagValue = "azanFlagValue";
+
+  static const errorCityNotSet = "city-not-set";
+  static const errorNotEnoughParams = "not-enough-params";
+  static const errorNoTimesForToday = "no-times-for-today";
 
   static const channel = MethodChannel('solat.azan.kz/main');
 

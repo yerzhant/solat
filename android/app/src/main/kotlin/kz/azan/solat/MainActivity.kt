@@ -25,9 +25,12 @@ class MainActivity : FlutterActivity() {
 
     private val channelParamCurrentDateByHidjra = "currentDateByHidjra"
 
-    private val channelParamAzanFlags = "azanFlags"
     private val channelParamAzanFlagType = "azanFlagType"
     private val channelParamAzanFlagValue = "azanFlagValue"
+
+    private val channelErrorCityNotSet = "city-not-set"
+    private val channelErrorNotEnoughParams = "not-enough-params"
+    private val channelErrorNoTimesForToday = "no-times-for-today"
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
 //        super.configureFlutterEngine(flutterEngine)
@@ -55,7 +58,7 @@ class MainActivity : FlutterActivity() {
         val value = call.argument<Boolean>(channelParamAzanFlagValue)
 
         if (type == null || value == null) {
-            result.error("not-enough-params", "Not enough params.", null)
+            result.error(channelErrorNotEnoughParams, null, null)
             return
         }
 
@@ -68,7 +71,7 @@ class MainActivity : FlutterActivity() {
         val longitude = call.argument<String>(channelParamLongitude)
 
         if (city == null || latitude == null || longitude == null) {
-            result.error("not-enough-params", "Not enough params.", null)
+            result.error(channelErrorNotEnoughParams, null, null)
             return
         }
 
@@ -82,14 +85,14 @@ class MainActivity : FlutterActivity() {
 
         val cityName = solatRepository.getCityName()
         if (cityName == null) {
-            result.error("city-not-set", null, null)
+            result.error(channelErrorCityNotSet, null, null)
             return
         }
 
         CoroutineScope(Dispatchers.IO).launch {
             val todayTimes = solatRepository.getTodayTimes()
             if (todayTimes == null) {
-                result.error("no-times-for-today", null, null)
+                result.error(channelErrorNoTimesForToday, null, null)
                 return@launch
             }
 

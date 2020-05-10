@@ -1,10 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:solat/blocs/settings/settings_bloc.dart';
 import 'package:solat/blocs/times/times_bloc.dart';
 import 'package:solat/pages/home_page.dart';
+import 'package:solat/repositories/solat_repository.dart';
 
 void main() {
-  runApp(SolatApp());
+  runApp(
+    RepositoryProvider(
+      create: (context) => SolatRepository(),
+      child: BlocProvider(
+        create: (context) => TimesBloc(context.repository<SolatRepository>())
+          ..add(TimesTodayRequested()),
+        child: SolatApp(),
+      ),
+    ),
+  );
 }
 
 class SolatApp extends StatelessWidget {
@@ -17,7 +28,10 @@ class SolatApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: BlocProvider(
-        create: (_) => TimesBloc(),
+        create: (context) => SettingsBloc(
+          context.repository<SolatRepository>(),
+          context.bloc<TimesBloc>(),
+        ),
         child: HomePage(),
       ),
     );

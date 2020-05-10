@@ -3,9 +3,9 @@ part of 'times_bloc.dart';
 @immutable
 abstract class TimesState {}
 
-class TimesInitial extends TimesState {}
-
 class TimesTodayInProgress extends TimesState {}
+
+class TimesTodayCityNotSet extends TimesState {}
 
 class TimesTodaySuccess extends TimesState {
   final Times times;

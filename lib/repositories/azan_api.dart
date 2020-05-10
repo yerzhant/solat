@@ -13,7 +13,10 @@ class AzanApi {
       throw Exception('Unable to get cities: ${response.statusCode}');
     }
 
-    final jsonList = jsonDecode(response.body) as List;
+    final jsonList = jsonDecode(
+      response.body,
+      reviver: (key, value) => value is int ? value.toDouble() : value,
+    ) as List;
 
     final cities = <City>[];
     cities.addAll(jsonList.map((e) => City.fromJson(e)));
