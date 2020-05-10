@@ -18,13 +18,16 @@ import kz.azan.solat.repository.SolatRepository
 class MainActivity : FlutterActivity() {
 
     private val mainChannel = "solat.azan.kz/main"
+
     private val channelParamCity = "city"
-    private val channelParamCurrentDateByHidjra = "currentDateByHidjra"
-    private val channelParamAzanFlagType = "azanFlagType"
-    private val channelParamAzanFlagValue = "azanFlagValue"
-    private val channelParamAzanFlags = "azanFlags"
     private val channelParamLatitude = "latitude"
     private val channelParamLongitude = "longitude"
+
+    private val channelParamCurrentDateByHidjra = "currentDateByHidjra"
+
+    private val channelParamAzanFlags = "azanFlags"
+    private val channelParamAzanFlagType = "azanFlagType"
+    private val channelParamAzanFlagValue = "azanFlagValue"
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
 //        super.configureFlutterEngine(flutterEngine)
@@ -33,7 +36,7 @@ class MainActivity : FlutterActivity() {
 
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, mainChannel).setMethodCallHandler { call, result ->
             when (call.method) {
-                "get-main-screen-data" -> getMainScreenData(result)
+                "get-today-times" -> getTodayTimes(result)
                 "refresh-times" -> refreshTimes(call, result)
                 "set-azan-flag" -> setAzanFlag(call, result)
                 "get-azan-flags" -> getAzanFlags(result)
@@ -74,25 +77,23 @@ class MainActivity : FlutterActivity() {
         }
     }
 
-    private fun getMainScreenData(result: MethodChannel.Result) {
+    private fun getTodayTimes(result: MethodChannel.Result) {
         val solatRepository = SolatRepository(context)
 
         val cityName = solatRepository.getCityName()
         if (cityName == null) {
-            result.success("city-not-set")
+            result.error("city-not-set", null, null)
             return
         }
 
         CoroutineScope(Dispatchers.IO).launch {
             val todayTimes = solatRepository.getTodayTimes()
             if (todayTimes == null) {
-                result.success("no-times-for-today")
+                result.error("no-times-for-today", null, null)
                 return@launch
             }
 
             val currentDateByHidjra = azanService.getCurrentDateByHidjra()
-
-            val azanFlags = NotificationService(context).getAzanFlags()
 
             result.success(hashMapOf(
                     channelParamCity to cityName,
@@ -102,8 +103,7 @@ class MainActivity : FlutterActivity() {
                     AZAN_DHUHR to todayTimes.dhuhr,
                     AZAN_ASR to todayTimes.asr,
                     AZAN_MAGHRIB to todayTimes.maghrib,
-                    AZAN_ISHA to todayTimes.isha,
-                    channelParamAzanFlags to azanFlags
+                    AZAN_ISHA to todayTimes.isha
             ))
         }
     }
