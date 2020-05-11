@@ -33,7 +33,8 @@ class MainActivity : FlutterActivity() {
     private val channelErrorNoTimesForToday = "no-times-for-today"
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
-//        super.configureFlutterEngine(flutterEngine)
+        super.configureFlutterEngine(flutterEngine)
+
         AlarmService().init(context)
         createNotificationChannel()
 
