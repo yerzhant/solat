@@ -11,6 +11,8 @@ class TimesWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<TimesBloc, TimesState>(
       builder: (context, state) {
+        final activeType = _getActiveType(state);
+
         return Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -49,13 +51,42 @@ class TimesWidget extends StatelessWidget {
                 ],
               ),
             ),
-            TimeWidget(
-              title: 'Dhuhr',
-              time: _getTime(state, 'dhuhr'),
-            ),
-            TimeWidget(
-              title: 'Asr',
-              time: _getTime(state, 'asr'),
+            Container(
+              color: Color(0xBF232323),
+              child: Column(
+                children: <Widget>[
+                  TimeWidget(
+                    title: 'Фаджр',
+                    time: _getTime(state, 'fadjr'),
+                    isActive: activeType == 'fadjr',
+                  ),
+                  TimeWidget(
+                    title: 'Восход',
+                    time: _getTime(state, 'sunrise'),
+                    isActive: activeType == 'sunrise',
+                  ),
+                  TimeWidget(
+                    title: 'Зухр',
+                    time: _getTime(state, 'dhuhr'),
+                    isActive: activeType == 'dhuhr',
+                  ),
+                  TimeWidget(
+                    title: 'Аср',
+                    time: _getTime(state, 'asr'),
+                    isActive: activeType == 'asr',
+                  ),
+                  TimeWidget(
+                    title: 'Магриб',
+                    time: _getTime(state, 'maghrib'),
+                    isActive: activeType == 'maghribr',
+                  ),
+                  TimeWidget(
+                    title: 'Иша',
+                    time: _getTime(state, 'isha'),
+                    isActive: activeType == 'ishar',
+                  ),
+                ],
+              ),
             ),
             Container(
               decoration: BoxDecoration(
@@ -105,12 +136,47 @@ class TimesWidget extends StatelessWidget {
   String _getTime(TimesState state, String type) {
     if (state is TimesTodaySuccess) {
       switch (type) {
-        case 'asr':
-          return state.times.asr;
+        case 'fadjr':
+          return state.times.fadjr;
+        case 'sunrise':
+          return state.times.sunrise;
         case 'dhuhr':
           return state.times.dhuhr;
+        case 'asr':
+          return state.times.asr;
+        case 'maghrib':
+          return state.times.maghrib;
+        case 'isha':
+          return state.times.isha;
       }
     }
     return '';
+  }
+
+  String _getActiveType(TimesState state) {
+    if (state is TimesTodaySuccess) {
+      final now = DateTime.now();
+
+      if (_isBefore(now.hour, now.minute, state.times.fadjr)) return 'isha';
+      if (_isBefore(now.hour, now.minute, state.times.sunrise)) return 'fadjr';
+      if (_isBefore(now.hour, now.minute, state.times.dhuhr)) return 'sunrise';
+      if (_isBefore(now.hour, now.minute, state.times.asr)) return 'dhuhr';
+      if (_isBefore(now.hour, now.minute, state.times.maghrib)) return 'asr';
+      if (_isBefore(now.hour, now.minute, state.times.isha)) return 'maghrib';
+      return 'isha';
+    }
+
+    return null;
+  }
+
+  bool _isBefore(int currentHour, int currentMinute, String time) {
+    final parts = time.split(':');
+    final hour = int.parse(parts[0]);
+    final minute = int.parse(parts[1]);
+
+    if (currentHour < hour) return true;
+    if (currentHour == hour && currentMinute < minute) return true;
+
+    return false;
   }
 }
