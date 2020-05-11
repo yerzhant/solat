@@ -9,9 +9,20 @@ void main() {
   runApp(
     RepositoryProvider(
       create: (context) => SolatRepository(),
-      child: BlocProvider(
-        create: (context) => TimesBloc(context.repository<SolatRepository>())
-          ..add(TimesTodayRequested()),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) =>
+                TimesBloc(context.repository<SolatRepository>())
+                  ..add(TimesTodayRequested()),
+          ),
+          BlocProvider(
+            create: (context) => SettingsBloc(
+              context.repository<SolatRepository>(),
+              context.bloc<TimesBloc>(),
+            ),
+          ),
+        ],
         child: SolatApp(),
       ),
     ),
@@ -24,16 +35,11 @@ class SolatApp extends StatelessWidget {
     return MaterialApp(
       title: 'Время намаза',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primaryColor: Color(0xff1ba2dd),
+        buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: BlocProvider(
-        create: (context) => SettingsBloc(
-          context.repository<SolatRepository>(),
-          context.bloc<TimesBloc>(),
-        ),
-        child: HomePage(),
-      ),
+      home: HomePage(),
     );
   }
 }
