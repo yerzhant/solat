@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:solat/blocs/settings/settings_bloc.dart';
+import 'package:solat/blocs/times/times_bloc.dart';
 import 'package:solat/repositories/solat_repository.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -15,7 +16,7 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   final _formKey = GlobalKey<FormState>();
-  final _cityNamecontroller = TextEditingController();
+  final _cityNameController = TextEditingController();
   final _tapRecognizer = TapGestureRecognizer();
   String _selectedCity;
 
@@ -27,7 +28,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   void dispose() {
-    _cityNamecontroller.dispose();
+    _cityNameController.dispose();
     _tapRecognizer.dispose();
     super.dispose();
   }
@@ -38,6 +39,11 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final timesState = context.bloc<TimesBloc>().state;
+    if (timesState is TimesTodaySuccess) {
+      _cityNameController.text = timesState.times.city;
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Настройки'),
@@ -89,11 +95,11 @@ class _SettingsPageState extends State<SettingsPage> {
         children: <Widget>[
           TypeAheadFormField(
             textFieldConfiguration: TextFieldConfiguration(
-              controller: _cityNamecontroller,
+              controller: _cityNameController,
               decoration: InputDecoration(labelText: 'Город'),
             ),
             onSuggestionSelected: (value) {
-              _cityNamecontroller.text = value;
+              _cityNameController.text = value;
             },
             itemBuilder: (_, value) {
               return ListTile(
@@ -119,17 +125,23 @@ class _SettingsPageState extends State<SettingsPage> {
           SizedBox(height: 15),
           Builder(
             builder: (context) => RaisedButton(
-              child: Text('Установить'),
+              child: Text('Обновить'),
               onPressed: () async {
                 if (_formKey.currentState.validate()) {
                   _formKey.currentState.save();
+
                   final city = state.cities.firstWhere((element) =>
                       element.title.toLowerCase() ==
                       _selectedCity.toLowerCase());
+
                   try {
                     await context
                         .repository<SolatRepository>()
                         .refreshTimes(city);
+
+                    context.bloc<TimesBloc>().add(TimesTodayRequested());
+
+                    Navigator.of(context).pop();
                   } catch (e) {
                     Scaffold.of(context).showSnackBar(
                       SnackBar(
