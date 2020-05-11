@@ -48,7 +48,7 @@ class TimeWidget extends StatelessWidget {
               color: Colors.white,
               fontSize: 14,
               fontFamily: 'PT Serif',
-              fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
+              fontWeight: isActive ? FontWeight.w700 : FontWeight.normal,
             ),
           ),
         ],

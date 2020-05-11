@@ -22,7 +22,7 @@ class TimesWidget extends StatelessWidget {
                 color: Color(secondaryColor85),
               ),
               width: 172,
-              height: 43,
+              height: 55,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -101,7 +101,7 @@ class TimesWidget extends StatelessWidget {
                 children: <Widget>[
                   Text.rich(
                     TextSpan(
-                      text: 'Магриб ',
+                      text: _getNextTypeText(activeType),
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 14,
@@ -109,7 +109,7 @@ class TimesWidget extends StatelessWidget {
                       ),
                       children: [
                         TextSpan(
-                          text: 'через',
+                          text: ' через',
                           style: TextStyle(fontWeight: FontWeight.w300),
                         ),
                       ],
@@ -178,5 +178,24 @@ class TimesWidget extends StatelessWidget {
     if (currentHour == hour && currentMinute < minute) return true;
 
     return false;
+  }
+
+  String _getNextTypeText(String activeType) {
+    switch (activeType) {
+      case 'fadjr':
+        return 'Восход';
+      case 'sunrise':
+        return 'Зухр';
+      case 'dhuhr':
+        return 'Аср';
+      case 'asr':
+        return 'Магриб';
+      case 'maghrib':
+        return 'Иша';
+      case 'isha':
+        return 'Фаджр';
+      default:
+        return '';
+    }
   }
 }
