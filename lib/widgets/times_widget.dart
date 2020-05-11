@@ -78,12 +78,12 @@ class TimesWidget extends StatelessWidget {
                   TimeWidget(
                     title: 'Магриб',
                     time: _getTime(state, 'maghrib'),
-                    isActive: activeType == 'maghribr',
+                    isActive: activeType == 'maghrib',
                   ),
                   TimeWidget(
                     title: 'Иша',
                     time: _getTime(state, 'isha'),
-                    isActive: activeType == 'ishar',
+                    isActive: activeType == 'isha',
                   ),
                 ],
               ),
