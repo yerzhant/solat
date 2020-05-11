@@ -259,7 +259,10 @@ class TimesWidget extends StatelessWidget {
   }
 
   String _getLeftTime(
-      BuildContext context, TimesState state, String activeType) {
+    BuildContext context,
+    TimesState state,
+    String activeType,
+  ) {
     final nextTime = _getTime(state, _getNextType(activeType));
     final nextHourMinute = _splitTime(nextTime);
     if (nextHourMinute == null) return '';
