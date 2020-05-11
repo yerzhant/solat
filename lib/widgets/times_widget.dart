@@ -116,7 +116,7 @@ class TimesWidget extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '12:34:56',
+                    _getLeftTime(state, activeType),
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 14,
@@ -170,14 +170,19 @@ class TimesWidget extends StatelessWidget {
   }
 
   bool _isBefore(int currentHour, int currentMinute, String time) {
+    var hourMinute = _splitTime(time);
+    if (currentHour < hourMinute[0]) return true;
+    if (currentHour == hourMinute[0] && currentMinute < hourMinute[1])
+      return true;
+
+    return false;
+  }
+
+  List<int> _splitTime(String time) {
     final parts = time.split(':');
     final hour = int.parse(parts[0]);
     final minute = int.parse(parts[1]);
-
-    if (currentHour < hour) return true;
-    if (currentHour == hour && currentMinute < minute) return true;
-
-    return false;
+    return [hour, minute];
   }
 
   String _getNextTypeText(String activeType) {
@@ -197,5 +202,42 @@ class TimesWidget extends StatelessWidget {
       default:
         return '';
     }
+  }
+
+  String _getNextType(String activeType) {
+    switch (activeType) {
+      case 'fadjr':
+        return 'sunrise';
+      case 'sunrise':
+        return 'dhuhr';
+      case 'dhuhr':
+        return 'asr';
+      case 'asr':
+        return 'maghrib';
+      case 'maghrib':
+        return 'isha';
+      case 'isha':
+        return 'fadjr';
+      default:
+        return '';
+    }
+  }
+
+  String _getLeftTime(TimesState state, String activeType) {
+    final time = _getTime(state, _getNextType(activeType));
+    final hourMinute = _splitTime(time);
+    final now = DateTime.now();
+    var next = DateTime(
+      now.year,
+      now.month,
+      now.day,
+      hourMinute[0],
+      hourMinute[1],
+      0,
+      0,
+      0,
+    );
+    final diff = next.difference(now);
+    return diff.toString().split('.')[0];
   }
 }
