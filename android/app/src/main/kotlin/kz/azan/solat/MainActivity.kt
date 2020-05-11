@@ -11,6 +11,7 @@ import io.flutter.plugin.common.MethodChannel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kz.azan.solat.alarm.*
 import kz.azan.solat.api.azanService
 import kz.azan.solat.repository.SolatRepository
@@ -68,8 +69,8 @@ class MainActivity : FlutterActivity() {
 
     private fun refreshTimes(call: MethodCall, result: MethodChannel.Result) {
         val city = call.argument<String>(channelParamCity)
-        val latitude = call.argument<String>(channelParamLatitude)
-        val longitude = call.argument<String>(channelParamLongitude)
+        val latitude = call.argument<Double>(channelParamLatitude)
+        val longitude = call.argument<Double>(channelParamLongitude)
 
         if (city == null || latitude == null || longitude == null) {
             result.error(channelErrorNotEnoughParams, null, null)
@@ -77,7 +78,7 @@ class MainActivity : FlutterActivity() {
         }
 
         CoroutineScope(Dispatchers.IO).launch {
-            SolatRepository(context).refresh(city, latitude, longitude)
+            SolatRepository(context).refresh(city, latitude.toString(), longitude.toString())
         }
     }
 
@@ -99,16 +100,18 @@ class MainActivity : FlutterActivity() {
 
             val currentDateByHidjra = azanService.getCurrentDateByHidjra()
 
-            result.success(hashMapOf(
-                    channelParamCity to cityName,
-                    channelParamCurrentDateByHidjra to currentDateByHidjra,
-                    AZAN_FADJR to todayTimes.fadjr,
-                    AZAN_SUNRISE to todayTimes.sunrise,
-                    AZAN_DHUHR to todayTimes.dhuhr,
-                    AZAN_ASR to todayTimes.asr,
-                    AZAN_MAGHRIB to todayTimes.maghrib,
-                    AZAN_ISHA to todayTimes.isha
-            ))
+            withContext(Dispatchers.Main.immediate) {
+                result.success(hashMapOf(
+                        channelParamCity to cityName,
+                        channelParamCurrentDateByHidjra to currentDateByHidjra,
+                        AZAN_FADJR to todayTimes.fadjr,
+                        AZAN_SUNRISE to todayTimes.sunrise,
+                        AZAN_DHUHR to todayTimes.dhuhr,
+                        AZAN_ASR to todayTimes.asr,
+                        AZAN_MAGHRIB to todayTimes.maghrib,
+                        AZAN_ISHA to todayTimes.isha
+                ))
+            }
         }
     }
 

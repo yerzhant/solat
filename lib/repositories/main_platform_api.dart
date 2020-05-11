@@ -1,8 +1,9 @@
 import 'package:flutter/services.dart';
+import 'package:solat/models/city.dart';
 import 'package:solat/models/times.dart';
 
 class MainPlatformApi {
-  static const city = "city";
+  static const cityName = "city";
   static const latitude = "latitude";
   static const longitude = "longitude";
 
@@ -27,7 +28,7 @@ class MainPlatformApi {
   Future<Times> getTodayTimes() async {
     final result = await channel.invokeMapMethod("get-today-times");
     return Times(
-      result[city],
+      result[cityName],
       result[currentDateByHidjra],
       result[fadjr],
       result[sunrise],
@@ -36,5 +37,14 @@ class MainPlatformApi {
       result[maghrib],
       result[isha],
     );
+  }
+
+  Future<void> refreshTimes(City city) async {
+    final params = {
+      cityName: city.title,
+      latitude: city.lat,
+      longitude: city.lng
+    };
+    await channel.invokeMethod("refresh-times", params);
   }
 }

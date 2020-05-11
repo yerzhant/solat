@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:solat/blocs/settings/settings_bloc.dart';
-import 'package:solat/models/city.dart';
+import 'package:solat/repositories/solat_repository.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -117,13 +117,30 @@ class _SettingsPageState extends State<SettingsPage> {
                 ListTile(title: Text('Не найдено')),
           ),
           SizedBox(height: 15),
-          RaisedButton(
-            child: Text('Установить'),
-            onPressed: () {
-              if (_formKey.currentState.validate()) {
-                _formKey.currentState.save();
-              }
-            },
+          Builder(
+            builder: (context) => RaisedButton(
+              child: Text('Установить'),
+              onPressed: () async {
+                if (_formKey.currentState.validate()) {
+                  _formKey.currentState.save();
+                  final city = state.cities.firstWhere((element) =>
+                      element.title.toLowerCase() ==
+                      _selectedCity.toLowerCase());
+                  try {
+                    await context
+                        .repository<SolatRepository>()
+                        .refreshTimes(city);
+                  } catch (e) {
+                    Scaffold.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Ошибка: $e'),
+                        backgroundColor: Theme.of(context).primaryColor,
+                      ),
+                    );
+                  }
+                }
+              },
+            ),
           ),
         ],
       ),
