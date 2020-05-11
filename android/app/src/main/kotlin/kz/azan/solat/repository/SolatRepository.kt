@@ -1,12 +1,16 @@
 package kz.azan.solat.repository
 
 import android.content.Context
+import android.os.Build
 import androidx.room.Room
 import kz.azan.solat.alarm.AlarmService
 import kz.azan.solat.alarm.NotificationService
+import kz.azan.solat.api.azanService
 import kz.azan.solat.api.muftiyatService
 import kz.azan.solat.database.SolatDatabase
 import kz.azan.solat.model.Times
+import java.time.chrono.HijrahDate
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 const val SETTINGS_NAME = "kz.azan.solat.settings"
@@ -23,6 +27,20 @@ class SolatRepository(private val context: Context) {
             SolatDatabase::class.java,
             "solat.db"
     ).build()
+
+    suspend fun getCurrentDateByHidjra(): String {
+        return try {
+            azanService.getCurrentDateByHidjra()
+        } catch (e: Exception) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                val formatter = DateTimeFormatter.ofPattern("d MMM uuuu")
+                val date = HijrahDate.now().format(formatter)
+                "$date*"
+            } else {
+                ""
+            }
+        }
+    }
 
     suspend fun getTodayTimes(): Times? {
         val calendar = Calendar.getInstance()

@@ -13,7 +13,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kz.azan.solat.alarm.*
-import kz.azan.solat.api.azanService
 import kz.azan.solat.repository.SolatRepository
 
 class MainActivity : FlutterActivity() {
@@ -80,9 +79,9 @@ class MainActivity : FlutterActivity() {
 
         CoroutineScope(Dispatchers.IO).launch {
             SolatRepository(context).refresh(city, latitude.toString(), longitude.toString())
-            
+
             withContext(Dispatchers.Main.immediate) {
-                result.success(true);
+                result.success(true)
             }
         }
     }
@@ -103,7 +102,7 @@ class MainActivity : FlutterActivity() {
                 return@launch
             }
 
-            val currentDateByHidjra = azanService.getCurrentDateByHidjra()
+            val currentDateByHidjra = solatRepository.getCurrentDateByHidjra()
 
             withContext(Dispatchers.Main.immediate) {
                 result.success(hashMapOf(
