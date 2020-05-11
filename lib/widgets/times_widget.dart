@@ -21,7 +21,7 @@ class TimesWidget extends StatelessWidget {
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
-                color: Color(secondaryColor85),
+                color: Color(primaryColor85),
               ),
               width: 172,
               height: 50,
@@ -117,7 +117,7 @@ class TimesWidget extends StatelessWidget {
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.vertical(bottom: Radius.circular(8)),
-                color: Color(secondaryColor85),
+                color: Color(primaryColor85),
               ),
               width: 172,
               height: 37,

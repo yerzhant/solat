@@ -26,7 +26,7 @@ class TimeWidget extends StatelessWidget {
       height: 34,
       padding: EdgeInsets.symmetric(horizontal: 12),
       decoration: BoxDecoration(
-        color: isActive ? Color(secondaryColor) : null,
+        color: isActive ? Color(primaryColor) : null,
         boxShadow: [
           if (isActive)
             BoxShadow(

@@ -48,7 +48,7 @@ class HomePage extends StatelessWidget {
                       IconButton(
                         icon: Icon(
                           Icons.settings,
-                          color: Color(secondaryColor),
+                          color: Color(primaryColor),
                         ),
                         onPressed: () => context
                             .bloc<SettingsBloc>()
