@@ -263,13 +263,12 @@ class TimesWidget extends StatelessWidget {
     final nextHourMinute = _splitTime(nextTime);
     if (nextHourMinute == null) return "";
 
+    final now = DateTime.now();
+
     var dayShift = 0;
-    final activeTime = _getTime(state, activeType);
-    final activeHourMinute = _splitTime(activeTime);
-    if (!_isBefore(activeHourMinute[0], activeHourMinute[1], nextTime))
+    if (activeType == 'isha' && !_isBefore(now.hour, now.minute, nextTime))
       dayShift = 1;
 
-    final now = DateTime.now();
     final next = DateTime(
       now.year,
       now.month,
