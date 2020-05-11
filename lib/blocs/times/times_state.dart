@@ -8,10 +8,11 @@ class TimesTodayInProgress extends TimesState {}
 class TimesTodayCityNotSet extends TimesState {}
 
 class TimesTodaySuccess extends TimesState {
+  final int day;
   final Times times;
   final Map<int, bool> azanFlags;
 
-  TimesTodaySuccess(this.times, this.azanFlags);
+  TimesTodaySuccess(this.day, this.times, this.azanFlags);
 }
 
 class TimesTodayFailure extends TimesState {}

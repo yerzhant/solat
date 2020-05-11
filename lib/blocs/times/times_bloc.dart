@@ -29,7 +29,7 @@ class TimesBloc extends Bloc<TimesEvent, TimesState> {
       try {
         final times = await _solatRepository.getTodayTimes();
         final azanFlags = await _solatRepository.getAzanFlags();
-        yield TimesTodaySuccess(times, azanFlags);
+        yield TimesTodaySuccess(DateTime.now().day, times, azanFlags);
         _startTicker();
       } on PlatformException catch (e) {
         if (e.code == MainPlatformApi.errorCityNotSet ||
@@ -40,12 +40,20 @@ class TimesBloc extends Bloc<TimesEvent, TimesState> {
       }
     } else if (event is TimesTodayTicked) {
       final currentState = state as TimesTodaySuccess;
-      yield TimesTodaySuccess(currentState.times, currentState.azanFlags);
+      yield TimesTodaySuccess(
+        DateTime.now().day,
+        currentState.times,
+        currentState.azanFlags,
+      );
     } else if (event is TimesAzanFlagSwitched) {
       await _solatRepository.setAzanFlag(event.type, event.value);
       final azanFlags = await _solatRepository.getAzanFlags();
       final currentState = state as TimesTodaySuccess;
-      yield TimesTodaySuccess(currentState.times, azanFlags);
+      yield TimesTodaySuccess(
+        DateTime.now().day,
+        currentState.times,
+        azanFlags,
+      );
     }
   }
 

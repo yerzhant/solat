@@ -129,7 +129,7 @@ class TimesWidget extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    _getLeftTime(state, activeType),
+                    _getLeftTime(context, state, activeType),
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 14,
@@ -258,28 +258,36 @@ class TimesWidget extends StatelessWidget {
     }
   }
 
-  String _getLeftTime(TimesState state, String activeType) {
+  String _getLeftTime(
+      BuildContext context, TimesState state, String activeType) {
     final nextTime = _getTime(state, _getNextType(activeType));
     final nextHourMinute = _splitTime(nextTime);
-    if (nextHourMinute == null) return "";
+    if (nextHourMinute == null) return '';
 
-    final now = DateTime.now();
+    if (state is TimesTodaySuccess) {
+      final now = DateTime.now();
+      if (now.day != state.day) {
+        context.bloc<TimesBloc>().add(TimesTodayRequested());
+        return '';
+      }
 
-    var dayShift = 0;
-    if (activeType == 'isha' && !_isBefore(now.hour, now.minute, nextTime))
-      dayShift = 1;
+      var dayShift = 0;
+      if (activeType == 'isha' && !_isBefore(now.hour, now.minute, nextTime))
+        dayShift = 1;
 
-    final next = DateTime(
-      now.year,
-      now.month,
-      now.day + dayShift,
-      nextHourMinute[0],
-      nextHourMinute[1],
-      0,
-      0,
-      0,
-    );
-    final diff = next.difference(now).abs();
-    return diff.toString().split('.')[0];
+      final next = DateTime(
+        now.year,
+        now.month,
+        now.day + dayShift,
+        nextHourMinute[0],
+        nextHourMinute[1],
+        0,
+        0,
+        0,
+      );
+      final diff = next.difference(now).abs();
+      return diff.toString().split('.')[0];
+    }
+    return '';
   }
 }
