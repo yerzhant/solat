@@ -80,6 +80,10 @@ class MainActivity : FlutterActivity() {
 
         CoroutineScope(Dispatchers.IO).launch {
             SolatRepository(context).refresh(city, latitude.toString(), longitude.toString())
+            
+            withContext(Dispatchers.Main.immediate) {
+                result.success(true);
+            }
         }
     }
 
