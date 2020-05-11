@@ -16,9 +16,3 @@ class TimesTodaySuccess extends TimesState {
 }
 
 class TimesTodayFailure extends TimesState {}
-
-class TimesRefreshInProgress extends TimesState {}
-
-class TimesRefreshSuccess extends TimesState {}
-
-class TimesRefreshFailure extends TimesState {}

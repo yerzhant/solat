@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:solat/blocs/settings/settings_bloc.dart';
 import 'package:solat/blocs/times/times_bloc.dart';
-import 'package:solat/repositories/solat_repository.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -53,15 +52,29 @@ class _SettingsPageState extends State<SettingsPage> {
         child: Column(
           children: <Widget>[
             Expanded(
-              child: BlocBuilder<SettingsBloc, SettingsState>(
+              child: BlocConsumer<SettingsBloc, SettingsState>(
+                listener: (context, state) {
+                  if (state is SettingsCitySelectFailure) {
+                    Scaffold.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Ошибка: ${state.message}'),
+                        backgroundColor: Theme.of(context).primaryColor,
+                      ),
+                    );
+                  } else if (state is SettingsCitySelectSuccess) {
+                    context.bloc<TimesBloc>().add(TimesTodayRequested());
+                    Navigator.of(context).pop();
+                  }
+                },
                 builder: (context, state) {
                   if (state is SettingsInProgress) {
                     return Center(child: CircularProgressIndicator());
-                  } else if (state is SettingsSuccess) {
+                  } else if (state is SettingsSuccess ||
+                      state is SettingsCitySelectFailure) {
                     return _form(state);
-                  } else {
-                    return Container();
                   }
+
+                  return Container();
                 },
               ),
             ),
@@ -123,36 +136,20 @@ class _SettingsPageState extends State<SettingsPage> {
                 ListTile(title: Text('Не найдено')),
           ),
           SizedBox(height: 15),
-          Builder(
-            builder: (context) => RaisedButton(
-              child: Text('Обновить'),
-              onPressed: () async {
-                if (_formKey.currentState.validate()) {
-                  _formKey.currentState.save();
+          RaisedButton(
+            child: Text('Обновить'),
+            onPressed: () async {
+              if (_formKey.currentState.validate()) {
+                _formKey.currentState.save();
 
-                  final city = state.cities.firstWhere((element) =>
-                      element.title.toLowerCase() ==
-                      _selectedCity.toLowerCase());
+                final city = state.cities.firstWhere((element) =>
+                    element.title.toLowerCase() == _selectedCity.toLowerCase());
 
-                  try {
-                    await context
-                        .repository<SolatRepository>()
-                        .refreshTimes(city);
-
-                    context.bloc<TimesBloc>().add(TimesTodayRequested());
-
-                    Navigator.of(context).pop();
-                  } catch (e) {
-                    Scaffold.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('Ошибка: $e'),
-                        backgroundColor: Theme.of(context).primaryColor,
-                      ),
-                    );
-                  }
-                }
-              },
-            ),
+                context
+                    .bloc<SettingsBloc>()
+                    .add(SettingsCitySelected(city, state.cities));
+              }
+            },
           ),
         ],
       ),

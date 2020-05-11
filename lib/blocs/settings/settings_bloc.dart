@@ -38,6 +38,13 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       } catch (e) {
         yield SettingsFailure(e.toString());
       }
+    } else if (event is SettingsCitySelected) {
+      try {
+        await _solatRepository.refreshTimes(event.city);
+        yield SettingsCitySelectSuccess(event.city);
+      } on Exception catch (e) {
+        yield SettingsCitySelectFailure(event.cities, e.toString());
+      }
     }
   }
 

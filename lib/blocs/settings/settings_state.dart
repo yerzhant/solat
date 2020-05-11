@@ -22,3 +22,9 @@ class SettingsCitySelectSuccess extends SettingsState {
 
   SettingsCitySelectSuccess(this.city);
 }
+
+class SettingsCitySelectFailure extends SettingsSuccess {
+  final String message;
+
+  SettingsCitySelectFailure(List<City> cities, this.message) : super(cities);
+}
