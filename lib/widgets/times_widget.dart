@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:solat/blocs/settings/settings_bloc.dart';
 import 'package:solat/blocs/times/times_bloc.dart';
 import 'package:solat/consts.dart';
 import 'package:solat/repositories/main_platform_api.dart';
@@ -38,7 +39,19 @@ class TimesWidget extends StatelessWidget {
                       ),
                     )
                   else
-                    Text('Select city'),
+                    GestureDetector(
+                      child: Text(
+                        'Выберите город',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontFamily: 'Montserrat',
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      onTap: () =>
+                          context.bloc<SettingsBloc>().add(SettingsRequested()),
+                    ),
                   if (state is TimesTodaySuccess)
                     Text(
                       state.times.city,
@@ -112,22 +125,23 @@ class TimesWidget extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Text.rich(
-                    TextSpan(
-                      text: _getNextTypeText(activeType),
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                        fontFamily: 'Oswald',
-                      ),
-                      children: [
-                        TextSpan(
-                          text: ' через',
-                          style: TextStyle(fontWeight: FontWeight.w300),
+                  if (state is TimesTodaySuccess)
+                    Text.rich(
+                      TextSpan(
+                        text: _getNextTypeText(activeType),
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontFamily: 'Oswald',
                         ),
-                      ],
+                        children: [
+                          TextSpan(
+                            text: ' через',
+                            style: TextStyle(fontWeight: FontWeight.w300),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
                   Text(
                     _getLeftTime(context, state, activeType),
                     style: TextStyle(

@@ -48,18 +48,19 @@ class TimeWidget extends StatelessWidget {
               ),
             ),
           ),
-          IconButton(
-            icon: Icon(
-              isAzanEnabled ? Icons.volume_up : Icons.volume_off,
-              color: isAzanEnabled ? Color(0xFFDDDDDD) : Color(0xFF080808),
-              size: 14,
+          if (time.isNotEmpty)
+            IconButton(
+              icon: Icon(
+                isAzanEnabled ? Icons.volume_up : Icons.volume_off,
+                color: isAzanEnabled ? Color(0xFFDDDDDD) : Color(0xFF080808),
+                size: 14,
+              ),
+              onPressed: () {
+                BlocProvider.of<TimesBloc>(context).add(
+                  TimesAzanFlagSwitched(type, !isAzanEnabled),
+                );
+              },
             ),
-            onPressed: () {
-              BlocProvider.of<TimesBloc>(context).add(
-                TimesAzanFlagSwitched(type, !isAzanEnabled),
-              );
-            },
-          ),
           Text(
             time,
             style: TextStyle(
