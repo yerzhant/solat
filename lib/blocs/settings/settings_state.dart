@@ -17,6 +17,10 @@ class SettingsFailure extends SettingsState {
   SettingsFailure(this.message);
 }
 
+class SettingsCitySelectInProgress extends SettingsSuccess {
+  SettingsCitySelectInProgress(List<City> cities) : super(cities);
+}
+
 class SettingsCitySelectSuccess extends SettingsState {
   final City city;
 

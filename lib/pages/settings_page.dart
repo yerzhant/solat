@@ -70,6 +70,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   if (state is SettingsInProgress) {
                     return Center(child: CircularProgressIndicator());
                   } else if (state is SettingsSuccess ||
+                      state is SettingsCitySelectInProgress ||
                       state is SettingsCitySelectFailure) {
                     return _form(state);
                   }
@@ -136,21 +137,24 @@ class _SettingsPageState extends State<SettingsPage> {
                 ListTile(title: Text('Не найдено')),
           ),
           SizedBox(height: 15),
-          RaisedButton(
-            child: Text('Обновить'),
-            onPressed: () async {
-              if (_formKey.currentState.validate()) {
-                _formKey.currentState.save();
+          state is SettingsCitySelectInProgress
+              ? CircularProgressIndicator()
+              : RaisedButton(
+                  child: Text('Обновить'),
+                  onPressed: () async {
+                    if (_formKey.currentState.validate()) {
+                      _formKey.currentState.save();
 
-                final city = state.cities.firstWhere((element) =>
-                    element.title.toLowerCase() == _selectedCity.toLowerCase());
+                      final city = state.cities.firstWhere((element) =>
+                          element.title.toLowerCase() ==
+                          _selectedCity.toLowerCase());
 
-                context
-                    .bloc<SettingsBloc>()
-                    .add(SettingsCitySelected(city, state.cities));
-              }
-            },
-          ),
+                      context
+                          .bloc<SettingsBloc>()
+                          .add(SettingsCitySelected(city, state.cities));
+                    }
+                  },
+                ),
         ],
       ),
     );

@@ -31,16 +31,21 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   @override
   Stream<SettingsState> mapEventToState(SettingsEvent event) async* {
     if (event is SettingsRequested) {
-      yield SettingsInProgress();
       try {
+        yield SettingsInProgress();
+
         final List<City> cities = await _azanRepository.getCities();
+
         yield SettingsSuccess(cities);
       } catch (e) {
         yield SettingsFailure(e.toString());
       }
     } else if (event is SettingsCitySelected) {
       try {
+        yield SettingsCitySelectInProgress(event.cities);
+
         await _solatRepository.refreshTimes(event.city);
+
         yield SettingsCitySelectSuccess(event.city);
       } on Exception catch (e) {
         yield SettingsCitySelectFailure(event.cities, e.toString());
