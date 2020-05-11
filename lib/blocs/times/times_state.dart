@@ -9,8 +9,9 @@ class TimesTodayCityNotSet extends TimesState {}
 
 class TimesTodaySuccess extends TimesState {
   final Times times;
+  final Map<int, bool> azanFlags;
 
-  TimesTodaySuccess(this.times);
+  TimesTodaySuccess(this.times, this.azanFlags);
 }
 
 class TimesTodayFailure extends TimesState {}

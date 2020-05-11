@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:solat/blocs/times/times_bloc.dart';
 import 'package:solat/consts.dart';
+import 'package:solat/repositories/main_platform_api.dart';
 import 'package:solat/widgets/time_widget.dart';
 
 class TimesWidget extends StatelessWidget {
@@ -57,32 +58,44 @@ class TimesWidget extends StatelessWidget {
                 children: <Widget>[
                   TimeWidget(
                     title: 'Фаджр',
+                    type: MainPlatformApi.fadjr,
                     time: _getTime(state, 'fadjr'),
+                    isAzanEnabled: _getFlag(state, 'fadjr'),
                     isActive: activeType == 'fadjr',
                   ),
                   TimeWidget(
                     title: 'Восход',
+                    type: MainPlatformApi.sunrise,
                     time: _getTime(state, 'sunrise'),
+                    isAzanEnabled: _getFlag(state, 'sunrise'),
                     isActive: activeType == 'sunrise',
                   ),
                   TimeWidget(
                     title: 'Зухр',
+                    type: MainPlatformApi.dhuhr,
                     time: _getTime(state, 'dhuhr'),
+                    isAzanEnabled: _getFlag(state, 'dhuhr'),
                     isActive: activeType == 'dhuhr',
                   ),
                   TimeWidget(
                     title: 'Аср',
+                    type: MainPlatformApi.asr,
                     time: _getTime(state, 'asr'),
+                    isAzanEnabled: _getFlag(state, 'asr'),
                     isActive: activeType == 'asr',
                   ),
                   TimeWidget(
                     title: 'Магриб',
+                    type: MainPlatformApi.maghrib,
                     time: _getTime(state, 'maghrib'),
+                    isAzanEnabled: _getFlag(state, 'maghrib'),
                     isActive: activeType == 'maghrib',
                   ),
                   TimeWidget(
                     title: 'Иша',
+                    type: MainPlatformApi.isha,
                     time: _getTime(state, 'isha'),
+                    isAzanEnabled: _getFlag(state, 'isha'),
                     isActive: activeType == 'isha',
                   ),
                 ],
@@ -151,6 +164,26 @@ class TimesWidget extends StatelessWidget {
       }
     }
     return '';
+  }
+
+  bool _getFlag(TimesState state, String type) {
+    if (state is TimesTodaySuccess) {
+      switch (type) {
+        case 'fadjr':
+          return state.azanFlags[MainPlatformApi.fadjr];
+        case 'sunrise':
+          return state.azanFlags[MainPlatformApi.sunrise];
+        case 'dhuhr':
+          return state.azanFlags[MainPlatformApi.dhuhr];
+        case 'asr':
+          return state.azanFlags[MainPlatformApi.asr];
+        case 'maghrib':
+          return state.azanFlags[MainPlatformApi.maghrib];
+        case 'isha':
+          return state.azanFlags[MainPlatformApi.isha];
+      }
+    }
+    return false;
   }
 
   String _getActiveType(TimesState state) {
@@ -226,22 +259,28 @@ class TimesWidget extends StatelessWidget {
   }
 
   String _getLeftTime(TimesState state, String activeType) {
-    final time = _getTime(state, _getNextType(activeType));
-    final hourMinute = _splitTime(time);
-    if (hourMinute == null) return "";
+    final nextTime = _getTime(state, _getNextType(activeType));
+    final nextHourMinute = _splitTime(nextTime);
+    if (nextHourMinute == null) return "";
+
+    var dayShift = 0;
+    final activeTime = _getTime(state, activeType);
+    final activeHourMinute = _splitTime(activeTime);
+    if (!_isBefore(activeHourMinute[0], activeHourMinute[1], nextTime))
+      dayShift = 1;
 
     final now = DateTime.now();
-    var next = DateTime(
+    final next = DateTime(
       now.year,
       now.month,
-      now.day,
-      hourMinute[0],
-      hourMinute[1],
+      now.day + dayShift,
+      nextHourMinute[0],
+      nextHourMinute[1],
       0,
       0,
       0,
     );
-    final diff = next.difference(now);
+    final diff = next.difference(now).abs();
     return diff.toString().split('.')[0];
   }
 }

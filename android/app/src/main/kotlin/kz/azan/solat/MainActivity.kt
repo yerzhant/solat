@@ -65,6 +65,7 @@ class MainActivity : FlutterActivity() {
         }
 
         NotificationService(context).setFlag(type, value)
+        result.success(true)
     }
 
     private fun refreshTimes(call: MethodCall, result: MethodChannel.Result) {

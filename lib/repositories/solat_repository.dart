@@ -9,6 +9,14 @@ class SolatRepository {
     return _mainPlatformApi.getTodayTimes();
   }
 
+  Future<Map<int, bool>> getAzanFlags() {
+    return _mainPlatformApi.getAzanFlags();
+  }
+
+  Future<void> setAzanFlag(int type, bool value) {
+    return _mainPlatformApi.setAzanFlag(type, value);
+  }
+
   Future<void> refreshTimes(City city) {
     return _mainPlatformApi.refreshTimes(city);
   }

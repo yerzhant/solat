@@ -39,6 +39,15 @@ class MainPlatformApi {
     );
   }
 
+  Future<Map<int, bool>> getAzanFlags() {
+    return channel.invokeMapMethod('get-azan-flags');
+  }
+
+  Future<void> setAzanFlag(type, value) async {
+    final params = {azanFlagType: type, azanFlagValue: value};
+    await channel.invokeMethod('set-azan-flag', params);
+  }
+
   Future<void> refreshTimes(City city) async {
     final params = {
       cityName: city.title,

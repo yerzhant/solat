@@ -24,10 +24,12 @@ class TimesBloc extends Bloc<TimesEvent, TimesState> {
   @override
   Stream<TimesState> mapEventToState(TimesEvent event) async* {
     if (event is TimesTodayRequested) {
+      _ticker?.cancel();
       yield TimesTodayInProgress();
       try {
         final times = await _solatRepository.getTodayTimes();
-        yield TimesTodaySuccess(times);
+        final azanFlags = await _solatRepository.getAzanFlags();
+        yield TimesTodaySuccess(times, azanFlags);
         _startTicker();
       } on PlatformException catch (e) {
         if (e.code == MainPlatformApi.errorCityNotSet ||
@@ -37,8 +39,13 @@ class TimesBloc extends Bloc<TimesEvent, TimesState> {
           yield TimesTodayFailure();
       }
     } else if (event is TimesTodayTicked) {
-      final times = (state as TimesTodaySuccess).times;
-      yield TimesTodaySuccess(times);
+      final currentState = state as TimesTodaySuccess;
+      yield TimesTodaySuccess(currentState.times, currentState.azanFlags);
+    } else if (event is TimesAzanFlagSwitched) {
+      await _solatRepository.setAzanFlag(event.type, event.value);
+      final azanFlags = await _solatRepository.getAzanFlags();
+      final currentState = state as TimesTodaySuccess;
+      yield TimesTodaySuccess(currentState.times, azanFlags);
     }
   }
 
