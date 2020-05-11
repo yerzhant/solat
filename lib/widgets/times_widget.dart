@@ -22,7 +22,7 @@ class TimesWidget extends StatelessWidget {
                 color: Color(secondaryColor85),
               ),
               width: 172,
-              height: 55,
+              height: 50,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -179,6 +179,8 @@ class TimesWidget extends StatelessWidget {
   }
 
   List<int> _splitTime(String time) {
+    if (time.isEmpty) return null;
+
     final parts = time.split(':');
     final hour = int.parse(parts[0]);
     final minute = int.parse(parts[1]);
@@ -226,6 +228,8 @@ class TimesWidget extends StatelessWidget {
   String _getLeftTime(TimesState state, String activeType) {
     final time = _getTime(state, _getNextType(activeType));
     final hourMinute = _splitTime(time);
+    if (hourMinute == null) return "";
+
     final now = DateTime.now();
     var next = DateTime(
       now.year,
