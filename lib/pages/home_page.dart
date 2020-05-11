@@ -21,22 +21,40 @@ class HomePage extends StatelessWidget {
       },
       child: BlocBuilder<TimesBloc, TimesState>(
         builder: (context, state) {
-          return Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/images/masjid-0.jpg'),
-                fit: BoxFit.cover,
+          return Scaffold(
+            body: Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/images/masjid-0.jpg'),
+                  fit: BoxFit.cover,
+                ),
               ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.only(top: 70),
-              child: Column(
-                children: <Widget>[
-                  GestureDetector(
-                    child: Image.asset('assets/images/logo.png'),
-                    onTap: () => launch('https://azan.kz'),
-                  )
-                ],
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 70, bottom: 30),
+                  child: Column(
+                    children: <Widget>[
+                      GestureDetector(
+                        child: Image.asset('assets/images/logo.png'),
+                        onTap: () => launch('https://azan.kz'),
+                      ),
+                      Expanded(
+                        child: Center(
+                          child: Text('data'),
+                        ),
+                      ),
+                      IconButton(
+                        icon: Icon(
+                          Icons.settings,
+                          color: Color(0xff2f80ed),
+                        ),
+                        onPressed: () => context
+                            .bloc<SettingsBloc>()
+                            .add(SettingsRequested()),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
           );
