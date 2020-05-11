@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:solat/blocs/times/times_bloc.dart';
 import 'package:solat/consts.dart';
+import 'package:solat/widgets/time_widget.dart';
 
 class TimesWidget extends StatelessWidget {
   const TimesWidget({Key key}) : super(key: key);
@@ -48,6 +49,14 @@ class TimesWidget extends StatelessWidget {
                 ],
               ),
             ),
+            TimeWidget(
+              title: 'Dhuhr',
+              time: _getTime(state, 'dhuhr'),
+            ),
+            TimeWidget(
+              title: 'Asr',
+              time: _getTime(state, 'asr'),
+            ),
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.vertical(bottom: Radius.circular(8)),
@@ -91,5 +100,17 @@ class TimesWidget extends StatelessWidget {
         );
       },
     );
+  }
+
+  String _getTime(TimesState state, String type) {
+    if (state is TimesTodaySuccess) {
+      switch (type) {
+        case 'asr':
+          return state.times.asr;
+        case 'dhuhr':
+          return state.times.dhuhr;
+      }
+    }
+    return '';
   }
 }
