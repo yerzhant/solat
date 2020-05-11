@@ -1,6 +1,6 @@
 class Times {
-  final String dateByHidjra;
   final String city;
+  final String dateByHidjra;
   final String fadjr;
   final String sunrise;
   final String dhuhr;
@@ -9,8 +9,8 @@ class Times {
   final String isha;
 
   Times(
-    this.dateByHidjra,
     this.city,
+    this.dateByHidjra,
     this.fadjr,
     this.sunrise,
     this.dhuhr,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:solat/blocs/settings/settings_bloc.dart';
 import 'package:solat/blocs/times/times_bloc.dart';
+import 'package:solat/consts.dart';
 import 'package:solat/pages/home_page.dart';
 import 'package:solat/repositories/solat_repository.dart';
 
@@ -35,7 +36,7 @@ class SolatApp extends StatelessWidget {
     return MaterialApp(
       title: 'Время намаза',
       theme: ThemeData(
-        primaryColor: Color(0xff1ba2dd),
+        primaryColor: Color(primaryColor),
         buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),

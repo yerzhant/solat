@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:solat/blocs/settings/settings_bloc.dart';
 import 'package:solat/blocs/times/times_bloc.dart';
+import 'package:solat/consts.dart';
 import 'package:solat/pages/settings_page.dart';
+import 'package:solat/widgets/times_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatelessWidget {
@@ -40,13 +42,13 @@ class HomePage extends StatelessWidget {
                       ),
                       Expanded(
                         child: Center(
-                          child: Text('data'),
+                          child: TimesWidget(),
                         ),
                       ),
                       IconButton(
                         icon: Icon(
                           Icons.settings,
-                          color: Color(0xff2f80ed),
+                          color: Color(secondaryColor),
                         ),
                         onPressed: () => context
                             .bloc<SettingsBloc>()
