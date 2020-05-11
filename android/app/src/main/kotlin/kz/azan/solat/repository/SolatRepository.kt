@@ -22,11 +22,13 @@ class SolatRepository(private val context: Context) {
     private val settingLongitude = "longitude"
     private val settingRefreshedOn = "refreshedOn"
 
-    private val solatDatabase = Room.databaseBuilder(
-            context,
-            SolatDatabase::class.java,
-            "solat.db"
-    ).build()
+    private fun getSolatDatabase(): SolatDatabase {
+        return Room.databaseBuilder(
+                context,
+                SolatDatabase::class.java,
+                "solat.db"
+        ).build()
+    }
 
     suspend fun getCurrentDateByHidjra(): String {
         return try {
@@ -48,7 +50,10 @@ class SolatRepository(private val context: Context) {
         val month = calendar.get(Calendar.MONTH) + 1
         val year = calendar.get(Calendar.YEAR)
         val date = "%02d-%02d-%d".format(day, month, year)
-        return solatDatabase.timesDao().findByDate(date)
+        val solatDatabase = getSolatDatabase()
+        val times = solatDatabase.timesDao().findByDate(date)
+        solatDatabase.close()
+        return times
 //        return Times("", "04:40", "07:02", "13:01", "19:11", "22:22", "23:23")
     }
 
@@ -69,8 +74,10 @@ class SolatRepository(private val context: Context) {
             apply()
         }
 
+        val solatDatabase = getSolatDatabase()
         solatDatabase.timesDao().deleteAll()
         solatDatabase.timesDao().addAll(*times)
+        solatDatabase.close()
 
         AlarmService().init(context)
 
