@@ -44,7 +44,7 @@ class _HomePageState extends State<HomePage> {
                 Scaffold.of(context).showSnackBar(
                   SnackBar(
                     content: Text(
-                      'Из-за того, что нет доступа к серверу дата может быть не точной.',
+                      'Из-за того, что нет доступа к серверу дата по Хиджре может быть неточной.',
                     ),
                     duration: Duration(seconds: 30),
                     onVisible: () {
