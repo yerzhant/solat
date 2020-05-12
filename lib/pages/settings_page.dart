@@ -75,7 +75,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         return _form(state);
                       }
 
-                      return Container();
+                      return Text('Нет соединения с сервером.');
                     },
                   ),
                   Divider(
