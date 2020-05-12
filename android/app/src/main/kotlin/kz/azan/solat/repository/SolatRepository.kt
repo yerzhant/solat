@@ -35,7 +35,7 @@ class SolatRepository(private val context: Context) {
             azanService.getCurrentDateByHidjra()
         } catch (e: Exception) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                val formatter = DateTimeFormatter.ofPattern("d MMM uuuu")
+                val formatter = DateTimeFormatter.ofPattern("d MMMM uuuu")
                 val date = HijrahDate.now().format(formatter)
                 "$date*"
             } else {
