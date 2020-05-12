@@ -56,10 +56,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 listener: (context, state) {
                   if (state is SettingsCitySelectFailure) {
                     Scaffold.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('Ошибка: ${state.message}'),
-                        backgroundColor: Theme.of(context).primaryColor,
-                      ),
+                      SnackBar(content: Text('Ошибка: ${state.message}')),
                     );
                   } else if (state is SettingsCitySelectSuccess) {
                     context.bloc<TimesBloc>().add(TimesTodayRequested());

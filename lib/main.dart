@@ -38,6 +38,7 @@ class SolatApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Color(primaryColor),
         buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
+        snackBarTheme: SnackBarThemeData(backgroundColor: Color(primaryColor)),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: HomePage(),
