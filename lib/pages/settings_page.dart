@@ -1,3 +1,4 @@
+import 'package:app_settings/app_settings.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -52,28 +53,39 @@ class _SettingsPageState extends State<SettingsPage> {
         child: Column(
           children: <Widget>[
             Expanded(
-              child: BlocConsumer<SettingsBloc, SettingsState>(
-                listener: (context, state) {
-                  if (state is SettingsCitySelectFailure) {
-                    Scaffold.of(context).showSnackBar(
-                      SnackBar(content: Text('Ошибка: ${state.message}')),
-                    );
-                  } else if (state is SettingsCitySelectSuccess) {
-                    context.bloc<TimesBloc>().add(TimesTodayRequested());
-                    Navigator.of(context).pop();
-                  }
-                },
-                builder: (context, state) {
-                  if (state is SettingsInProgress) {
-                    return Center(child: CircularProgressIndicator());
-                  } else if (state is SettingsSuccess ||
-                      state is SettingsCitySelectInProgress ||
-                      state is SettingsCitySelectFailure) {
-                    return _form(state);
-                  }
+              child: Column(
+                children: <Widget>[
+                  BlocConsumer<SettingsBloc, SettingsState>(
+                    listener: (context, state) {
+                      if (state is SettingsCitySelectFailure) {
+                        Scaffold.of(context).showSnackBar(
+                          SnackBar(content: Text('Ошибка: ${state.message}')),
+                        );
+                      } else if (state is SettingsCitySelectSuccess) {
+                        context.bloc<TimesBloc>().add(TimesTodayRequested());
+                        Navigator.of(context).pop();
+                      }
+                    },
+                    builder: (context, state) {
+                      if (state is SettingsInProgress) {
+                        return Center(child: CircularProgressIndicator());
+                      } else if (state is SettingsSuccess ||
+                          state is SettingsCitySelectInProgress ||
+                          state is SettingsCitySelectFailure) {
+                        return _form(state);
+                      }
 
-                  return Container();
-                },
+                      return Container();
+                    },
+                  ),
+                  Divider(
+                    height: 30,
+                  ),
+                  RaisedButton(
+                    child: Text('Настройка уведомлений'),
+                    onPressed: () => AppSettings.openAppSettings(),
+                  ),
+                ],
               ),
             ),
             Text.rich(
@@ -133,25 +145,26 @@ class _SettingsPageState extends State<SettingsPage> {
             noItemsFoundBuilder: (context) =>
                 ListTile(title: Text('Не найдено')),
           ),
-          SizedBox(height: 15),
-          state is SettingsCitySelectInProgress
-              ? CircularProgressIndicator()
-              : RaisedButton(
-                  child: Text('Обновить'),
-                  onPressed: () async {
-                    if (_formKey.currentState.validate()) {
-                      _formKey.currentState.save();
+          SizedBox(height: 7),
+          if (state is SettingsCitySelectInProgress)
+            CircularProgressIndicator()
+          else
+            RaisedButton(
+              child: Text('Обновить город'),
+              onPressed: () async {
+                if (_formKey.currentState.validate()) {
+                  _formKey.currentState.save();
 
-                      final city = state.cities.firstWhere((element) =>
-                          element.title.toLowerCase() ==
-                          _selectedCity.toLowerCase());
+                  final city = state.cities.firstWhere((element) =>
+                      element.title.toLowerCase() ==
+                      _selectedCity.toLowerCase());
 
-                      context
-                          .bloc<SettingsBloc>()
-                          .add(SettingsCitySelected(city, state.cities));
-                    }
-                  },
-                ),
+                  context
+                      .bloc<SettingsBloc>()
+                      .add(SettingsCitySelected(city, state.cities));
+                }
+              },
+            ),
         ],
       ),
     );
