@@ -230,7 +230,7 @@ class SolatWidget : AppWidgetProvider() {
         setViewVisibility(value, View.VISIBLE)
         setViewVisibility(valueActive, View.GONE)
         setImageViewResource(divider, R.drawable.time_divider)
-        setInt(layout, "setBackgroundResource", 0)
+        setInt(layout, "setBackgroundResource", R.drawable.inactive_time_background)
     }
 
     private fun RemoteViews.setTimes(times: Times) {
