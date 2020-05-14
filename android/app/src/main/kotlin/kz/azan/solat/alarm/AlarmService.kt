@@ -29,7 +29,7 @@ class AlarmService : BroadcastReceiver() {
     private val azanType = "kz.azan.solat.azan.TYPE"
     private val azanTime = "kz.azan.solat.azan.TIME"
     private val setAllHours = 0
-    private val setAllMinutes = 7
+    private val setAllMinutes = 0
 
     override fun onReceive(context: Context, intent: Intent) {
         when (intent.action) {
@@ -44,6 +44,7 @@ class AlarmService : BroadcastReceiver() {
             timeInMillis = System.currentTimeMillis()
             set(Calendar.HOUR_OF_DAY, setAllHours)
             set(Calendar.MINUTE, setAllMinutes)
+            set(Calendar.SECOND, 5)
         }
 
         val intent = Intent(context, this::class.java).let {
@@ -52,7 +53,7 @@ class AlarmService : BroadcastReceiver() {
         }
 
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        alarmManager.setInexactRepeating(
+        alarmManager.setRepeating(
                 AlarmManager.RTC_WAKEUP,
                 calendar.timeInMillis,
                 AlarmManager.INTERVAL_DAY,
