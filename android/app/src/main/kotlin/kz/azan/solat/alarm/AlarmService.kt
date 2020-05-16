@@ -24,41 +24,39 @@ const val AZAN_ISHA = 6
 
 class AlarmService : BroadcastReceiver() {
 
-    private val actionSetAll = "kz.azan.solat.action.SET_ALL"
+    private val actionInit = "kz.azan.solat.action.INIT"
     private val actionAzan = "kz.azan.solat.action.AZAN"
     private val azanType = "kz.azan.solat.azan.TYPE"
     private val azanTime = "kz.azan.solat.azan.TIME"
-    private val setAllHours = 0
-    private val setAllMinutes = 0
 
     override fun onReceive(context: Context, intent: Intent) {
         when (intent.action) {
             "android.intent.action.BOOT_COMPLETED" -> init(context)
+            actionInit -> init(context)
             actionAzan -> azan(context, intent)
-            actionSetAll -> setAll(context)
         }
     }
 
     fun init(context: Context) {
         val calendar = Calendar.getInstance().apply {
             timeInMillis = System.currentTimeMillis()
-            set(Calendar.HOUR_OF_DAY, setAllHours)
-            set(Calendar.MINUTE, setAllMinutes)
-            set(Calendar.SECOND, 5)
+            add(Calendar.DAY_OF_MONTH, 1)
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 5) // Add some lag to make sure that the server has already "moved" to the next day (in case phone is not using NTP/Network time sync)
         }
 
         val intent = Intent(context, this::class.java).let {
-            it.action = actionSetAll
+            it.action = actionInit
             PendingIntent.getBroadcast(context, 0, it, 0)
         }
 
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        alarmManager.setRepeating(
-                AlarmManager.RTC_WAKEUP,
-                calendar.timeInMillis,
-                AlarmManager.INTERVAL_DAY,
-                intent
-        )
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, intent)
+        } else {
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, intent)
+        }
 
         setAll(context)
         refreshWidget(context)
