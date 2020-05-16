@@ -81,9 +81,15 @@ class _SettingsPageState extends State<SettingsPage> {
                   Divider(
                     height: 30,
                   ),
-                  RaisedButton(
-                    child: Text('Настройка уведомлений'),
-                    onPressed: () => AppSettings.openAppSettings(),
+                  Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: RaisedButton(
+                          child: Text('Настройка уведомлений'),
+                          onPressed: () => AppSettings.openAppSettings(),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -149,21 +155,27 @@ class _SettingsPageState extends State<SettingsPage> {
           if (state is SettingsCitySelectInProgress)
             CircularProgressIndicator()
           else
-            RaisedButton(
-              child: Text('Обновить город'),
-              onPressed: () async {
-                if (_formKey.currentState.validate()) {
-                  _formKey.currentState.save();
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: RaisedButton(
+                    child: Text('Обновить город'),
+                    onPressed: () async {
+                      if (_formKey.currentState.validate()) {
+                        _formKey.currentState.save();
 
-                  final city = state.cities.firstWhere((element) =>
-                      element.title.toLowerCase() ==
-                      _selectedCity.toLowerCase());
+                        final city = state.cities.firstWhere((element) =>
+                            element.title.toLowerCase() ==
+                            _selectedCity.toLowerCase());
 
-                  context
-                      .bloc<SettingsBloc>()
-                      .add(SettingsCitySelected(city, state.cities));
-                }
-              },
+                        context
+                            .bloc<SettingsBloc>()
+                            .add(SettingsCitySelected(city, state.cities));
+                      }
+                    },
+                  ),
+                ),
+              ],
             ),
         ],
       ),
