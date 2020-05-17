@@ -22,9 +22,9 @@ class TimeWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 172,
-      height: 34,
-      padding: EdgeInsets.symmetric(horizontal: 12),
+      width: widgetWidth,
+      height: widgetItemHeight,
+      padding: EdgeInsets.symmetric(horizontal: widgetItemPadding),
       decoration: BoxDecoration(
         color: isActive ? Color(primaryColor) : null,
         boxShadow: [
@@ -42,7 +42,7 @@ class TimeWidget extends StatelessWidget {
               title,
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 14,
+                fontSize: widgetMainFontSize,
                 fontFamily: 'Oswald',
                 fontWeight: isActive ? FontWeight.normal : FontWeight.w100,
               ),
@@ -53,7 +53,7 @@ class TimeWidget extends StatelessWidget {
               icon: Icon(
                 isAzanEnabled ? Icons.volume_up : Icons.volume_off,
                 color: isAzanEnabled ? Color(0xFFDDDDDD) : Color(0xFF080808),
-                size: 14,
+                size: widgetMainFontSize,
               ),
               onPressed: () {
                 BlocProvider.of<TimesBloc>(context).add(
@@ -65,7 +65,7 @@ class TimeWidget extends StatelessWidget {
             time,
             style: TextStyle(
               color: Colors.white,
-              fontSize: 14,
+              fontSize: widgetMainFontSize,
               fontFamily: 'PT Serif',
               fontWeight: isActive ? FontWeight.w700 : FontWeight.normal,
             ),

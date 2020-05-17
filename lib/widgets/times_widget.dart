@@ -23,8 +23,8 @@ class TimesWidget extends StatelessWidget {
                 borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
                 color: Color(primaryColor85),
               ),
-              width: 172,
-              height: 50,
+              width: widgetWidth,
+              height: widgetItemHeight + 20,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -33,7 +33,7 @@ class TimesWidget extends StatelessWidget {
                       state.times.dateByHidjra,
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 14,
+                        fontSize: widgetMainFontSize,
                         fontFamily: 'Montserrat',
                         fontWeight: FontWeight.w500,
                       ),
@@ -44,7 +44,7 @@ class TimesWidget extends StatelessWidget {
                         'Выберите город',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 14,
+                          fontSize: widgetMainFontSize,
                           fontFamily: 'Montserrat',
                           fontWeight: FontWeight.w500,
                         ),
@@ -57,7 +57,7 @@ class TimesWidget extends StatelessWidget {
                       state.times.city,
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 12,
+                        fontSize: widgetMainFontSize - 2,
                         fontFamily: 'Oswald',
                         fontWeight: FontWeight.w300,
                       ),
@@ -119,9 +119,9 @@ class TimesWidget extends StatelessWidget {
                 borderRadius: BorderRadius.vertical(bottom: Radius.circular(8)),
                 color: Color(primaryColor85),
               ),
-              width: 172,
-              height: 37,
-              padding: EdgeInsets.symmetric(horizontal: 12),
+              width: widgetWidth,
+              height: widgetItemHeight,
+              padding: EdgeInsets.symmetric(horizontal: widgetItemPadding),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -131,7 +131,7 @@ class TimesWidget extends StatelessWidget {
                         text: _getNextTypeText(activeType),
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 14,
+                          fontSize: widgetMainFontSize,
                           fontFamily: 'Oswald',
                         ),
                         children: [
@@ -146,7 +146,7 @@ class TimesWidget extends StatelessWidget {
                     _getLeftTime(context, state, activeType),
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 14,
+                      fontSize: widgetMainFontSize,
                       fontFamily: 'PT Serif',
                       fontWeight: FontWeight.w700,
                     ),
