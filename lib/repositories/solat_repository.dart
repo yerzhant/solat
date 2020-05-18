@@ -20,4 +20,12 @@ class SolatRepository {
   Future<void> refreshTimes(City city) {
     return _mainPlatformApi.refreshTimes(city);
   }
+
+  Future<double> getFontsScale() {
+    return _mainPlatformApi.getFontsScale();
+  }
+
+  Future<void> setFontsScale(double scale) {
+    return _mainPlatformApi.setFontsScale(scale);
+  }
 }

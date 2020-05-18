@@ -7,8 +7,9 @@ class SettingsInProgress extends SettingsState {}
 
 class SettingsSuccess extends SettingsState {
   final List<City> cities;
+  final double fontsScale;
 
-  SettingsSuccess(this.cities);
+  SettingsSuccess(this.cities, this.fontsScale);
 }
 
 class SettingsFailure extends SettingsState {
@@ -18,7 +19,10 @@ class SettingsFailure extends SettingsState {
 }
 
 class SettingsCitySelectInProgress extends SettingsSuccess {
-  SettingsCitySelectInProgress(List<City> cities) : super(cities);
+  SettingsCitySelectInProgress(
+    List<City> cities,
+    double fontsScale,
+  ) : super(cities, fontsScale);
 }
 
 class SettingsCitySelectSuccess extends SettingsState {
@@ -30,5 +34,9 @@ class SettingsCitySelectSuccess extends SettingsState {
 class SettingsCitySelectFailure extends SettingsSuccess {
   final String message;
 
-  SettingsCitySelectFailure(List<City> cities, this.message) : super(cities);
+  SettingsCitySelectFailure(
+    List<City> cities,
+    double fontsScale,
+    this.message,
+  ) : super(cities, fontsScale);
 }

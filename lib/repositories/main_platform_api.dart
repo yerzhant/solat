@@ -6,6 +6,7 @@ class MainPlatformApi {
   static const cityName = "city";
   static const latitude = "latitude";
   static const longitude = "longitude";
+  static const fontsScale = "fontsScale";
 
   static const currentDateByHidjra = "currentDateByHidjra";
 
@@ -55,5 +56,13 @@ class MainPlatformApi {
       longitude: city.lng
     };
     await channel.invokeMethod("refresh-times", params);
+  }
+
+  Future<double> getFontsScale() {
+    return channel.invokeMethod('get-fonts-scale');
+  }
+
+  Future<void> setFontsScale(double scale) {
+    return channel.invokeMethod('set-fonts-scale', {fontsScale: scale});
   }
 }

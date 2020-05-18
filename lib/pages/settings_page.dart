@@ -5,7 +5,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:solat/blocs/settings/settings_bloc.dart';
 import 'package:solat/blocs/times/times_bloc.dart';
+import 'package:solat/consts.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+const fontsScaleMin = 0.8;
+const fontsScaleMax = 1.2;
+const fontsScaleSteps = 10;
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key key}) : super(key: key);
@@ -17,8 +22,15 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   final _formKey = GlobalKey<FormState>();
   final _cityNameController = TextEditingController();
+
   final _tapRecognizer = TapGestureRecognizer();
+
   String _selectedCity;
+
+  var _fontsScale = 1.0;
+  var _fontsScaling = false;
+  var _fontScaleLabel = 'По умолчанию';
+  var _fontScaleColor = Color(primaryColor);
 
   @override
   void initState() {
@@ -52,47 +64,88 @@ class _SettingsPageState extends State<SettingsPage> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: <Widget>[
-            Expanded(
-              child: Column(
-                children: <Widget>[
-                  BlocConsumer<SettingsBloc, SettingsState>(
-                    listener: (context, state) {
-                      if (state is SettingsCitySelectFailure) {
-                        Scaffold.of(context).showSnackBar(
-                          SnackBar(content: Text('Ошибка: ${state.message}')),
-                        );
-                      } else if (state is SettingsCitySelectSuccess) {
-                        context.bloc<TimesBloc>().add(TimesTodayRequested());
-                        Navigator.of(context).pop();
-                      }
-                    },
-                    builder: (context, state) {
-                      if (state is SettingsInProgress) {
-                        return Center(child: CircularProgressIndicator());
-                      } else if (state is SettingsSuccess ||
-                          state is SettingsCitySelectInProgress ||
-                          state is SettingsCitySelectFailure) {
-                        return _form(state);
-                      }
+            BlocConsumer<SettingsBloc, SettingsState>(
+              listener: (context, state) {
+                if (state is SettingsCitySelectFailure) {
+                  Scaffold.of(context).showSnackBar(
+                    SnackBar(content: Text('Ошибка: ${state.message}')),
+                  );
+                } else if (state is SettingsCitySelectSuccess) {
+                  context.bloc<TimesBloc>().add(TimesTodayRequested());
+                  Navigator.of(context).pop();
+                }
+              },
+              builder: (context, state) {
+                if (!_fontsScaling && state is SettingsSuccess) {
+                  _fontsScale = state.fontsScale;
 
-                      return Text('Нет соединения с сервером.');
-                    },
-                  ),
-                  Divider(
-                    height: 30,
-                  ),
-                  Row(
+                  if (_fontsScale < fontsScaleMin)
+                    _fontsScale = fontsScaleMin;
+                  else if (_fontsScale > fontsScaleMax)
+                    _fontsScale = fontsScaleMax;
+
+                  _setFontScalerColor(_fontsScale);
+                }
+
+                return Expanded(
+                  child: Column(
                     children: <Widget>[
-                      Expanded(
-                        child: RaisedButton(
-                          child: Text('Настройка уведомлений'),
-                          onPressed: () => AppSettings.openAppSettings(),
-                        ),
+                      if (state is SettingsInProgress)
+                        Center(child: CircularProgressIndicator())
+                      else if (state is SettingsSuccess ||
+                          state is SettingsCitySelectInProgress ||
+                          state is SettingsCitySelectFailure)
+                        _form(state)
+                      else
+                        Text('Нет соединения с сервером.'),
+                      SizedBox(height: 15),
+                      Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: RaisedButton(
+                              child: Text('Настройка уведомлений'),
+                              onPressed: () => AppSettings.openAppSettings(),
+                            ),
+                          ),
+                        ],
                       ),
+                      SizedBox(height: 20),
+                      if (state is SettingsSuccess)
+                        Column(
+                          children: <Widget>[
+                            Text('Размер шрифта виджета'),
+                            Slider(
+                              min: fontsScaleMin,
+                              max: fontsScaleMax,
+                              divisions: fontsScaleSteps,
+                              value: _fontsScale,
+                              label: _fontScaleLabel,
+                              activeColor: _fontScaleColor,
+                              onChanged: (value) {
+                                setState(() {
+                                  _fontsScaling = true;
+                                  _fontsScale = value;
+
+                                  _setFontScalerColor(value);
+                                });
+                              },
+                              onChangeEnd: (value) {
+                                _fontsScaling = false;
+
+                                context.bloc<SettingsBloc>().add(
+                                      SettingsFontsScaleUpdated(
+                                        value,
+                                        state.cities,
+                                      ),
+                                    );
+                              },
+                            ),
+                          ],
+                        ),
                     ],
                   ),
-                ],
-              ),
+                );
+              },
             ),
             Text.rich(
               TextSpan(
@@ -115,6 +168,19 @@ class _SettingsPageState extends State<SettingsPage> {
         ),
       ),
     );
+  }
+
+  void _setFontScalerColor(double value) {
+    if (value == 1) {
+      _fontScaleColor = Color(primaryColor);
+      _fontScaleLabel = 'По умолчанию';
+    } else {
+      _fontScaleLabel = null;
+      if (value < 1)
+        _fontScaleColor = Colors.green[400];
+      else
+        _fontScaleColor = Colors.red[400];
+    }
   }
 
   Form _form(SettingsSuccess state) {
@@ -168,9 +234,13 @@ class _SettingsPageState extends State<SettingsPage> {
                             element.title.toLowerCase() ==
                             _selectedCity.toLowerCase());
 
-                        context
-                            .bloc<SettingsBloc>()
-                            .add(SettingsCitySelected(city, state.cities));
+                        context.bloc<SettingsBloc>().add(
+                              SettingsCitySelected(
+                                city,
+                                state.cities,
+                                state.fontsScale,
+                              ),
+                            );
                       }
                     },
                   ),
