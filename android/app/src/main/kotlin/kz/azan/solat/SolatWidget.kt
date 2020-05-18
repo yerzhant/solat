@@ -5,6 +5,7 @@ import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
+import android.util.TypedValue
 import android.view.View
 import android.widget.RemoteViews
 import kotlinx.coroutines.CoroutineScope
@@ -42,8 +43,8 @@ class SolatWidget : AppWidgetProvider() {
                 } else {
                     setTextViewText(R.id.widget_city, cityName)
                     setTimes(times)
-                    setAllInactive()
-                    setActiveTime(times)
+                    setAllInactive(context)
+                    setActiveTime(times, context)
                 }
             }
 
@@ -51,18 +52,21 @@ class SolatWidget : AppWidgetProvider() {
         }
     }
 
-    private fun RemoteViews.setActiveTime(times: Times) {
+    private fun RemoteViews.setActiveTime(times: Times, context: Context) {
         val currentHours = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
         val currentMinutes = Calendar.getInstance().get(Calendar.MINUTE)
 
+        val solatRepository = SolatRepository(context)
+        val fontsScale = solatRepository.getFontsScale()
+
         when {
-            isBefore(currentHours, currentMinutes, times.fadjr) -> setIshaActive(times)
-            isBefore(currentHours, currentMinutes, times.sunrise) -> setFadjrActive(times)
-            isBefore(currentHours, currentMinutes, times.dhuhr) -> setSunriseActive(times)
-            isBefore(currentHours, currentMinutes, times.asr) -> setDhuhrActive(times)
-            isBefore(currentHours, currentMinutes, times.maghrib) -> setAsrActive(times)
-            isBefore(currentHours, currentMinutes, times.isha) -> setMaghribActive(times)
-            else -> setIshaActive(times)
+            isBefore(currentHours, currentMinutes, times.fadjr) -> setIshaActive(times, fontsScale)
+            isBefore(currentHours, currentMinutes, times.sunrise) -> setFadjrActive(times, fontsScale)
+            isBefore(currentHours, currentMinutes, times.dhuhr) -> setSunriseActive(times, fontsScale)
+            isBefore(currentHours, currentMinutes, times.asr) -> setDhuhrActive(times, fontsScale)
+            isBefore(currentHours, currentMinutes, times.maghrib) -> setAsrActive(times, fontsScale)
+            isBefore(currentHours, currentMinutes, times.isha) -> setMaghribActive(times, fontsScale)
+            else -> setIshaActive(times, fontsScale)
         }
     }
 
@@ -76,7 +80,7 @@ class SolatWidget : AppWidgetProvider() {
         return false
     }
 
-    private fun RemoteViews.setFadjrActive(times: Times) {
+    private fun RemoteViews.setFadjrActive(times: Times, fontsScale: Float) {
         setActive(
                 times.fadjr,
                 R.id.fadjr,
@@ -84,11 +88,12 @@ class SolatWidget : AppWidgetProvider() {
                 R.id.fadjr_label,
                 R.id.fadjr_label_active,
                 R.id.fadjr_divider,
-                R.id.fadjr_layout
+                R.id.fadjr_layout,
+                fontsScale
         )
     }
 
-    private fun RemoteViews.setSunriseActive(times: Times) {
+    private fun RemoteViews.setSunriseActive(times: Times, fontsScale: Float) {
         setActive(
                 times.sunrise,
                 R.id.sunrise,
@@ -96,11 +101,12 @@ class SolatWidget : AppWidgetProvider() {
                 R.id.sunrise_label,
                 R.id.sunrise_label_active,
                 R.id.sunrise_divider,
-                R.id.sunrise_layout
+                R.id.sunrise_layout,
+                fontsScale
         )
     }
 
-    private fun RemoteViews.setDhuhrActive(times: Times) {
+    private fun RemoteViews.setDhuhrActive(times: Times, fontsScale: Float) {
         setActive(
                 times.dhuhr,
                 R.id.dhuhr,
@@ -108,11 +114,12 @@ class SolatWidget : AppWidgetProvider() {
                 R.id.dhuhr_label,
                 R.id.dhuhr_label_active,
                 R.id.dhuhr_divider,
-                R.id.dhuhr_layout
+                R.id.dhuhr_layout,
+                fontsScale
         )
     }
 
-    private fun RemoteViews.setAsrActive(times: Times) {
+    private fun RemoteViews.setAsrActive(times: Times, fontsScale: Float) {
         setActive(
                 times.asr,
                 R.id.asr,
@@ -120,11 +127,12 @@ class SolatWidget : AppWidgetProvider() {
                 R.id.asr_label,
                 R.id.asr_label_active,
                 R.id.asr_divider,
-                R.id.asr_layout
+                R.id.asr_layout,
+                fontsScale
         )
     }
 
-    private fun RemoteViews.setMaghribActive(times: Times) {
+    private fun RemoteViews.setMaghribActive(times: Times, fontsScale: Float) {
         setActive(
                 times.maghrib,
                 R.id.maghrib,
@@ -132,11 +140,12 @@ class SolatWidget : AppWidgetProvider() {
                 R.id.maghrib_label,
                 R.id.maghrib_label_active,
                 R.id.maghrib_divider,
-                R.id.maghrib_layout
+                R.id.maghrib_layout,
+                fontsScale
         )
     }
 
-    private fun RemoteViews.setIshaActive(times: Times) {
+    private fun RemoteViews.setIshaActive(times: Times, fontsScale: Float) {
         setActive(
                 times.isha,
                 R.id.isha,
@@ -144,7 +153,8 @@ class SolatWidget : AppWidgetProvider() {
                 R.id.isha_label,
                 R.id.isha_label_active,
                 R.id.isha_divider,
-                R.id.isha_layout
+                R.id.isha_layout,
+                fontsScale
         )
     }
 
@@ -155,25 +165,35 @@ class SolatWidget : AppWidgetProvider() {
             label: Int,
             labelActive: Int,
             divider: Int,
-            layout: Int
+            layout: Int,
+            fontsScale: Float
     ) {
         setTextViewText(valueActive, time)
+
         setViewVisibility(label, View.GONE)
         setViewVisibility(labelActive, View.VISIBLE)
         setViewVisibility(value, View.GONE)
         setViewVisibility(valueActive, View.VISIBLE)
+
         setImageViewResource(divider, R.drawable.active_time_divider)
         setInt(layout, "setBackgroundResource", R.drawable.active_time_background)
+
+        setTextViewTextSize(labelActive, TypedValue.COMPLEX_UNIT_SP, 12 * fontsScale)
+        setTextViewTextSize(valueActive, TypedValue.COMPLEX_UNIT_SP, 13 * fontsScale)
     }
 
-    private fun RemoteViews.setAllInactive() {
+    private fun RemoteViews.setAllInactive(context: Context) {
+        val solatRepository = SolatRepository(context)
+        val fontsScale = solatRepository.getFontsScale()
+
         setInactive(
                 R.id.fadjr,
                 R.id.fadjr_active,
                 R.id.fadjr_label,
                 R.id.fadjr_label_active,
                 R.id.fadjr_divider,
-                R.id.fadjr_layout
+                R.id.fadjr_layout,
+                fontsScale
         )
         setInactive(
                 R.id.sunrise,
@@ -181,7 +201,8 @@ class SolatWidget : AppWidgetProvider() {
                 R.id.sunrise_label,
                 R.id.sunrise_label_active,
                 R.id.sunrise_divider,
-                R.id.sunrise_layout
+                R.id.sunrise_layout,
+                fontsScale
         )
         setInactive(
                 R.id.dhuhr,
@@ -189,7 +210,8 @@ class SolatWidget : AppWidgetProvider() {
                 R.id.dhuhr_label,
                 R.id.dhuhr_label_active,
                 R.id.dhuhr_divider,
-                R.id.dhuhr_layout
+                R.id.dhuhr_layout,
+                fontsScale
         )
         setInactive(
                 R.id.asr,
@@ -197,7 +219,8 @@ class SolatWidget : AppWidgetProvider() {
                 R.id.asr_label,
                 R.id.asr_label_active,
                 R.id.asr_divider,
-                R.id.asr_layout
+                R.id.asr_layout,
+                fontsScale
         )
         setInactive(
                 R.id.maghrib,
@@ -205,7 +228,8 @@ class SolatWidget : AppWidgetProvider() {
                 R.id.maghrib_label,
                 R.id.maghrib_label_active,
                 R.id.maghrib_divider,
-                R.id.maghrib_layout
+                R.id.maghrib_layout,
+                fontsScale
         )
         setInactive(
                 R.id.isha,
@@ -213,7 +237,8 @@ class SolatWidget : AppWidgetProvider() {
                 R.id.isha_label,
                 R.id.isha_label_active,
                 R.id.isha_divider,
-                R.id.isha_layout
+                R.id.isha_layout,
+                fontsScale
         )
     }
 
@@ -223,14 +248,19 @@ class SolatWidget : AppWidgetProvider() {
             label: Int,
             labelActive: Int,
             divider: Int,
-            layout: Int
+            layout: Int,
+            fontsScale: Float
     ) {
         setViewVisibility(label, View.VISIBLE)
         setViewVisibility(labelActive, View.GONE)
         setViewVisibility(value, View.VISIBLE)
         setViewVisibility(valueActive, View.GONE)
+
         setImageViewResource(divider, R.drawable.time_divider)
         setInt(layout, "setBackgroundResource", R.drawable.inactive_time_background)
+
+        setTextViewTextSize(label, TypedValue.COMPLEX_UNIT_SP, 12 * fontsScale)
+        setTextViewTextSize(value, TypedValue.COMPLEX_UNIT_SP, 13 * fontsScale)
     }
 
     private fun RemoteViews.setTimes(times: Times) {

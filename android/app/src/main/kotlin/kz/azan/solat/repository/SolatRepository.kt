@@ -21,6 +21,7 @@ class SolatRepository(private val context: Context) {
     private val settingLatitude = "latitude"
     private val settingLongitude = "longitude"
     private val settingRefreshedOn = "refreshedOn"
+    private val settingFontsScale = "fontsScale"
 
     private fun getSolatDatabase(): SolatDatabase {
         return Room.databaseBuilder(
@@ -107,5 +108,19 @@ class SolatRepository(private val context: Context) {
         }
 
         throw Exception("Failed to retrieve solat times from muftiyat.")
+    }
+
+    fun getFontsScale(): Float {
+        val settings = context.getSharedPreferences(SETTINGS_NAME, Context.MODE_PRIVATE)
+        return settings.getFloat(settingFontsScale, 1F)
+    }
+
+    fun setFontsScale(scale: Float) {
+        val settings = context.getSharedPreferences(SETTINGS_NAME, Context.MODE_PRIVATE)
+        with(settings.edit()) {
+            putFloat(settingFontsScale, scale)
+            apply()
+        }
+        AlarmService().refreshWidget(context)
     }
 }

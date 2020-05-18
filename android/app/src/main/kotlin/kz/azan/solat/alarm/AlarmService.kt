@@ -70,7 +70,7 @@ class AlarmService : BroadcastReceiver() {
         refreshWidget(context)
     }
 
-    private fun refreshWidget(context: Context) {
+    internal fun refreshWidget(context: Context) {
         val appWidgetManager = AppWidgetManager.getInstance(context)
         val provider = ComponentName(context, SolatWidget::class.java)
         val appWidgetIds = appWidgetManager.getAppWidgetIds(provider)

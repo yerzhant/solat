@@ -23,6 +23,8 @@ class MainActivity : FlutterActivity() {
     private val channelParamLatitude = "latitude"
     private val channelParamLongitude = "longitude"
 
+    private val channelParamFontsScale = "fontsScale"
+
     private val channelParamCurrentDateByHidjra = "currentDateByHidjra"
 
     private val channelParamAzanFlagType = "azanFlagType"
@@ -42,11 +44,32 @@ class MainActivity : FlutterActivity() {
             when (call.method) {
                 "get-today-times" -> getTodayTimes(result)
                 "refresh-times" -> refreshTimes(call, result)
-                "set-azan-flag" -> setAzanFlag(call, result)
                 "get-azan-flags" -> getAzanFlags(result)
+                "set-azan-flag" -> setAzanFlag(call, result)
+                "get-fonts-scale" -> getFontsScale(result)
+                "set-fonts-scale" -> setFontsScale(call, result)
                 else -> result.notImplemented()
             }
         }
+    }
+
+    private fun getFontsScale(result: MethodChannel.Result) {
+        val solatRepository = SolatRepository(context)
+        result.success(solatRepository.getFontsScale())
+    }
+
+    private fun setFontsScale(call: MethodCall, result: MethodChannel.Result) {
+        val scale = call.argument<Double>(channelParamFontsScale)
+
+        if (scale == null) {
+            result.error(channelErrorNotEnoughParams, null, null)
+            return
+        }
+
+        val solatRepository = SolatRepository(context)
+        solatRepository.setFontsScale(scale.toFloat())
+
+        result.success(true)
     }
 
     private fun getAzanFlags(result: MethodChannel.Result) {
