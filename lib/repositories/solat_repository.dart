@@ -28,4 +28,12 @@ class SolatRepository {
   Future<void> setFontsScale(double scale) {
     return _mainPlatformApi.setFontsScale(scale);
   }
+
+  Future<double> getAzanVolume() async {
+    return _mainPlatformApi.getAzanVolume();
+  }
+
+  Future<void> setAzanVolume(double volume) async {
+    return _mainPlatformApi.setAzanVolume(volume);
+  }
 }

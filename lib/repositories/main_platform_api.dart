@@ -7,6 +7,7 @@ class MainPlatformApi {
   static const latitude = "latitude";
   static const longitude = "longitude";
   static const fontsScale = "fontsScale";
+  static const azanVolume = "azanVolume";
 
   static const currentDateByHidjra = "currentDateByHidjra";
 
@@ -64,5 +65,13 @@ class MainPlatformApi {
 
   Future<void> setFontsScale(double scale) {
     return channel.invokeMethod('set-fonts-scale', {fontsScale: scale});
+  }
+
+  Future<double> getAzanVolume() {
+    return channel.invokeMethod('get-azan-volume');
+  }
+
+  Future<void> setAzanVolume(double volume) {
+    return channel.invokeMethod('set-azan-volume', {azanVolume: volume});
   }
 }

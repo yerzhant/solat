@@ -4,6 +4,9 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.media.Ringtone
+import android.media.RingtoneManager
+import android.net.Uri
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import kz.azan.solat.MainActivity
@@ -11,7 +14,9 @@ import kz.azan.solat.R
 import kz.azan.solat.repository.SETTINGS_NAME
 import kz.azan.solat.repository.SolatRepository
 
-const val AZAN_CHANNEL_ID = "azan"
+const val AZAN_CHANNEL_ID = "azan-human"
+
+var azanRingtone: Ringtone? = null
 
 class NotificationService(private val context: Context) {
 
@@ -37,6 +42,13 @@ class NotificationService(private val context: Context) {
         val solatRepository = SolatRepository(context)
         val cityName = solatRepository.getCityName()
 
+        val azan = when (type) {
+            AZAN_FADJR -> R.raw.qasym_fadjr
+            else -> R.raw.qasym
+        }
+
+        val azanUri: Uri = Uri.parse("android.resource://${context.packageName}/$azan")
+
         val builder = NotificationCompat.Builder(context, AZAN_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_logo)
                 .setContentTitle("$title · $time")
@@ -45,7 +57,14 @@ class NotificationService(private val context: Context) {
                 .setCategory(NotificationCompat.CATEGORY_ALARM)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setContentIntent(mainActivityIntent)
+                .setDeleteIntent(mainActivityIntent)
                 .setAutoCancel(true)
+
+        azanRingtone = RingtoneManager.getRingtone(context, azanUri)
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+            azanRingtone?.volume = solatRepository.getAzanVolume()
+        }
+        azanRingtone?.play()
 
         with(NotificationManagerCompat.from(context)) {
             notify(0, builder.build())

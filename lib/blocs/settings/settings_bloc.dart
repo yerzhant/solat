@@ -36,14 +36,19 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
         final List<City> cities = await _azanRepository.getCities();
         final fontsScale = await _solatRepository.getFontsScale();
+        final azanVolume = await _solatRepository.getAzanVolume();
 
-        yield SettingsSuccess(cities, fontsScale);
+        yield SettingsSuccess(cities, fontsScale, azanVolume);
       } catch (e) {
         yield SettingsFailure(e.toString());
       }
     } else if (event is SettingsCitySelected) {
       try {
-        yield SettingsCitySelectInProgress(event.cities, event.fontsScale);
+        yield SettingsCitySelectInProgress(
+          event.cities,
+          event.fontsScale,
+          event.azanVolume,
+        );
 
         await _solatRepository.refreshTimes(event.city);
 
@@ -52,13 +57,21 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         yield SettingsCitySelectFailure(
           event.cities,
           event.fontsScale,
+          event.azanVolume,
           e.toString(),
         );
       }
     } else if (event is SettingsFontsScaleUpdated) {
       try {
         await _solatRepository.setFontsScale(event.scale);
-        yield SettingsSuccess(event.cities, event.scale);
+        yield SettingsSuccess(event.cities, event.scale, event.azanVolume);
+      } catch (e) {
+        yield SettingsFailure(e.toString());
+      }
+    } else if (event is SettingsAzanVolumeUpdated) {
+      try {
+        await _solatRepository.setAzanVolume(event.volume);
+        yield SettingsSuccess(event.cities, event.fontScale, event.volume);
       } catch (e) {
         yield SettingsFailure(e.toString());
       }

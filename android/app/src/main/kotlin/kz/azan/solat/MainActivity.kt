@@ -24,6 +24,7 @@ class MainActivity : FlutterActivity() {
     private val channelParamLongitude = "longitude"
 
     private val channelParamFontsScale = "fontsScale"
+    private val channelParamAzanVolume = "azanVolume"
 
     private val channelParamCurrentDateByHidjra = "currentDateByHidjra"
 
@@ -48,9 +49,30 @@ class MainActivity : FlutterActivity() {
                 "set-azan-flag" -> setAzanFlag(call, result)
                 "get-fonts-scale" -> getFontsScale(result)
                 "set-fonts-scale" -> setFontsScale(call, result)
+                "get-azan-volume" -> getAzanVolume(result)
+                "set-azan-volume" -> setAzanVolume(call, result)
                 else -> result.notImplemented()
             }
         }
+    }
+
+    private fun getAzanVolume(result: MethodChannel.Result) {
+        val solatRepository = SolatRepository(context)
+        result.success(solatRepository.getAzanVolume())
+    }
+
+    private fun setAzanVolume(call: MethodCall, result: MethodChannel.Result) {
+        val volume = call.argument<Double>(channelParamAzanVolume)
+
+        if (volume == null) {
+            result.error(channelErrorNotEnoughParams, null, null)
+            return
+        }
+
+        val solatRepository = SolatRepository(context)
+        solatRepository.setAzanVolume(volume.toFloat())
+
+        result.success(true)
     }
 
     private fun getFontsScale(result: MethodChannel.Result) {
@@ -151,5 +173,10 @@ class MainActivity : FlutterActivity() {
                     context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        azanRingtone?.stop()
     }
 }

@@ -12,6 +12,10 @@ const fontsScaleMin = 0.8;
 const fontsScaleMax = 1.2;
 const fontsScaleSteps = 10;
 
+const azanVolumeMin = 0.0;
+const azanVolumeMax = 1.0;
+const azanVolumeSteps = 10;
+
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key key}) : super(key: key);
 
@@ -31,6 +35,10 @@ class _SettingsPageState extends State<SettingsPage> {
   var _fontsScaling = false;
   var _fontScaleLabel = 'По умолчанию';
   var _fontScaleColor = Color(primaryColor);
+
+  var _azanVolume = .3;
+  var _azanVolumeUpdating = false;
+  var _azanVolumeLabel = 'По умолчанию';
 
   @override
   void initState() {
@@ -76,17 +84,27 @@ class _SettingsPageState extends State<SettingsPage> {
                 }
               },
               builder: (context, state) {
-                if (!_fontsScaling && state is SettingsSuccess) {
-                  _fontsScale = state.fontsScale;
+                if (state is SettingsSuccess) {
+                  if (!_fontsScaling) {
+                    _fontsScale = state.fontsScale;
 
-                  if (_fontsScale < fontsScaleMin)
-                    _fontsScale = fontsScaleMin;
-                  else if (_fontsScale > fontsScaleMax)
-                    _fontsScale = fontsScaleMax;
+                    if (_fontsScale < fontsScaleMin)
+                      _fontsScale = fontsScaleMin;
+                    else if (_fontsScale > fontsScaleMax)
+                      _fontsScale = fontsScaleMax;
 
-                  _setFontScalerColor(_fontsScale);
+                    _setFontScalerColor(_fontsScale);
+                  }
+
+                  if (!_azanVolumeUpdating) {
+                    _azanVolume = state.azanVolume;
+
+                    if (_azanVolume < azanVolumeMin)
+                      _azanVolume = azanVolumeMin;
+                    else if (_azanVolume > azanVolumeMax)
+                      _azanVolume = azanVolumeMax;
+                  }
                 }
-
                 return Expanded(
                   child: Column(
                     children: <Widget>[
@@ -135,6 +153,35 @@ class _SettingsPageState extends State<SettingsPage> {
                                 context.bloc<SettingsBloc>().add(
                                       SettingsFontsScaleUpdated(
                                         value,
+                                        state.azanVolume,
+                                        state.cities,
+                                      ),
+                                    );
+                              },
+                            ),
+                            SizedBox(height: widgetItemPadding),
+                            Text('Громкость азана'),
+                            Slider(
+                              min: azanVolumeMin,
+                              max: azanVolumeMax,
+                              divisions: azanVolumeSteps,
+                              value: _azanVolume,
+                              label: _azanVolumeLabel,
+                              activeColor: Color(primaryColor),
+                              onChanged: (value) {
+                                setState(() {
+                                  _azanVolumeUpdating = true;
+                                  _azanVolume = value;
+                                  _setAzanVolumeLabel(value);
+                                });
+                              },
+                              onChangeEnd: (value) {
+                                _azanVolumeUpdating = false;
+
+                                context.bloc<SettingsBloc>().add(
+                                      SettingsAzanVolumeUpdated(
+                                        value,
+                                        state.fontsScale,
                                         state.cities,
                                       ),
                                     );
@@ -180,6 +227,14 @@ class _SettingsPageState extends State<SettingsPage> {
         _fontScaleColor = Colors.green[400];
       else
         _fontScaleColor = Colors.red[400];
+    }
+  }
+
+  void _setAzanVolumeLabel(double value) {
+    if (value == .5) {
+      _azanVolumeLabel = 'По умолчанию';
+    } else {
+      _azanVolumeLabel = null;
     }
   }
 
@@ -239,6 +294,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                 city,
                                 state.cities,
                                 state.fontsScale,
+                                state.azanVolume,
                               ),
                             );
                       }
