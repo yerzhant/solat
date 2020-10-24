@@ -231,7 +231,7 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   void _setAzanVolumeLabel(double value) {
-    if (value == .5) {
+    if (value == .3) {
       _azanVolumeLabel = 'По умолчанию';
     } else {
       _azanVolumeLabel = null;
