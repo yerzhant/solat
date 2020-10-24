@@ -10,10 +10,12 @@ import 'package:url_launcher/url_launcher.dart';
 
 const fontsScaleMin = 0.8;
 const fontsScaleMax = 1.2;
+const fontsScaleDefault = 1.0;
 const fontsScaleSteps = 10;
 
 const azanVolumeMin = 0.0;
 const azanVolumeMax = 1.0;
+const azanVolumeDefault = .3;
 const azanVolumeSteps = 10;
 
 class SettingsPage extends StatefulWidget {
@@ -31,12 +33,12 @@ class _SettingsPageState extends State<SettingsPage> {
 
   String _selectedCity;
 
-  var _fontsScale = 1.0;
+  var _fontsScale = fontsScaleDefault;
   var _fontsScaling = false;
   var _fontScaleLabel = 'По умолчанию';
   var _fontScaleColor = Color(primaryColor);
 
-  var _azanVolume = .3;
+  var _azanVolume = azanVolumeDefault;
   var _azanVolumeUpdating = false;
   var _azanVolumeLabel = 'По умолчанию';
 
@@ -218,12 +220,12 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   void _setFontScalerColor(double value) {
-    if (value == 1) {
+    if (value == fontsScaleDefault) {
       _fontScaleColor = Color(primaryColor);
       _fontScaleLabel = 'По умолчанию';
     } else {
       _fontScaleLabel = null;
-      if (value < 1)
+      if (value < fontsScaleDefault)
         _fontScaleColor = Colors.green[400];
       else
         _fontScaleColor = Colors.red[400];
@@ -231,7 +233,7 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   void _setAzanVolumeLabel(double value) {
-    if (value == .3) {
+    if (value == azanVolumeDefault) {
       _azanVolumeLabel = 'По умолчанию';
     } else {
       _azanVolumeLabel = null;
