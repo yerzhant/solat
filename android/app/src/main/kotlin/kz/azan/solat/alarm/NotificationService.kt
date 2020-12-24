@@ -7,12 +7,14 @@ import android.content.SharedPreferences
 import android.media.Ringtone
 import android.media.RingtoneManager
 import android.net.Uri
+import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import kz.azan.solat.MainActivity
 import kz.azan.solat.R
 import kz.azan.solat.repository.SETTINGS_NAME
 import kz.azan.solat.repository.SolatRepository
+import java.util.*
 
 const val AZAN_CHANNEL_ID = "azan-human"
 
@@ -39,6 +41,10 @@ class NotificationService(private val context: Context) {
             PendingIntent.getActivity(context, 0, it, 0)
         }
 
+        val snoozeIntent = Intent(context, Snooze::class.java).let {
+            PendingIntent.getBroadcast(context, 0, it, 0)
+        }
+
         val solatRepository = SolatRepository(context)
         val cityName = solatRepository.getCityName()
 
@@ -57,11 +63,16 @@ class NotificationService(private val context: Context) {
                 .setCategory(NotificationCompat.CATEGORY_ALARM)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setContentIntent(mainActivityIntent)
-                .setDeleteIntent(mainActivityIntent)
+                .setDeleteIntent(snoozeIntent)
                 .setAutoCancel(true)
+                .addAction(
+                        R.drawable.ic_baseline_snooze_24,
+                        context.getString(R.string.snooze).toUpperCase(Locale.ROOT),
+                        snoozeIntent
+                )
 
         azanRingtone = RingtoneManager.getRingtone(context, azanUri)
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             azanRingtone?.volume = solatRepository.getAzanVolume()
         }
         azanRingtone?.play()

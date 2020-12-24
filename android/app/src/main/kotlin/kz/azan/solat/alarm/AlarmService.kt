@@ -31,7 +31,7 @@ class AlarmService : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         when (intent.action) {
-            "android.intent.action.BOOT_COMPLETED" -> init(context)
+            Intent.ACTION_BOOT_COMPLETED -> init(context)
             actionInit -> init(context)
             actionAzan -> azan(context, intent)
         }

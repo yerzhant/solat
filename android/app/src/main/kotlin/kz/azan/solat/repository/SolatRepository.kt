@@ -56,7 +56,7 @@ class SolatRepository(private val context: Context) {
         val times = solatDatabase.timesDao().findByDate(date)
         solatDatabase.close()
         return times
-//        return Times("", "04:40", "07:02", "13:01", "19:11", "22:22", "23:23")
+//        return Times("", "04:40", "07:02", "13:01", "19:11", "23:36", "23:23")
     }
 
     fun getCityName(): String? {
