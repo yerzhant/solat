@@ -16,7 +16,7 @@ const fontsScaleSteps = 10;
 const azanVolumeMin = 0.0;
 const azanVolumeMax = 1.0;
 const azanVolumeDefault = .3;
-const azanVolumeSteps = 10;
+const azanVolumeSteps = 30;
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key key}) : super(key: key);
