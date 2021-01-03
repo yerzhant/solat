@@ -54,9 +54,22 @@ class SolatRepository(private val context: Context) {
         val date = "%02d-%02d-%d".format(day, month, year)
         val solatDatabase = getSolatDatabase()
         val times = solatDatabase.timesDao().findByDate(date)
+                ?: refreshTimesIfCityIsSet(solatDatabase, date)
         solatDatabase.close()
         return times
 //        return Times("", "04:40", "07:02", "13:01", "19:11", "23:36", "23:23")
+    }
+
+    private suspend fun refreshTimesIfCityIsSet(solatDatabase: SolatDatabase, date: String): Times? {
+        val settings = context.getSharedPreferences(SETTINGS_NAME, Context.MODE_PRIVATE)
+        val city = settings.getString(settingCity, null)
+        if (city != null) {
+            val latitude = settings.getString(settingLatitude, null)
+            val longitude = settings.getString(settingLongitude, null)
+            refresh(city, latitude!!, longitude!!)
+            return solatDatabase.timesDao().findByDate(date)
+        }
+        return null
     }
 
     fun getCityName(): String? {
