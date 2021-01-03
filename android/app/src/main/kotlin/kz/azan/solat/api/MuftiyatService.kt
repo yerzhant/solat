@@ -16,7 +16,7 @@ interface MuftiyatService {
     companion object {
         fun create(): MuftiyatService {
             val retrofit = Retrofit.Builder()
-                    .baseUrl("http://namaz.muftyat.kz/kk/api/")
+                    .baseUrl("https://namaz.muftyat.kz/kk/api/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build()
 
