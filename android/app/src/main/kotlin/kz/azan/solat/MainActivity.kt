@@ -140,7 +140,7 @@ class MainActivity : FlutterActivity() {
             return
         }
 
-        CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(Dispatchers.Main).launch {
             val todayTimes = solatRepository.getTodayTimes()
             if (todayTimes == null) {
                 result.error(channelErrorNoTimesForToday, null, null)
