@@ -56,7 +56,7 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   void _gotoMuftiyat() {
-    launch('https://www.muftiyat.kz/kk/namaz_times/');
+    launch('https://www.muftyat.kz/kk/namaz_times/');
   }
 
   @override
