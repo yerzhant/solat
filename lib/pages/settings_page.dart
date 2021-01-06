@@ -45,7 +45,7 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   void initState() {
     super.initState();
-    _tapRecognizer.onTap = _gotoMuftiyat;
+    _tapRecognizer.onTap = _gotoPrayTimes;
   }
 
   @override
@@ -55,8 +55,8 @@ class _SettingsPageState extends State<SettingsPage> {
     super.dispose();
   }
 
-  void _gotoMuftiyat() {
-    launch('https://www.muftyat.kz/kk/namaz_times/');
+  void _gotoPrayTimes() {
+    launch('http://praytimes.org');
   }
 
   @override
@@ -222,18 +222,22 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
             Text.rich(
               TextSpan(
-                text: 'Время намаза предоставлено ',
+                text: 'Время ',
                 style: TextStyle(
                   fontSize: 13,
                   height: 1.4,
                 ),
                 children: <TextSpan>[
                   TextSpan(
-                    text: 'Духовным управлением мусульман Казахстана',
+                    text:
+                        'расчитано по методу Islamic Society of North America',
                     style: TextStyle(color: Theme.of(context).primaryColor),
                     recognizer: _tapRecognizer,
                   ),
-                  TextSpan(text: '.'),
+                  TextSpan(
+                    text:
+                        ' с учётом поправок Духовного управления мусульман Казахстана.',
+                  ),
                 ],
               ),
             ),
