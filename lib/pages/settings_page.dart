@@ -123,7 +123,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         children: <Widget>[
                           Expanded(
                             child: RaisedButton(
-                              child: Text('Настройка уведомлений'),
+                              child: Text('НАСТРОЙКА УВЕДОМЛЕНИЙ'),
                               onPressed: () => AppSettings.openAppSettings(),
                             ),
                           ),
@@ -193,8 +193,10 @@ class _SettingsPageState extends State<SettingsPage> {
                             ),
                             CheckboxListTile(
                               value: state.requestHidjraDateFromServer,
-                              title:
-                                  Text('Запрашивать дату по Хиджре с сервера'),
+                              title: Text(
+                                'Запрашивать дату по Хиджре с сервера',
+                                style: TextStyle(fontSize: 14),
+                              ),
                               controlAffinity: ListTileControlAffinity.leading,
                               onChanged: (value) {
                                 context.bloc<SettingsBloc>().add(
@@ -304,7 +306,7 @@ class _SettingsPageState extends State<SettingsPage> {
               children: <Widget>[
                 Expanded(
                   child: RaisedButton(
-                    child: Text('Обновить город'),
+                    child: Text('ОБНОВИТЬ ГОРОД'),
                     onPressed: () async {
                       if (_formKey.currentState.validate()) {
                         _formKey.currentState.save();
