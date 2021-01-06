@@ -11,7 +11,7 @@ import android.widget.RemoteViews
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kz.azan.solat.model.Times
+import kz.azan.solat.domain.Times
 import kz.azan.solat.repository.SolatRepository
 import java.util.*
 

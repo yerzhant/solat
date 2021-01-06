@@ -1,4 +1,4 @@
-package kz.azan.solat.model
+package kz.azan.solat.domain
 
 data class Times(
         val fadjr: String,

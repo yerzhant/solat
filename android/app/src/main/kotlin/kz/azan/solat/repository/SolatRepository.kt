@@ -5,8 +5,8 @@ import android.os.Build
 import kz.azan.solat.alarm.AlarmService
 import kz.azan.solat.alarm.NotificationService
 import kz.azan.solat.api.azanService
-import kz.azan.solat.model.PrayTime
-import kz.azan.solat.model.Times
+import kz.azan.solat.domain.PrayTime
+import kz.azan.solat.domain.Times
 import java.time.chrono.HijrahDate
 import java.time.format.DateTimeFormatter
 import java.util.*

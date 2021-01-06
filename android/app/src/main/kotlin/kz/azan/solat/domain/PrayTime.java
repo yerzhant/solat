@@ -1,4 +1,4 @@
-package kz.azan.solat.model;
+package kz.azan.solat.domain;
 
 //--------------------- Copyright Block ----------------------
 /*
