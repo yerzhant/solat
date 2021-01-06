@@ -29,11 +29,19 @@ class SolatRepository {
     return _mainPlatformApi.setFontsScale(scale);
   }
 
-  Future<double> getAzanVolume() async {
+  Future<double> getAzanVolume() {
     return _mainPlatformApi.getAzanVolume();
   }
 
-  Future<void> setAzanVolume(double volume) async {
+  Future<void> setAzanVolume(double volume) {
     return _mainPlatformApi.setAzanVolume(volume);
+  }
+
+  Future<bool> getRequestHidjraDateFromServer() {
+    return _mainPlatformApi.getRequestHidjraDateFromServer();
+  }
+
+  Future<void> setRequestHidjraDateFromServer(bool value) {
+    return _mainPlatformApi.setRequestHidjraDateFromServer(value);
   }
 }

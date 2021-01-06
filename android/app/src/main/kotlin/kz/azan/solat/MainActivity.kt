@@ -28,6 +28,7 @@ class MainActivity : FlutterActivity() {
     private val channelParamAzanVolume = "azanVolume"
 
     private val channelParamCurrentDateByHidjra = "currentDateByHidjra"
+    private val channelParamRequestHidjraDateFromServer = "request-hidjra-date-from-server"
 
     private val channelParamAzanFlagType = "azanFlagType"
     private val channelParamAzanFlagValue = "azanFlagValue"
@@ -52,9 +53,30 @@ class MainActivity : FlutterActivity() {
                 "set-fonts-scale" -> setFontsScale(call, result)
                 "get-azan-volume" -> getAzanVolume(result)
                 "set-azan-volume" -> setAzanVolume(call, result)
+                "get-request-hidjra-date-from-server" -> getRequestHidjraDateFromServer(result)
+                "set-request-hidjra-date-from-server" -> setRequestHidjraDateFromServer(call, result)
                 else -> result.notImplemented()
             }
         }
+    }
+
+    private fun getRequestHidjraDateFromServer(result: MethodChannel.Result) {
+        val solatRepository = SolatRepository(context)
+        result.success(solatRepository.getRequestHidjraDateFromServer())
+    }
+
+    private fun setRequestHidjraDateFromServer(call: MethodCall, result: MethodChannel.Result) {
+        val value = call.argument<Boolean>(channelParamRequestHidjraDateFromServer)
+
+        if (value == null) {
+            result.error(channelErrorNotEnoughParams, null, null)
+            return
+        }
+
+        val solatRepository = SolatRepository(context)
+        solatRepository.setRequestHidjraDateFromServer(value)
+
+        result.success(true)
     }
 
     private fun getAzanVolume(result: MethodChannel.Result) {

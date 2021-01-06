@@ -9,8 +9,14 @@ class SettingsSuccess extends SettingsState {
   final List<City> cities;
   final double fontsScale;
   final double azanVolume;
+  final bool requestHidjraDateFromServer;
 
-  SettingsSuccess(this.cities, this.fontsScale, this.azanVolume);
+  SettingsSuccess(
+    this.cities,
+    this.fontsScale,
+    this.azanVolume,
+    this.requestHidjraDateFromServer,
+  );
 }
 
 class SettingsFailure extends SettingsState {
@@ -24,7 +30,13 @@ class SettingsCitySelectInProgress extends SettingsSuccess {
     List<City> cities,
     double fontsScale,
     double azanVolume,
-  ) : super(cities, fontsScale, azanVolume);
+    bool requestHidjraDateFromServer,
+  ) : super(
+          cities,
+          fontsScale,
+          azanVolume,
+          requestHidjraDateFromServer,
+        );
 }
 
 class SettingsCitySelectSuccess extends SettingsState {
@@ -40,6 +52,12 @@ class SettingsCitySelectFailure extends SettingsSuccess {
     List<City> cities,
     double fontsScale,
     double azanVolume,
+    bool requestHidjraDateFromServer,
     this.message,
-  ) : super(cities, fontsScale, azanVolume);
+  ) : super(
+          cities,
+          fontsScale,
+          azanVolume,
+          requestHidjraDateFromServer,
+        );
 }

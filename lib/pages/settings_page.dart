@@ -156,6 +156,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                       SettingsFontsScaleUpdated(
                                         value,
                                         state.azanVolume,
+                                        state.requestHidjraDateFromServer,
                                         state.cities,
                                       ),
                                     );
@@ -184,9 +185,30 @@ class _SettingsPageState extends State<SettingsPage> {
                                       SettingsAzanVolumeUpdated(
                                         value,
                                         state.fontsScale,
+                                        state.requestHidjraDateFromServer,
                                         state.cities,
                                       ),
                                     );
+                              },
+                            ),
+                            CheckboxListTile(
+                              value: state.requestHidjraDateFromServer,
+                              title:
+                                  Text('Запрашивать дату по Хиджре с сервера'),
+                              controlAffinity: ListTileControlAffinity.leading,
+                              onChanged: (value) {
+                                context.bloc<SettingsBloc>().add(
+                                      SettingsRequestHidjraDateFromServerUpdated(
+                                        value,
+                                        state.fontsScale,
+                                        state.azanVolume,
+                                        state.cities,
+                                      ),
+                                    );
+
+                                context
+                                    .bloc<TimesBloc>()
+                                    .add(TimesTodayRequested());
                               },
                             ),
                           ],
@@ -297,6 +319,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                 state.cities,
                                 state.fontsScale,
                                 state.azanVolume,
+                                state.requestHidjraDateFromServer,
                               ),
                             );
                       }

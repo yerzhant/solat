@@ -1,5 +1,6 @@
 package kz.azan.solat.repository
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
 import kz.azan.solat.alarm.AlarmService
@@ -7,6 +8,7 @@ import kz.azan.solat.alarm.NotificationService
 import kz.azan.solat.api.azanService
 import kz.azan.solat.domain.PrayTime
 import kz.azan.solat.domain.Times
+import java.text.SimpleDateFormat
 import java.time.chrono.HijrahDate
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -22,21 +24,25 @@ class SolatRepository(private val context: Context) {
     private val settingRefreshedOn = "refreshedOn"
     private val settingFontsScale = "fontsScale"
     private val settingAzanVolume = "azanVolume"
+    private val settingRequestHidjraDateFromServer = "request-hidjra-date-from-server"
 
     private val defaultTimeZone = 6
 
     suspend fun getCurrentDateByHidjra(): String {
         return try {
-            azanService.getCurrentDateByHidjra()
+            if (getRequestHidjraDateFromServer()) return azanService.getCurrentDateByHidjra()
+            return calculateHidjraDate()
         } catch (e: Exception) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                val formatter = DateTimeFormatter.ofPattern("d MMMM uuuu")
-                val date = HijrahDate.now().format(formatter)
-                "$date*"
-            } else {
-                ""
-            }
+            "${calculateHidjraDate()}*"
         }
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    private fun calculateHidjraDate() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        val formatter = DateTimeFormatter.ofPattern("d MMMM uuuu")
+        HijrahDate.now().format(formatter)
+    } else {
+        SimpleDateFormat("d MMMM y").format(Date())
     }
 
     fun getTodayTimes(): Times? {
@@ -97,6 +103,19 @@ class SolatRepository(private val context: Context) {
         val settings = context.getSharedPreferences(SETTINGS_NAME, Context.MODE_PRIVATE)
         with(settings.edit()) {
             putFloat(settingAzanVolume, scale)
+            apply()
+        }
+    }
+
+    fun getRequestHidjraDateFromServer(): Boolean {
+        val settings = context.getSharedPreferences(SETTINGS_NAME, Context.MODE_PRIVATE)
+        return settings.getBoolean(settingRequestHidjraDateFromServer, true)
+    }
+
+    fun setRequestHidjraDateFromServer(value: Boolean) {
+        val settings = context.getSharedPreferences(SETTINGS_NAME, Context.MODE_PRIVATE)
+        with(settings.edit()) {
+            putBoolean(settingRequestHidjraDateFromServer, value)
             apply()
         }
     }

@@ -37,8 +37,15 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         final List<City> cities = await _azanRepository.getCities();
         final fontsScale = await _solatRepository.getFontsScale();
         final azanVolume = await _solatRepository.getAzanVolume();
+        final bool requestHidjraDateFromServer =
+            await _solatRepository.getRequestHidjraDateFromServer();
 
-        yield SettingsSuccess(cities, fontsScale, azanVolume);
+        yield SettingsSuccess(
+          cities,
+          fontsScale,
+          azanVolume,
+          requestHidjraDateFromServer,
+        );
       } catch (e) {
         yield SettingsFailure(e.toString());
       }
@@ -48,6 +55,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
           event.cities,
           event.fontsScale,
           event.azanVolume,
+          event.requestHidjraDateFromServer,
         );
 
         await _solatRepository.saveCity(event.city);
@@ -58,20 +66,44 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
           event.cities,
           event.fontsScale,
           event.azanVolume,
+          event.requestHidjraDateFromServer,
           e.toString(),
         );
       }
     } else if (event is SettingsFontsScaleUpdated) {
       try {
         await _solatRepository.setFontsScale(event.scale);
-        yield SettingsSuccess(event.cities, event.scale, event.azanVolume);
+        yield SettingsSuccess(
+          event.cities,
+          event.scale,
+          event.azanVolume,
+          event.requestHidjraDateFromServer,
+        );
       } catch (e) {
         yield SettingsFailure(e.toString());
       }
     } else if (event is SettingsAzanVolumeUpdated) {
       try {
         await _solatRepository.setAzanVolume(event.volume);
-        yield SettingsSuccess(event.cities, event.fontScale, event.volume);
+        yield SettingsSuccess(
+          event.cities,
+          event.fontScale,
+          event.volume,
+          event.requestHidjraDateFromServer,
+        );
+      } catch (e) {
+        yield SettingsFailure(e.toString());
+      }
+    } else if (event is SettingsRequestHidjraDateFromServerUpdated) {
+      try {
+        await _solatRepository
+            .setRequestHidjraDateFromServer(event.requestHidjraDateFromServer);
+        yield SettingsSuccess(
+          event.cities,
+          event.fontScale,
+          event.volume,
+          event.requestHidjraDateFromServer,
+        );
       } catch (e) {
         yield SettingsFailure(e.toString());
       }

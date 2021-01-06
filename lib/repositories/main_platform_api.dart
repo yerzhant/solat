@@ -11,6 +11,7 @@ class MainPlatformApi {
   static const azanVolume = "azanVolume";
 
   static const currentDateByHidjra = "currentDateByHidjra";
+  static const requestHidjraDateFromServer = "request-hidjra-date-from-server";
 
   static const fadjr = 1;
   static const sunrise = 2;
@@ -75,5 +76,16 @@ class MainPlatformApi {
 
   Future<void> setAzanVolume(double volume) {
     return channel.invokeMethod('set-azan-volume', {azanVolume: volume});
+  }
+
+  Future<bool> getRequestHidjraDateFromServer() {
+    return channel.invokeMethod('get-request-hidjra-date-from-server');
+  }
+
+  Future<void> setRequestHidjraDateFromServer(bool value) {
+    return channel.invokeMethod(
+      'set-request-hidjra-date-from-server',
+      {requestHidjraDateFromServer: value},
+    );
   }
 }
