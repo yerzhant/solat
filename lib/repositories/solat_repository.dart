@@ -17,8 +17,8 @@ class SolatRepository {
     return _mainPlatformApi.setAzanFlag(type, value);
   }
 
-  Future<void> refreshTimes(City city) {
-    return _mainPlatformApi.refreshTimes(city);
+  Future<void> saveCity(City city) {
+    return _mainPlatformApi.saveCity(city);
   }
 
   Future<double> getFontsScale() {

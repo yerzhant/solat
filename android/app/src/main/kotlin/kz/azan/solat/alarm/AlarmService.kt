@@ -8,9 +8,6 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kz.azan.solat.SolatWidget
 import kz.azan.solat.repository.SolatRepository
 import java.util.*
@@ -84,20 +81,18 @@ class AlarmService : BroadcastReceiver() {
     }
 
     private fun setAll(context: Context) {
-        CoroutineScope(Dispatchers.IO).launch {
-            val solatRepository = SolatRepository(context)
-            val times = solatRepository.getTodayTimes() ?: return@launch
+        val solatRepository = SolatRepository(context)
+        val times = solatRepository.getTodayTimes() ?: return
 
-            val currentHours = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
-            val currentMinutes = Calendar.getInstance().get(Calendar.MINUTE)
+        val currentHours = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+        val currentMinutes = Calendar.getInstance().get(Calendar.MINUTE)
 
-            if (isBefore(currentHours, currentMinutes, times.fadjr)) setAt(AZAN_FADJR, times.fadjr, context)
-            if (isBefore(currentHours, currentMinutes, times.sunrise)) setAt(AZAN_SUNRISE, times.sunrise, context)
-            if (isBefore(currentHours, currentMinutes, times.dhuhr)) setAt(AZAN_DHUHR, times.dhuhr, context)
-            if (isBefore(currentHours, currentMinutes, times.asr)) setAt(AZAN_ASR, times.asr, context)
-            if (isBefore(currentHours, currentMinutes, times.maghrib)) setAt(AZAN_MAGHRIB, times.maghrib, context)
-            if (isBefore(currentHours, currentMinutes, times.isha)) setAt(AZAN_ISHA, times.isha, context)
-        }
+        if (isBefore(currentHours, currentMinutes, times.fadjr)) setAt(AZAN_FADJR, times.fadjr, context)
+        if (isBefore(currentHours, currentMinutes, times.sunrise)) setAt(AZAN_SUNRISE, times.sunrise, context)
+        if (isBefore(currentHours, currentMinutes, times.dhuhr)) setAt(AZAN_DHUHR, times.dhuhr, context)
+        if (isBefore(currentHours, currentMinutes, times.asr)) setAt(AZAN_ASR, times.asr, context)
+        if (isBefore(currentHours, currentMinutes, times.maghrib)) setAt(AZAN_MAGHRIB, times.maghrib, context)
+        if (isBefore(currentHours, currentMinutes, times.isha)) setAt(AZAN_ISHA, times.isha, context)
     }
 
     private fun setAt(type: Int, time: String, context: Context) {

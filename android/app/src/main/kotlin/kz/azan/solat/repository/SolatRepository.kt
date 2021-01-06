@@ -2,12 +2,10 @@ package kz.azan.solat.repository
 
 import android.content.Context
 import android.os.Build
-import androidx.room.Room
 import kz.azan.solat.alarm.AlarmService
 import kz.azan.solat.alarm.NotificationService
 import kz.azan.solat.api.azanService
-import kz.azan.solat.api.muftiyatService
-import kz.azan.solat.database.SolatDatabase
+import kz.azan.solat.model.PrayTime
 import kz.azan.solat.model.Times
 import java.time.chrono.HijrahDate
 import java.time.format.DateTimeFormatter
@@ -20,17 +18,12 @@ class SolatRepository(private val context: Context) {
     private val settingCity = "city"
     private val settingLatitude = "latitude"
     private val settingLongitude = "longitude"
+    private val settingTimeZone = "time-zone"
     private val settingRefreshedOn = "refreshedOn"
     private val settingFontsScale = "fontsScale"
     private val settingAzanVolume = "azanVolume"
 
-    private fun getSolatDatabase(): SolatDatabase {
-        return Room.databaseBuilder(
-                context,
-                SolatDatabase::class.java,
-                "solat.db"
-        ).build()
-    }
+    private val defaultTimeZone = 6
 
     suspend fun getCurrentDateByHidjra(): String {
         return try {
@@ -46,30 +39,17 @@ class SolatRepository(private val context: Context) {
         }
     }
 
-    suspend fun getTodayTimes(): Times? {
-        val calendar = Calendar.getInstance()
-        val day = calendar.get(Calendar.DAY_OF_MONTH)
-        val month = calendar.get(Calendar.MONTH) + 1
-        val year = calendar.get(Calendar.YEAR)
-        val date = "%02d-%02d-%d".format(day, month, year)
-        val solatDatabase = getSolatDatabase()
-        val times = solatDatabase.timesDao().findByDate(date)
-                ?: refreshTimesIfCityIsSet(solatDatabase, date)
-        solatDatabase.close()
-        return times
-//        return Times("", "04:40", "07:02", "13:01", "19:11", "23:36", "23:23")
-    }
-
-    private suspend fun refreshTimesIfCityIsSet(solatDatabase: SolatDatabase, date: String): Times? {
+    fun getTodayTimes(): Times? {
         val settings = context.getSharedPreferences(SETTINGS_NAME, Context.MODE_PRIVATE)
-        val city = settings.getString(settingCity, null)
-        if (city != null) {
-            val latitude = settings.getString(settingLatitude, null)
-            val longitude = settings.getString(settingLongitude, null)
-            refresh(city, latitude!!, longitude!!)
-            return solatDatabase.timesDao().findByDate(date)
-        }
-        return null
+
+        if (settings.getString(settingCity, null) == null) return null
+
+        return PrayTime().calculate(
+                settings.getString(settingLatitude, null)?.toDouble()!!,
+                settings.getString(settingLongitude, null)?.toDouble()!!,
+                settings.getInt(settingTimeZone, defaultTimeZone)
+        )
+//        return Times("", "04:40", "07:02", "13:01", "19:11", "23:36", "23:23")
     }
 
     fun getCityName(): String? {
@@ -77,51 +57,21 @@ class SolatRepository(private val context: Context) {
         return settings.getString(settingCity, null)
     }
 
-    suspend fun refresh(city: String, latitude: String, longitude: String) {
-        val times = getTimes(latitude, longitude)
-
+    fun saveCity(city: String, latitude: String, longitude: String, timeZone: Double) {
         val settings = context.getSharedPreferences(SETTINGS_NAME, Context.MODE_PRIVATE)
 
         NotificationService(context).setDefaultAzanFlags(settings)
 
         with(settings.edit()) {
-            remove(settingCity)
-            apply()
-        }
-
-        val solatDatabase = getSolatDatabase()
-        solatDatabase.timesDao().deleteAll()
-        solatDatabase.timesDao().addAll(*times)
-        solatDatabase.close()
-
-        AlarmService().init(context)
-
-        with(settings.edit()) {
             putString(settingCity, city)
             putString(settingLatitude, latitude)
             putString(settingLongitude, longitude)
+            putInt(settingTimeZone, timeZone.toInt())
             putLong(settingRefreshedOn, Calendar.getInstance().timeInMillis)
             apply()
         }
-    }
 
-    private suspend fun getTimes(latitude: String, longitude: String): Array<Times> {
-        val year = Calendar.getInstance().get(Calendar.YEAR)
-        val muftiyatDto = muftiyatService.getTimes(year, latitude, longitude)
-
-        if (muftiyatDto.success) {
-            return muftiyatDto.result.map {
-                Times(it.date.trim(),
-                        it.Fajr.trim(),
-                        it.Sunrise.trim(),
-                        it.Dhuhr.trim(),
-                        it.Asr.trim(),
-                        it.Maghrib.trim(),
-                        it.Isha.trim())
-            }.toTypedArray()
-        }
-
-        throw Exception("Failed to retrieve solat times from muftiyat.")
+        AlarmService().init(context)
     }
 
     fun getFontsScale(): Float {

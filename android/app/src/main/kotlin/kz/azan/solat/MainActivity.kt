@@ -22,6 +22,7 @@ class MainActivity : FlutterActivity() {
     private val channelParamCity = "city"
     private val channelParamLatitude = "latitude"
     private val channelParamLongitude = "longitude"
+    private val channelParamTimeZone = "time-zone"
 
     private val channelParamFontsScale = "fontsScale"
     private val channelParamAzanVolume = "azanVolume"
@@ -44,7 +45,7 @@ class MainActivity : FlutterActivity() {
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, mainChannel).setMethodCallHandler { call, result ->
             when (call.method) {
                 "get-today-times" -> getTodayTimes(result)
-                "refresh-times" -> refreshTimes(call, result)
+                "save-city" -> saveCity(call, result)
                 "get-azan-flags" -> getAzanFlags(result)
                 "set-azan-flag" -> setAzanFlag(call, result)
                 "get-fonts-scale" -> getFontsScale(result)
@@ -112,23 +113,25 @@ class MainActivity : FlutterActivity() {
         result.success(true)
     }
 
-    private fun refreshTimes(call: MethodCall, result: MethodChannel.Result) {
+    private fun saveCity(call: MethodCall, result: MethodChannel.Result) {
         val city = call.argument<String>(channelParamCity)
         val latitude = call.argument<Double>(channelParamLatitude)
         val longitude = call.argument<Double>(channelParamLongitude)
+        val timeZone = call.argument<Double>(channelParamTimeZone)
 
-        if (city == null || latitude == null || longitude == null) {
+        if (city == null || latitude == null || longitude == null || timeZone == null) {
             result.error(channelErrorNotEnoughParams, null, null)
             return
         }
 
-        CoroutineScope(Dispatchers.IO).launch {
-            SolatRepository(context).refresh(city, latitude.toString(), longitude.toString())
+        SolatRepository(context).saveCity(
+                city,
+                latitude.toString(),
+                longitude.toString(),
+                timeZone
+        )
 
-            withContext(Dispatchers.Main.immediate) {
-                result.success(true)
-            }
-        }
+        result.success(true)
     }
 
     private fun getTodayTimes(result: MethodChannel.Result) {

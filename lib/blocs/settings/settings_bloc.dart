@@ -50,7 +50,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
           event.azanVolume,
         );
 
-        await _solatRepository.refreshTimes(event.city);
+        await _solatRepository.saveCity(event.city);
 
         yield SettingsCitySelectSuccess(event.city);
       } on Exception catch (e) {
