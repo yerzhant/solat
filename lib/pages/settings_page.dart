@@ -230,7 +230,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 children: <TextSpan>[
                   TextSpan(
                     text:
-                        'расчитано по методу Islamic Society of North America',
+                        'рассчитано по методу Islamic Society of North America',
                     style: TextStyle(color: Theme.of(context).primaryColor),
                     recognizer: _tapRecognizer,
                   ),
