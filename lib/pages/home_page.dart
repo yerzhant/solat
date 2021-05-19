@@ -41,7 +41,7 @@ class _HomePageState extends State<HomePage> {
               if (state is TimesTodaySuccess &&
                   state.times.dateByHidjra.endsWith('*') &&
                   !_hidjraWarningShown) {
-                Scaffold.of(context).showSnackBar(
+                ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(
                       'Из-за того, что нет доступа к серверу дата по Хиджре может быть неточной.',

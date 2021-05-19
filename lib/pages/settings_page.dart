@@ -77,7 +77,7 @@ class _SettingsPageState extends State<SettingsPage> {
             BlocConsumer<SettingsBloc, SettingsState>(
               listener: (context, state) {
                 if (state is SettingsCitySelectFailure) {
-                  Scaffold.of(context).showSnackBar(
+                  ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text('Ошибка: ${state.message}')),
                   );
                 } else if (state is SettingsCitySelectSuccess) {
@@ -122,7 +122,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       Row(
                         children: <Widget>[
                           Expanded(
-                            child: RaisedButton(
+                            child: ElevatedButton(
                               child: Text('НАСТРОЙКА УВЕДОМЛЕНИЙ'),
                               onPressed: () => AppSettings.openAppSettings(),
                             ),
@@ -305,7 +305,7 @@ class _SettingsPageState extends State<SettingsPage> {
             Row(
               children: <Widget>[
                 Expanded(
-                  child: RaisedButton(
+                  child: ElevatedButton(
                     child: Text('ЗАГРУЗИТЬ ВРЕМЯ НАМАЗА'),
                     onPressed: () async {
                       if (_formKey.currentState.validate()) {
