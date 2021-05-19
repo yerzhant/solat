@@ -1,7 +1,7 @@
 class City {
   final String title;
-  final double lat;
-  final double lng;
+  final String lat;
+  final String lng;
   final double timeZone;
 
   const City(
@@ -11,14 +11,13 @@ class City {
     this.timeZone,
   )   : assert(title != null),
         assert(lat != null),
-        assert(lng != null),
-        assert(timeZone != null);
+        assert(lng != null);
 
   factory City.fromJson(Map<String, dynamic> json) {
     return City(
       json['title'] as String,
-      json['lat'] as double,
-      json['lng'] as double,
+      json['lat'] as String,
+      json['lng'] as String,
       json['time_shift'] as double,
     );
   }
