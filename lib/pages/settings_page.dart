@@ -45,7 +45,7 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   void initState() {
     super.initState();
-    _tapRecognizer.onTap = _gotoPrayTimes;
+    _tapRecognizer.onTap = _gotoMuftiyat;
   }
 
   @override
@@ -55,8 +55,8 @@ class _SettingsPageState extends State<SettingsPage> {
     super.dispose();
   }
 
-  void _gotoPrayTimes() {
-    launch('http://praytimes.org');
+  void _gotoMuftiyat() {
+    launch('https://www.muftyat.kz/kk/namaz_times/');
   }
 
   @override
@@ -222,22 +222,18 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
             Text.rich(
               TextSpan(
-                text: 'Время ',
+                text: 'Время намаза предоставлено ',
                 style: TextStyle(
                   fontSize: 13,
                   height: 1.4,
                 ),
                 children: <TextSpan>[
                   TextSpan(
-                    text:
-                        'рассчитано по методу Islamic Society of North America',
+                    text: 'Духовным управлением мусульман Казахстана',
                     style: TextStyle(color: Theme.of(context).primaryColor),
                     recognizer: _tapRecognizer,
                   ),
-                  TextSpan(
-                    text:
-                        ' с учётом поправок Духовного управления мусульман Казахстана.',
-                  ),
+                  TextSpan(text: '.'),
                 ],
               ),
             ),
@@ -310,7 +306,7 @@ class _SettingsPageState extends State<SettingsPage> {
               children: <Widget>[
                 Expanded(
                   child: RaisedButton(
-                    child: Text('ОБНОВИТЬ ГОРОД'),
+                    child: Text('ЗАГРУЗИТЬ ВРЕМЯ НАМАЗА'),
                     onPressed: () async {
                       if (_formKey.currentState.validate()) {
                         _formKey.currentState.save();
