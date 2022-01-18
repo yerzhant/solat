@@ -1,4 +1,5 @@
 import 'package:app_settings/app_settings.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -129,72 +130,75 @@ class _SettingsPageState extends State<SettingsPage> {
                           ),
                         ],
                       ),
-                      SizedBox(height: 20),
+                      SizedBox(height: 10),
                       if (state is SettingsSuccess)
                         Column(
                           children: <Widget>[
-                            Text('Размер шрифта виджета'),
-                            Slider(
-                              min: fontsScaleMin,
-                              max: fontsScaleMax,
-                              divisions: fontsScaleSteps,
-                              value: _fontsScale,
-                              label: _fontScaleLabel,
-                              activeColor: _fontScaleColor,
-                              onChanged: (value) {
-                                setState(() {
-                                  _fontsScaling = true;
-                                  _fontsScale = value;
+                            if (defaultTargetPlatform ==
+                                TargetPlatform.android) ...[
+                              Text('Размер шрифта виджета'),
+                              Slider(
+                                min: fontsScaleMin,
+                                max: fontsScaleMax,
+                                divisions: fontsScaleSteps,
+                                value: _fontsScale,
+                                label: _fontScaleLabel,
+                                activeColor: _fontScaleColor,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _fontsScaling = true;
+                                    _fontsScale = value;
 
-                                  _setFontScalerColor(value);
-                                });
-                              },
-                              onChangeEnd: (value) {
-                                _fontsScaling = false;
+                                    _setFontScalerColor(value);
+                                  });
+                                },
+                                onChangeEnd: (value) {
+                                  _fontsScaling = false;
 
-                                context.bloc<SettingsBloc>().add(
-                                      SettingsFontsScaleUpdated(
-                                        value,
-                                        state.azanVolume,
-                                        state.requestHidjraDateFromServer,
-                                        state.cities,
-                                      ),
-                                    );
-                              },
-                            ),
-                            SizedBox(height: widgetItemPadding),
-                            Text('Громкость азана'),
-                            Slider(
-                              min: azanVolumeMin,
-                              max: azanVolumeMax,
-                              divisions: azanVolumeSteps,
-                              value: _azanVolume,
-                              label: _azanVolumeLabel,
-                              activeColor: Color(primaryColor),
-                              onChanged: (value) {
-                                setState(() {
-                                  _azanVolumeUpdating = true;
-                                  _azanVolume = value;
-                                  _setAzanVolumeLabel(value);
-                                });
-                              },
-                              onChangeEnd: (value) {
-                                _azanVolumeUpdating = false;
+                                  context.bloc<SettingsBloc>().add(
+                                        SettingsFontsScaleUpdated(
+                                          value,
+                                          state.azanVolume,
+                                          state.requestHidjraDateFromServer,
+                                          state.cities,
+                                        ),
+                                      );
+                                },
+                              ),
+                              SizedBox(height: widgetItemPadding),
+                              Text('Громкость азана'),
+                              Slider(
+                                min: azanVolumeMin,
+                                max: azanVolumeMax,
+                                divisions: azanVolumeSteps,
+                                value: _azanVolume,
+                                label: _azanVolumeLabel,
+                                activeColor: Color(primaryColor),
+                                onChanged: (value) {
+                                  setState(() {
+                                    _azanVolumeUpdating = true;
+                                    _azanVolume = value;
+                                    _setAzanVolumeLabel(value);
+                                  });
+                                },
+                                onChangeEnd: (value) {
+                                  _azanVolumeUpdating = false;
 
-                                context.bloc<SettingsBloc>().add(
-                                      SettingsAzanVolumeUpdated(
-                                        value,
-                                        state.fontsScale,
-                                        state.requestHidjraDateFromServer,
-                                        state.cities,
-                                      ),
-                                    );
-                              },
-                            ),
+                                  context.bloc<SettingsBloc>().add(
+                                        SettingsAzanVolumeUpdated(
+                                          value,
+                                          state.fontsScale,
+                                          state.requestHidjraDateFromServer,
+                                          state.cities,
+                                        ),
+                                      );
+                                },
+                              ),
+                            ],
                             CheckboxListTile(
                               value: state.requestHidjraDateFromServer,
                               title: Text(
-                                'Запрашивать дату по Хиджре с сервера',
+                                'Получать дату по Хиджре с azan.kz',
                                 style: TextStyle(fontSize: 14),
                               ),
                               controlAffinity: ListTileControlAffinity.leading,
