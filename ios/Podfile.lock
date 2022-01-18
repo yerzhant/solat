@@ -1,4 +1,5 @@
 PODS:
+  - Alamofire (5.5.0)
   - "app_settings (3.0.0+1)":
     - Flutter
   - Flutter (1.0.0)
@@ -8,10 +9,15 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
+  - Alamofire (~> 5.5)
   - app_settings (from `.symlinks/plugins/app_settings/ios`)
   - Flutter (from `Flutter`)
   - flutter_keyboard_visibility (from `.symlinks/plugins/flutter_keyboard_visibility/ios`)
   - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
+
+SPEC REPOS:
+  trunk:
+    - Alamofire
 
 EXTERNAL SOURCES:
   app_settings:
@@ -24,11 +30,12 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/url_launcher/ios"
 
 SPEC CHECKSUMS:
+  Alamofire: 1c4fb5369c3fe93d2857c780d8bbe09f06f97e7c
   app_settings: d103828c9f5d515c4df9ee754dabd443f7cedcf3
   Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
   flutter_keyboard_visibility: 0339d06371254c3eb25eeb90ba8d17dca8f9c069
   url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
 
-PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
+PODFILE CHECKSUM: 3911bcf5f7b355e313692df7c40a9f8275150551
 
 COCOAPODS: 1.10.1
