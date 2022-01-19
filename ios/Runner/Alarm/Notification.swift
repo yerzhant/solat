@@ -9,8 +9,9 @@ struct NotificationService {
     
     private static let center = UNUserNotificationCenter.current()
     
-    static func initialize() {
+    static func initialize(app: AppDelegate) {
         requestAuthorization()
+        center.delegate = app
     }
     
     private static func requestAuthorization() {
@@ -22,6 +23,14 @@ struct NotificationService {
     }
     
     static func schedule(type: AzanType, time: String) {
+        let timeParts = time.trimmingCharacters(in: CharacterSet.whitespaces).split(separator: ":")
+        let hour = Int(timeParts[0])!
+        let minute = Int(timeParts[1])!
+        
+        let now = Date()
+        
+        guard now <= Calendar.current.date(bySettingHour: hour, minute: minute, second: 0, of: now)! else { return }
+
         center.getNotificationSettings { settings in
             guard settings.authorizationStatus == .authorized else { return }
             
@@ -43,14 +52,13 @@ struct NotificationService {
                 content.title = "Иша"
             }
             
-            let timeParts = time.split(separator: ":")
             var when = DateComponents()
-            when.hour = Int(timeParts[0])
-            when.minute = Int(timeParts[1])
+            when.hour = hour
+            when.minute = minute
             
             let trigger = UNCalendarNotificationTrigger(dateMatching: when, repeats: false)
             
-            let request = UNNotificationRequest(identifier: "", content: content, trigger: trigger)
+            let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
             
             center.add(request) { error in
                 if let error = error {

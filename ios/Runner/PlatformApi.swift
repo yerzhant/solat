@@ -12,8 +12,12 @@ private let channelName = "solat.azan.kz/main"
 private let paramCity = "city"
 
 class PlatformApi {
-    init(window: UIWindow) {
-        let controller = window.rootViewController as! FlutterViewController
+
+    init(app: AppDelegate) {
+        NotificationService.initialize(app: app)
+        AlarmService.initialize()
+        
+        let controller = app.window.rootViewController as! FlutterViewController
         let channel = FlutterMethodChannel(name: channelName, binaryMessenger: controller.binaryMessenger)
         
         channel.setMethodCallHandler({

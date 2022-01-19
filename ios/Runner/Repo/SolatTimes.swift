@@ -15,6 +15,7 @@ struct SolatTimes {
         
         if let times = try Database().find(on: today) {
             return times
+//            return Times(date: "19-01-2022", fadjr: "22:22", sunrise: "22:22", dhuhr: "22:22", asr: "22:22", maghrib: "22:22", isha: "23:18")
         }
         
         if let times = try await refreshTimesIfCityIsSet(today: today) {
