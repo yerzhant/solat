@@ -10,6 +10,7 @@ struct Settings {
     private static let latitude = "latitude"
     private static let longitude = "longitude"
     private static let requestHidjrahDateFromServer = "request-hijrah-date-from-server"
+    private static let azanTypePrefix = "azan-type-"
     
     private static let settings = UserDefaults.standard
     
@@ -47,5 +48,13 @@ struct Settings {
     
     static func setRequestHidrahDateFromServer(to value: Bool) {
         settings.set(value, forKey: requestHidjrahDateFromServer)
+    }
+    
+    static func getAzanFlag(type: AzanType) -> Bool {
+        settings.bool(forKey: azanTypePrefix + String(type.rawValue))
+    }
+    
+    static func setAzanFlag(to value: Bool, type: AzanType) {
+        settings.set(value, forKey: azanTypePrefix + String(type.rawValue))
     }
 }

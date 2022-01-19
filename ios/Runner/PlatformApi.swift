@@ -30,6 +30,7 @@ class PlatformApi {
             case "get-today-times": self.getTodayTimes(result: result)
             case "get-fonts-scale": self.getFontsScale(result: result)
             case "get-azan-volume": self.getAzanVolume(result: result)
+            case "set-azan-flag": self.setAzanFlag(call: call, result: result)
             case "refresh-times": self.refreshTimes(call: call, result: result)
             case "get-request-hidjra-date-from-server": self.getRequestHijrahDateFromServer(result: result)
             case "set-request-hidjra-date-from-server": self.setRequestHidrahDateFromServer(call: call, result: result)
@@ -93,13 +94,35 @@ class PlatformApi {
     
     private func getAzanFlags(result: FlutterResult) {
         result([
-            1: false,
-            2: false,
-            3: false,
-            4: false,
-            5: false,
-            6: false,
+            AzanType.fadjr.rawValue: Settings.getAzanFlag(type: .fadjr),
+            AzanType.sunrise.rawValue: Settings.getAzanFlag(type: .sunrise),
+            AzanType.dhuhr.rawValue: Settings.getAzanFlag(type: .dhuhr),
+            AzanType.asr.rawValue: Settings.getAzanFlag(type: .asr),
+            AzanType.maghrib.rawValue: Settings.getAzanFlag(type: .maghrib),
+            AzanType.isha.rawValue: Settings.getAzanFlag(type: .isha),
         ])
+    }
+    
+    private func setAzanFlag(call: FlutterMethodCall, result: FlutterResult) {
+        let args = call.arguments as? [String: Any]
+        let typeId = args?["azanFlagType"] as? Int
+        let value = args?["azanFlagValue"] as? Bool
+        
+        guard typeId != nil else {
+            result(FlutterError(code: errorNotEnoughParams, message: nil, details: nil))
+            return
+        }
+        
+        let type = AzanType(rawValue: typeId!)
+        
+        guard type != nil && value != nil else {
+            result(FlutterError(code: errorNotEnoughParams, message: nil, details: nil))
+            return
+        }
+        
+        Settings.setAzanFlag(to: value!, type: type!)
+        
+        result(true)
     }
     
     private func getFontsScale(result: FlutterResult) {
@@ -117,13 +140,14 @@ class PlatformApi {
     private func setRequestHidrahDateFromServer(call: FlutterMethodCall, result: FlutterResult) {
         let args = call.arguments as? [String:Bool]
         let value = args?["request-hidjra-date-from-server"]
-     
+        
         guard value != nil else {
             result(FlutterError(code: errorNotEnoughParams, message: nil, details: nil))
             return
         }
-
+        
         Settings.setRequestHidrahDateFromServer(to: value!)
+        
         result(nil)
     }
 }
