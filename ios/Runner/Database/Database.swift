@@ -6,6 +6,7 @@
 //
 
 import SQLite
+import Foundation
 
 struct Database {
     private let db: Connection
@@ -20,12 +21,13 @@ struct Database {
     private let ishaColumn = Expression<String>("isha")
     
     init() throws {
-        db = try Connection("solat.sqlite3")
+        let docsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
+        db = try Connection("\(docsPath)/solat.sqlite3")
         try migrate()
     }
     
-    func find(on date: Date) throws -> Times? {
-        try db.prepare(timesTable.filter(dateColumn == date.datatypeValue)).map { row in
+    func find(on date: String) throws -> Times? {
+        try db.prepare(timesTable.filter(dateColumn == date)).map { row in
             try row.decode() as Times
         }.first
     }
