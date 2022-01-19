@@ -18,6 +18,7 @@
 		630250492798277C0043F8BF /* SolatTimes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 630250482798277C0043F8BF /* SolatTimes.swift */; };
 		6314DDEC2798527C003367DC /* Alarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6314DDEB2798527C003367DC /* Alarm.swift */; };
 		6314DDEE27985292003367DC /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6314DDED27985292003367DC /* Notification.swift */; };
+		631BCA1B2798958200422F62 /* AlertWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 631BCA1A2798958200422F62 /* AlertWindow.swift */; };
 		633340402796FCCD00B6EF29 /* PlatformApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6333403F2796FCCD00B6EF29 /* PlatformApi.swift */; };
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
@@ -52,6 +53,7 @@
 		630250482798277C0043F8BF /* SolatTimes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolatTimes.swift; sourceTree = "<group>"; };
 		6314DDEB2798527C003367DC /* Alarm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alarm.swift; sourceTree = "<group>"; };
 		6314DDED27985292003367DC /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
+		631BCA1A2798958200422F62 /* AlertWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertWindow.swift; sourceTree = "<group>"; };
 		6333403F2796FCCD00B6EF29 /* PlatformApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlatformApi.swift; sourceTree = "<group>"; };
 		6597BEB70A5A7000526A811E /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
 		74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Runner-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -103,6 +105,7 @@
 			isa = PBXGroup;
 			children = (
 				630250422797EA540043F8BF /* HijrahDate.swift */,
+				631BCA1A2798958200422F62 /* AlertWindow.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -352,6 +355,7 @@
 				6302503D2797525A0043F8BF /* Times.swift in Sources */,
 				6302503B279745360043F8BF /* Database.swift in Sources */,
 				6302503827973A870043F8BF /* AzanService.swift in Sources */,
+				631BCA1B2798958200422F62 /* AlertWindow.swift in Sources */,
 				6302503527971F670043F8BF /* MuftiyatService.swift in Sources */,
 				74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */,
 				633340402796FCCD00B6EF29 /* PlatformApi.swift in Sources */,

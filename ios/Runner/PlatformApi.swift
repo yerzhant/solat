@@ -121,6 +121,7 @@ class PlatformApi {
         }
         
         Settings.setAzanFlag(to: value!, type: type!)
+        AlarmService.rescheduleNotifications()
         
         result(true)
     }

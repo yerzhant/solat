@@ -6,7 +6,7 @@
 //
 
 struct SolatTimes {
-
+    
     static func getForToday() async throws -> Times? {
         let format = DateFormatter()
         format.locale = Locale(identifier: "ru")
@@ -15,7 +15,7 @@ struct SolatTimes {
         
         if let times = try Database().find(on: today) {
             return times
-//            return Times(date: "19-01-2022", fadjr: "22:22", sunrise: "22:22", dhuhr: "22:22", asr: "22:22", maghrib: "22:22", isha: "23:18")
+//            return Times(date: "19-01-2022", fadjr: "22:22", sunrise: "22:22", dhuhr: "22:22", asr: "22:22", maghrib: "22:22", isha: "00:57")
         }
         
         if let times = try await refreshTimesIfCityIsSet(today: today) {
@@ -46,6 +46,8 @@ struct SolatTimes {
         Settings.setLatitude(to: latitude)
         Settings.setLongitude(to: longitude)
         Settings.setCity(name: city)
+        
+        AlarmService.rescheduleNotifications()
     }
     
     private static func getTimes(latitude: String, longitude: String) async throws -> [Times] {

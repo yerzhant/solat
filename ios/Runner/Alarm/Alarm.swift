@@ -20,16 +20,17 @@ struct AlarmService {
             self.handleRefresh(task: task as! BGAppRefreshTask)
         }
         
-        reschedule()
+        wakeMeUp()
         rescheduleNotifications()
     }
     
-    private static func reschedule() {
+    private static func wakeMeUp() {
+        showAlert(message: "Waked up \(Date())")
         let request = BGAppRefreshTaskRequest(identifier: taskId)
         
         var when = DateComponents()
-        when.hour = 0
-        when.minute = 5
+        when.hour = 1
+        when.minute = 0
         
         request.earliestBeginDate = when.date
         
@@ -41,23 +42,42 @@ struct AlarmService {
     }
     
     private static func handleRefresh(task: BGAppRefreshTask) {
-        reschedule()
+        wakeMeUp()
         rescheduleNotifications()
         task.setTaskCompleted(success: true)
     }
     
-    private static func rescheduleNotifications() {
+    static func rescheduleNotifications() {
+        NotificationService.removeAllPending()
+        
         Task {
             let times = try await SolatTimes.getForToday()
             
             guard times != nil else { return }
             
-            NotificationService.schedule(type: .fadjr, time: times!.fadjr)
-            NotificationService.schedule(type: .sunrise, time: times!.sunrise)
-            NotificationService.schedule(type: .dhuhr, time: times!.dhuhr)
-            NotificationService.schedule(type: .asr, time: times!.asr)
-            NotificationService.schedule(type: .maghrib, time: times!.maghrib)
-            NotificationService.schedule(type: .isha, time: times!.isha)
+            if Settings.getAzanFlag(type: .fadjr) {
+                NotificationService.schedule(type: .fadjr, time: times!.fadjr)
+            }
+            
+            if Settings.getAzanFlag(type: .sunrise) {
+                NotificationService.schedule(type: .sunrise, time: times!.sunrise)
+            }
+            
+            if Settings.getAzanFlag(type: .dhuhr) {
+                NotificationService.schedule(type: .dhuhr, time: times!.dhuhr)
+            }
+            
+            if Settings.getAzanFlag(type: .asr) {
+                NotificationService.schedule(type: .asr, time: times!.asr)
+            }
+            
+            if Settings.getAzanFlag(type: .maghrib) {
+                NotificationService.schedule(type: .maghrib, time: times!.maghrib)
+            }
+            
+            if Settings.getAzanFlag(type: .isha) {
+                NotificationService.schedule(type: .isha, time: times!.isha)
+            }
         }
     }
 }

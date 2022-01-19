@@ -22,6 +22,10 @@ struct NotificationService {
         }
     }
     
+    static func removeAllPending() {
+        center.removeAllPendingNotificationRequests()
+    }
+    
     static func schedule(type: AzanType, time: String) {
         let timeParts = time.trimmingCharacters(in: CharacterSet.whitespaces).split(separator: ":")
         let hour = Int(timeParts[0])!
@@ -30,7 +34,7 @@ struct NotificationService {
         let now = Date()
         
         guard now <= Calendar.current.date(bySettingHour: hour, minute: minute, second: 0, of: now)! else { return }
-
+        
         center.getNotificationSettings { settings in
             guard settings.authorizationStatus == .authorized else { return }
             
