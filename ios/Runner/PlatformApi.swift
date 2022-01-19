@@ -11,8 +11,10 @@ private let channelName = "solat.azan.kz/main"
 
 private let paramCity = "city"
 
-class PlatformApi {
+private let errorNotEnoughParams = "not-enough-params"
 
+class PlatformApi {
+    
     init(app: AppDelegate) {
         NotificationService.initialize(app: app)
         AlarmService.initialize()
@@ -29,7 +31,8 @@ class PlatformApi {
             case "get-fonts-scale": self.getFontsScale(result: result)
             case "get-azan-volume": self.getAzanVolume(result: result)
             case "refresh-times": self.refreshTimes(call: call, result: result)
-            case "get-request-hidjra-date-from-server": self.getRequestHijraDateFromServer(result: result)
+            case "get-request-hidjra-date-from-server": self.getRequestHijrahDateFromServer(result: result)
+            case "set-request-hidjra-date-from-server": self.setRequestHidrahDateFromServer(call: call, result: result)
                 
             default: result(FlutterMethodNotImplemented)
             }
@@ -43,7 +46,7 @@ class PlatformApi {
         let longitude = args?["longitude"]
         
         guard city != nil && latitude != nil && longitude != nil else {
-            result(FlutterError(code: "not-enough-params", message: nil, details: nil))
+            result(FlutterError(code: errorNotEnoughParams, message: nil, details: nil))
             return
         }
         
@@ -67,7 +70,7 @@ class PlatformApi {
         
         Task {
             let times = try await SolatTimes.getForToday()
-        
+            
             guard times != nil else {
                 result(FlutterError(code: "no-times-for-today", message: nil, details: nil))
                 return
@@ -107,7 +110,20 @@ class PlatformApi {
         result(0.3)
     }
     
-    private func getRequestHijraDateFromServer(result: FlutterResult) {
-        result(true)
+    private func getRequestHijrahDateFromServer(result: FlutterResult) {
+        result(Settings.getRequestHidjrahDateFromServer())
+    }
+    
+    private func setRequestHidrahDateFromServer(call: FlutterMethodCall, result: FlutterResult) {
+        let args = call.arguments as? [String:Bool]
+        let value = args?["request-hidjra-date-from-server"]
+     
+        guard value != nil else {
+            result(FlutterError(code: errorNotEnoughParams, message: nil, details: nil))
+            return
+        }
+
+        Settings.setRequestHidrahDateFromServer(to: value!)
+        result(nil)
     }
 }
