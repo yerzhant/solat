@@ -13,6 +13,7 @@
 		6302503827973A870043F8BF /* AzanService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6302503727973A870043F8BF /* AzanService.swift */; };
 		6302503B279745360043F8BF /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6302503A279745360043F8BF /* Database.swift */; };
 		6302503D2797525A0043F8BF /* Times.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6302503C2797525A0043F8BF /* Times.swift */; };
+		630250432797EA540043F8BF /* HijrahDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 630250422797EA540043F8BF /* HijrahDate.swift */; };
 		633340402796FCCD00B6EF29 /* PlatformApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6333403F2796FCCD00B6EF29 /* PlatformApi.swift */; };
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
@@ -42,6 +43,7 @@
 		6302503727973A870043F8BF /* AzanService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AzanService.swift; sourceTree = "<group>"; };
 		6302503A279745360043F8BF /* Database.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
 		6302503C2797525A0043F8BF /* Times.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Times.swift; sourceTree = "<group>"; };
+		630250422797EA540043F8BF /* HijrahDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HijrahDate.swift; sourceTree = "<group>"; };
 		6333403F2796FCCD00B6EF29 /* PlatformApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlatformApi.swift; sourceTree = "<group>"; };
 		6597BEB70A5A7000526A811E /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
 		74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Runner-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -89,6 +91,21 @@
 			name = Db;
 			sourceTree = "<group>";
 		};
+		6302503E2797EA1B0043F8BF /* Repo */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Repo;
+			sourceTree = "<group>";
+		};
+		630250452797F0810043F8BF /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				630250422797EA540043F8BF /* HijrahDate.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		9740EEB11CF90186004384FC /* Flutter */ = {
 			isa = PBXGroup;
 			children = (
@@ -122,6 +139,8 @@
 		97C146F01CF9000F007C117D /* Runner */ = {
 			isa = PBXGroup;
 			children = (
+				630250452797F0810043F8BF /* Utils */,
+				6302503E2797EA1B0043F8BF /* Repo */,
 				63025039279745030043F8BF /* Db */,
 				6302503627971F930043F8BF /* Http */,
 				97C146FA1CF9000F007C117D /* Main.storyboard */,
@@ -317,6 +336,7 @@
 				74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */,
 				633340402796FCCD00B6EF29 /* PlatformApi.swift in Sources */,
 				1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */,
+				630250432797EA540043F8BF /* HijrahDate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
