@@ -29,8 +29,8 @@ struct AlarmService {
         let request = BGAppRefreshTaskRequest(identifier: taskId)
         
         var when = DateComponents()
-        when.hour = 1
-        when.minute = 0
+        when.hour = 0
+        when.minute = 5
         
         request.earliestBeginDate = when.date
         
