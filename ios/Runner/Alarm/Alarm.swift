@@ -25,11 +25,10 @@ struct AlarmService {
     }
     
     private static func wakeMeUp() {
-        showAlert(message: "Waked up \(Date())")
         let request = BGAppRefreshTaskRequest(identifier: taskId)
         
         var when = DateComponents()
-        when.hour = 0
+        when.hour = 1
         when.minute = 5
         
         request.earliestBeginDate = when.date
