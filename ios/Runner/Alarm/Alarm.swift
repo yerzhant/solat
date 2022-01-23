@@ -25,13 +25,11 @@ struct AlarmService {
     }
     
     private static func wakeMeUp() {
+        let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: Date())
+        let when = Calendar.current.date(bySettingHour: 0, minute: 37, second: 0, of: tomorrow!)
+
         let request = BGAppRefreshTaskRequest(identifier: taskId)
-        
-        var when = DateComponents()
-        when.hour = 1
-        when.minute = 5
-        
-        request.earliestBeginDate = when.date
+        request.earliestBeginDate = when
         
         do {
             try BGTaskScheduler.shared.submit(request)
