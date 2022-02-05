@@ -30,9 +30,9 @@ struct NotificationService {
         let timeParts = time.trimmingCharacters(in: CharacterSet.whitespaces).split(separator: ":")
         let hour = Int(timeParts[0])!
         let minute = Int(timeParts[1])!
-        
+
         let now = Date()
-        
+
         guard now <= Calendar.current.date(bySettingHour: hour, minute: minute, second: 0, of: now)! else { return }
         
         center.getNotificationSettings { settings in
@@ -40,7 +40,7 @@ struct NotificationService {
             
             let content = UNMutableNotificationContent()
             content.body = time
-            content.sound = UNNotificationSound.default
+            content.sound = UNNotificationSound(named: UNNotificationSoundName("azan.m4a"))
             switch type {
             case .fadjr:
                 content.title = "Фаджр"
