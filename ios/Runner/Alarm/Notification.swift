@@ -39,8 +39,10 @@ struct NotificationService {
             guard settings.authorizationStatus == .authorized else { return }
             
             let content = UNMutableNotificationContent()
+            
             content.body = time
             content.sound = UNNotificationSound(named: UNNotificationSoundName("azan.m4a"))
+            
             switch type {
             case .fadjr:
                 content.title = "Фаджр"
