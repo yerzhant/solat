@@ -11,7 +11,7 @@ func getCurrentHidrahDate() -> String {
     let formater = DateFormatter()
     formater.calendar = calendar
     formater.locale = Locale(identifier: "ru")
-    formater.dateFormat = "dd MMMM yyyy"
+    formater.dateFormat = "d MMMM yyyy"
     
     return formater.string(from: Date())
 }
