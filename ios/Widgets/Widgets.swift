@@ -10,7 +10,7 @@ import SwiftUI
 
 struct WidgetsEntryView : View {
     var entry: Provider.Entry
-
+    
     var body: some View {
         Text(entry.date, style: .time)
     }
@@ -30,7 +30,18 @@ struct Widgets: Widget {
 
 struct Widgets_Previews: PreviewProvider {
     static var previews: some View {
-        WidgetsEntryView(entry: SolatEntry(date: Date()))
+        WidgetsEntryView(entry: SolatEntry(
+            date: DateComponents(year: 2022, month: 2, day: 12).date!,
+            city: "Алматы",
+            dateByHijrah: "10 Раджаб 1443",
+            type: .asr,
+            fadjr: "06:35",
+            sunrise: "07:52",
+            dhuhr: "13:09",
+            asr: "16:38",
+            maghrib: "18:22",
+            isha: "19:38"
+        ))
             .previewContext(WidgetPreviewContext(family: .systemMedium))
     }
 }
