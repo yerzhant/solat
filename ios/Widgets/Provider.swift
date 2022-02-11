@@ -8,28 +8,25 @@
 import WidgetKit
 
 struct Provider: TimelineProvider {
-    func placeholder(in context: Context) -> SolatEntry {
-        SolatEntry(
-            date: DateComponents(year: 2022, month: 2, day: 12).date!,
-            city: "Алматы",
-            dateByHijrah: "10 Раджаб 1443",
-            type: .asr,
-            fadjr: "06:35",
-            sunrise: "07:52",
-            dhuhr: "13:09",
-            asr: "16:38",
-            maghrib: "18:22",
-            isha: "19:38"
-        )
-    }
-
     func getSnapshot(in context: Context, completion: @escaping (SolatEntry) -> ()) {
+        let noDataEntry = SolatEntry(
+            date: Date(),
+            city: "",
+            dateByHijrah: "",
+            type: .fadjr,
+            times: Times(date: "", fadjr: "", sunrise: "", dhuhr: "", asr: "", maghrib: "", isha: "")
+        )
+        
+        let city = Settings.getCity()
+        guard city != nil else {
+            completion(noDataEntry)
+            return
+        }
+
         Task {
-            let city = Settings.getCity()
-            guard city != nil else { return }
-            
-            let dates = try await SolatTimes.getForToday()
-            guard dates != nil else {
+            let times = try await SolatTimes.getForToday()
+            guard times != nil else {
+                completion(noDataEntry)
                 return
             }
 
@@ -42,12 +39,7 @@ struct Provider: TimelineProvider {
                 city: city!,
                 dateByHijrah: dateByHijrah,
                 type: type,
-                fadjr: dates!.fadjr,
-                sunrise: dates!.sunrise,
-                dhuhr: dates!.dhuhr,
-                asr: dates!.asr,
-                maghrib: dates!.maghrib,
-                isha: dates!.isha
+                times: times!
             )
             
             completion(entry)
@@ -68,6 +60,28 @@ struct Provider: TimelineProvider {
         let timeline = Timeline(entries: entries, policy: .atEnd)
         completion(timeline)
     }
+
+    static let times = Times(
+        date: "",
+        fadjr: "06:35",
+        sunrise: "07:52",
+        dhuhr: "13:09",
+        asr: "16:38",
+        maghrib: "18:22",
+        isha: "19:38"
+    )
+    
+    static let previewEntry = SolatEntry(
+        date: DateComponents(year: 2022, month: 2, day: 12).date!,
+        city: "Алматы",
+        dateByHijrah: "10 Раджаб 1443",
+        type: .asr,
+        times: times
+    )
+
+    func placeholder(in context: Context) -> SolatEntry {
+        Provider.previewEntry
+    }
 }
 
 struct SolatEntry: TimelineEntry {
@@ -81,6 +95,19 @@ struct SolatEntry: TimelineEntry {
     let asr: String
     let maghrib: String
     let isha: String
+    
+    init(date: Date, city: String, dateByHijrah: String, type: AzanType, times: Times) {
+        self.date = date
+        self.city = city
+        self.dateByHijrah = dateByHijrah
+        self.type = type
+        self.fadjr = times.fadjr
+        self.sunrise = times.sunrise
+        self.dhuhr = times.dhuhr
+        self.asr = times.asr
+        self.maghrib = times.maghrib
+        self.isha = times.isha
+    }
 }
 
 enum AzanType : Int {
