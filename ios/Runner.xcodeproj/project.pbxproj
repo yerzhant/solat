@@ -23,7 +23,8 @@
 		63C762EC27B6DF1F00720A4C /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C762EB27B6DF1F00720A4C /* Database.swift */; };
 		63C762EE27B6E21600720A4C /* HijrahDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C762ED27B6E21600720A4C /* HijrahDate.swift */; };
 		63C762F027B6E3EF00720A4C /* AzanApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C762EF27B6E3EF00720A4C /* AzanApi.swift */; };
-		63C762F227B6E3FD00720A4C /* MuftiyatApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C762F127B6E3FD00720A4C /* MuftiyatApi.swift */; };
+		63C762F427B6E55200720A4C /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C762F327B6E55200720A4C /* Settings.swift */; };
+		63C762F627B6E56400720A4C /* SolatTimes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C762F527B6E56400720A4C /* SolatTimes.swift */; };
 		63D9C40927B0464400578B53 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63D9C40827B0464400578B53 /* WidgetKit.framework */; };
 		63D9C40B27B0464400578B53 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63D9C40A27B0464400578B53 /* SwiftUI.framework */; };
 		63D9C40E27B0464400578B53 /* Widgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D9C40D27B0464400578B53 /* Widgets.swift */; };
@@ -91,7 +92,8 @@
 		63C762EB27B6DF1F00720A4C /* Database.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
 		63C762ED27B6E21600720A4C /* HijrahDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HijrahDate.swift; sourceTree = "<group>"; };
 		63C762EF27B6E3EF00720A4C /* AzanApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AzanApi.swift; sourceTree = "<group>"; };
-		63C762F127B6E3FD00720A4C /* MuftiyatApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuftiyatApi.swift; sourceTree = "<group>"; };
+		63C762F327B6E55200720A4C /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		63C762F527B6E56400720A4C /* SolatTimes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolatTimes.swift; sourceTree = "<group>"; };
 		63D9C40727B0464400578B53 /* WidgetsExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WidgetsExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		63D9C40827B0464400578B53 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		63D9C40A27B0464400578B53 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -198,7 +200,8 @@
 				63C762EB27B6DF1F00720A4C /* Database.swift */,
 				63C762ED27B6E21600720A4C /* HijrahDate.swift */,
 				63C762EF27B6E3EF00720A4C /* AzanApi.swift */,
-				63C762F127B6E3FD00720A4C /* MuftiyatApi.swift */,
+				63C762F327B6E55200720A4C /* Settings.swift */,
+				63C762F527B6E56400720A4C /* SolatTimes.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -504,10 +507,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63C762F627B6E56400720A4C /* SolatTimes.swift in Sources */,
 				63C762EC27B6DF1F00720A4C /* Database.swift in Sources */,
-				63C762F227B6E3FD00720A4C /* MuftiyatApi.swift in Sources */,
 				63D9C41B27B04ED400578B53 /* Provider.swift in Sources */,
 				63D9C40E27B0464400578B53 /* Widgets.swift in Sources */,
+				63C762F427B6E55200720A4C /* Settings.swift in Sources */,
 				63C762F027B6E3EF00720A4C /* AzanApi.swift in Sources */,
 				63C762EE27B6E21600720A4C /* HijrahDate.swift in Sources */,
 			);
