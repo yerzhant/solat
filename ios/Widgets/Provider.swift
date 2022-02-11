@@ -8,23 +8,23 @@
 import WidgetKit
 
 struct Provider: TimelineProvider {
-    func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date())
+    func placeholder(in context: Context) -> SolatEntry {
+        SolatEntry(date: Date())
     }
 
-    func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-        let entry = SimpleEntry(date: Date())
+    func getSnapshot(in context: Context, completion: @escaping (SolatEntry) -> ()) {
+        let entry = SolatEntry(date: Date())
         completion(entry)
     }
 
-    func getTimeline(in context: Context, completion: @escaping (Timeline<SimpleEntry>) -> ()) {
-        var entries: [SimpleEntry] = []
+    func getTimeline(in context: Context, completion: @escaping (Timeline<SolatEntry>) -> ()) {
+        var entries: [SolatEntry] = []
 
         // Generate a timeline consisting of five entries an hour apart, starting from the current date.
         let currentDate = Date()
         for hourOffset in 0 ..< 5 {
             let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = SimpleEntry(date: entryDate)
+            let entry = SolatEntry(date: entryDate)
             entries.append(entry)
         }
 
@@ -33,7 +33,7 @@ struct Provider: TimelineProvider {
     }
 }
 
-struct SimpleEntry: TimelineEntry {
+struct SolatEntry: TimelineEntry {
     let date: Date
 //    let current: AzanType
 //    let fadjr: String
@@ -44,3 +44,6 @@ struct SimpleEntry: TimelineEntry {
 //    let isha: String
 }
 
+enum AzanType : Int {
+    case fadjr, sunrise, dhuhr, asr, maghrib, isha
+}
