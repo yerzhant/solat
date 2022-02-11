@@ -6,7 +6,6 @@
 //
 
 import SQLite
-import Foundation
 
 struct Database {
     private let db: Connection

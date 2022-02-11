@@ -66,7 +66,7 @@ struct SolatTimes {
         if Settings.getRequestHidjrahDateFromServer() {
             return try await AzanService.getCurrentDateByHijrah()
         } else {
-            return getCurrentHidrahDate()
+            return getCurrentHijrahDate()
         }
     }
     

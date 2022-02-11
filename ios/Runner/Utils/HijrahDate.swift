@@ -5,7 +5,7 @@
 //  Created by Yerzhan Tulepov on 19.01.2022.
 //
 
-func getCurrentHidrahDate() -> String {
+func getCurrentHijrahDate() -> String {
     let calendar = Calendar(identifier: Calendar.Identifier.islamicUmmAlQura)
     
     let formater = DateFormatter()
