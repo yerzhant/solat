@@ -9,45 +9,36 @@ import WidgetKit
 
 struct Provider: TimelineProvider {
     func getSnapshot(in context: Context, completion: @escaping (SolatEntry) -> ()) {
-        completion(Provider.previewEntry)
-        //        let noDataEntry = SolatEntry(
-        //            date: Date(),
-        //            city: "",
-        //            dateByHijrah: "",
-        //            type: .fadjr,
-        //            times: Times(date: "", fadjr: "", sunrise: "", dhuhr: "", asr: "", maghrib: "", isha: "")
-        //        )
-        //
-        //        let city = Settings.getCity()
-        //        guard city != nil else {
-        //            completion(noDataEntry)
-        //            return
-        //        }
-        //
-        //        Task {
-        //            let times = try await SolatTimes.getForToday()
-        //            guard times != nil else {
-        //                completion(noDataEntry)
-        //                return
-        //            }
-        //
-        //            let dateByHijrah = try await SolatTimes.getHijrahDate()
-        //
-        //            let type = getAzanType(times: times!)
-        //
-        //            let entry = SolatEntry(
-        //                date: Date(),
-        //                city: city!,
-        //                dateByHijrah: dateByHijrah,
-        //                type: type,
-        //                times: times!
-        //            )
-        //
-        //            completion(entry)
-        //        }
+        let city = Settings.getCity()
+        guard city != nil else {
+            completion(Provider.noDataEntry)
+            return
+        }
+        
+        Task {
+            let times = try await SolatTimes.getForToday()
+            guard times != nil else {
+                completion(Provider.noDataEntry)
+                return
+            }
+            
+            let dateByHijrah = try await SolatTimes.getHijrahDate()
+            
+            let type = getAzanType(times: times!)
+            
+            let entry = SolatEntry(
+                date: Date(),
+                city: city!,
+                dateByHijrah: dateByHijrah,
+                type: type,
+                times: times!
+            )
+            
+            completion(entry)
+        }
     }
     
-    private func getAzanType(times: Times) -> AzanType {
+    fileprivate func getAzanType(times: Times) -> AzanType {
         let now = Date()
         
         if now < toDate(time: times.fadjr) { return .isha }
@@ -59,12 +50,24 @@ struct Provider: TimelineProvider {
         else { return .isha}
     }
     
-    private func toDate(time: String) -> Date {
+    fileprivate func toDate(time: String) -> Date {
         let timeParts = time.trimmingCharacters(in: CharacterSet.whitespaces).split(separator: ":")
         let hour = Int(timeParts[0])!
         let minute = Int(timeParts[1])!
         
         return Calendar.current.date(bySettingHour: hour, minute: minute, second: 0, of: Date())!
+    }
+    
+    fileprivate func getNoDataTimeline(_ completion: (Timeline<SolatEntry>) -> ()) {
+        var entries: [SolatEntry] = []
+        
+        entries.append(Provider.noDataEntry)
+        
+        let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: Date())!
+        let refreshDate = Calendar.current.date(bySettingHour: 0, minute: 11, second: 0, of: tomorrow)!
+        
+        let timeline = Timeline(entries: entries, policy: .after(refreshDate))
+        completion(timeline)
     }
     
     func getTimeline(in context: Context, completion: @escaping (Timeline<SolatEntry>) -> ()) {
@@ -87,12 +90,28 @@ struct Provider: TimelineProvider {
                     
                     let timeline = Timeline(entries: entries, policy: .after(refreshDate))
                     completion(timeline)
+                } else {
+                    getNoDataTimeline(completion)
                 }
+            } else {
+                getNoDataTimeline(completion)
             }
         }
     }
     
-    static let times = Times(
+    func placeholder(in context: Context) -> SolatEntry {
+        return Provider.previewEntry
+    }
+    
+    static let noDataEntry = SolatEntry(
+        date: Date(),
+        city: "",
+        dateByHijrah: "Нет данных",
+        type: .fadjr,
+        times: Times(date: "", fadjr: "", sunrise: "", dhuhr: "", asr: "", maghrib: "", isha: "")
+    )
+    
+    fileprivate static let times = Times(
         date: "",
         fadjr: "06:35",
         sunrise: "07:52",
@@ -109,10 +128,6 @@ struct Provider: TimelineProvider {
         type: .asr,
         times: times
     )
-    
-    func placeholder(in context: Context) -> SolatEntry {
-        Provider.previewEntry
-    }
 }
 
 struct SolatEntry: TimelineEntry {
@@ -141,6 +156,6 @@ struct SolatEntry: TimelineEntry {
     }
 }
 
-enum AzanType : Int {
-    case fadjr = 1, sunrise, dhuhr, asr, maghrib, isha
+enum AzanType : String {
+    case fadjr = "Фаджр", sunrise = "Восход", dhuhr = "Зухр", asr = "Аср", maghrib = "Магриб", isha = "Иша"
 }

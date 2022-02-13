@@ -20,13 +20,18 @@
 		6314DDEE27985292003367DC /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6314DDED27985292003367DC /* Notification.swift */; };
 		633340402796FCCD00B6EF29 /* PlatformApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6333403F2796FCCD00B6EF29 /* PlatformApi.swift */; };
 		63475F3227AEAD3700E6ED9A /* azan.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 63475F3127AEAD3700E6ED9A /* azan.m4a */; };
+		63A0AE2E27B95901006E3803 /* montserrat.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 63A0AE2927B95901006E3803 /* montserrat.ttf */; };
+		63A0AE2F27B95901006E3803 /* montserrat_medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 63A0AE2A27B95901006E3803 /* montserrat_medium.ttf */; };
+		63A0AE3027B95901006E3803 /* oswald.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 63A0AE2B27B95901006E3803 /* oswald.ttf */; };
+		63A0AE3127B95901006E3803 /* oswald_light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 63A0AE2C27B95901006E3803 /* oswald_light.ttf */; };
+		63A0AE3227B95901006E3803 /* montserrat_semi_bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 63A0AE2D27B95901006E3803 /* montserrat_semi_bold.ttf */; };
 		63C762EC27B6DF1F00720A4C /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C762EB27B6DF1F00720A4C /* Database.swift */; };
 		63C762EE27B6E21600720A4C /* HijrahDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C762ED27B6E21600720A4C /* HijrahDate.swift */; };
 		63C762F027B6E3EF00720A4C /* AzanApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C762EF27B6E3EF00720A4C /* AzanApi.swift */; };
 		63C762F427B6E55200720A4C /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C762F327B6E55200720A4C /* Settings.swift */; };
 		63C762F627B6E56400720A4C /* SolatTimes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C762F527B6E56400720A4C /* SolatTimes.swift */; };
 		63C762F827B8049800720A4C /* MediumWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C762F727B8049800720A4C /* MediumWidget.swift */; };
-		63D9C40927B0464400578B53 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63D9C40827B0464400578B53 /* WidgetKit.framework */; };
+		63D9C40927B0464400578B53 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63D9C40827B0464400578B53 /* WidgetKit.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		63D9C40B27B0464400578B53 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63D9C40A27B0464400578B53 /* SwiftUI.framework */; };
 		63D9C40E27B0464400578B53 /* Widgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D9C40D27B0464400578B53 /* Widgets.swift */; };
 		63D9C41027B0464500578B53 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63D9C40F27B0464500578B53 /* Assets.xcassets */; };
@@ -90,6 +95,13 @@
 		6314DDED27985292003367DC /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		6333403F2796FCCD00B6EF29 /* PlatformApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlatformApi.swift; sourceTree = "<group>"; };
 		63475F3127AEAD3700E6ED9A /* azan.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = azan.m4a; sourceTree = "<group>"; };
+		63A0AE2927B95901006E3803 /* montserrat.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = montserrat.ttf; path = ../../../android/app/src/main/res/font/montserrat.ttf; sourceTree = "<group>"; };
+		63A0AE2A27B95901006E3803 /* montserrat_medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = montserrat_medium.ttf; path = ../../../android/app/src/main/res/font/montserrat_medium.ttf; sourceTree = "<group>"; };
+		63A0AE2B27B95901006E3803 /* oswald.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = oswald.ttf; path = ../../../android/app/src/main/res/font/oswald.ttf; sourceTree = "<group>"; };
+		63A0AE2C27B95901006E3803 /* oswald_light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = oswald_light.ttf; path = ../../../android/app/src/main/res/font/oswald_light.ttf; sourceTree = "<group>"; };
+		63A0AE2D27B95901006E3803 /* montserrat_semi_bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = montserrat_semi_bold.ttf; path = ../../../android/app/src/main/res/font/montserrat_semi_bold.ttf; sourceTree = "<group>"; };
+		63A227DF27B974E100D3FE73 /* WidgetsExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WidgetsExtension.entitlements; sourceTree = "<group>"; };
+		63A227E027B977E500D3FE73 /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
 		63C762EB27B6DF1F00720A4C /* Database.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
 		63C762ED27B6E21600720A4C /* HijrahDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HijrahDate.swift; sourceTree = "<group>"; };
 		63C762EF27B6E3EF00720A4C /* AzanApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AzanApi.swift; sourceTree = "<group>"; };
@@ -196,6 +208,18 @@
 			path = Sounds;
 			sourceTree = "<group>";
 		};
+		63A0ADFF27B951D3006E3803 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				63A0AE2A27B95901006E3803 /* montserrat_medium.ttf */,
+				63A0AE2D27B95901006E3803 /* montserrat_semi_bold.ttf */,
+				63A0AE2927B95901006E3803 /* montserrat.ttf */,
+				63A0AE2C27B95901006E3803 /* oswald_light.ttf */,
+				63A0AE2B27B95901006E3803 /* oswald.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		63C762E827B6DE0200720A4C /* Services */ = {
 			isa = PBXGroup;
 			children = (
@@ -211,6 +235,7 @@
 		63D9C40C27B0464400578B53 /* Widgets */ = {
 			isa = PBXGroup;
 			children = (
+				63A0ADFF27B951D3006E3803 /* Fonts */,
 				63C762E827B6DE0200720A4C /* Services */,
 				63D9C40D27B0464400578B53 /* Widgets.swift */,
 				63D9C41A27B04ED400578B53 /* Provider.swift */,
@@ -235,6 +260,7 @@
 		97C146E51CF9000F007C117D = {
 			isa = PBXGroup;
 			children = (
+				63A227DF27B974E100D3FE73 /* WidgetsExtension.entitlements */,
 				9740EEB11CF90186004384FC /* Flutter */,
 				97C146F01CF9000F007C117D /* Runner */,
 				63D9C40C27B0464400578B53 /* Widgets */,
@@ -256,6 +282,7 @@
 		97C146F01CF9000F007C117D /* Runner */ = {
 			isa = PBXGroup;
 			children = (
+				63A227E027B977E500D3FE73 /* Runner.entitlements */,
 				63475F2E27AEA36900E6ED9A /* Sounds */,
 				6302504B279852150043F8BF /* Alarm */,
 				6302504A27984A710043F8BF /* Database */,
@@ -395,7 +422,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63A0AE3227B95901006E3803 /* montserrat_semi_bold.ttf in Resources */,
+				63A0AE3027B95901006E3803 /* oswald.ttf in Resources */,
 				63D9C41027B0464500578B53 /* Assets.xcassets in Resources */,
+				63A0AE2E27B95901006E3803 /* montserrat.ttf in Resources */,
+				63A0AE3127B95901006E3803 /* oswald_light.ttf in Resources */,
+				63A0AE2F27B95901006E3803 /* montserrat_medium.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -611,7 +643,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.7;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = iphoneos;
@@ -627,6 +659,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				DEVELOPMENT_TEAM = CJP4CNB573;
 				ENABLE_BITCODE = NO;
@@ -635,7 +668,7 @@
 					"$(PROJECT_DIR)/Flutter",
 				);
 				INFOPLIST_FILE = Runner/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.7;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -665,6 +698,7 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = WidgetsExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = CJP4CNB573;
@@ -673,7 +707,7 @@
 				INFOPLIST_FILE = Widgets/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Widgets;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.7;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -705,6 +739,7 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = WidgetsExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = CJP4CNB573;
@@ -713,7 +748,7 @@
 				INFOPLIST_FILE = Widgets/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Widgets;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.7;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -744,6 +779,7 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = WidgetsExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = CJP4CNB573;
@@ -752,7 +788,7 @@
 				INFOPLIST_FILE = Widgets/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Widgets;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.7;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -818,7 +854,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.7;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -867,7 +903,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.7;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = iphoneos;
@@ -884,6 +920,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				DEVELOPMENT_TEAM = CJP4CNB573;
 				ENABLE_BITCODE = NO;
@@ -892,7 +929,7 @@
 					"$(PROJECT_DIR)/Flutter",
 				);
 				INFOPLIST_FILE = Runner/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.7;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -918,6 +955,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				DEVELOPMENT_TEAM = CJP4CNB573;
 				ENABLE_BITCODE = NO;
@@ -926,7 +964,7 @@
 					"$(PROJECT_DIR)/Flutter",
 				);
 				INFOPLIST_FILE = Runner/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.7;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

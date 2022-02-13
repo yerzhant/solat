@@ -11,13 +11,13 @@ struct Settings {
     private static let city = "city"
     private static let requestHidjrahDateFromServer = "request-hijrah-date-from-server"
     
-    private static let settings = UserDefaults.standard
+    private static let settings = UserDefaults(suiteName: appGroup)
     
     static func getCity() -> String? {
-        settings.string(forKey: city)
+        settings?.string(forKey: city)
     }
     
     static func getRequestHidjrahDateFromServer() -> Bool {
-        settings.bool(forKey: requestHidjrahDateFromServer)
+        settings?.bool(forKey: requestHidjrahDateFromServer) ?? false
     }
 }

@@ -14,8 +14,11 @@ struct Database {
     private let dateColumn = Expression<String>("date")
     
     init() throws {
-        let docsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
-        db = try Connection("\(docsPath)/solat.sqlite3")
+        guard let url = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: appGroup) else {
+            throw DBError.urlErro(message: "Can't get url.")
+        }
+
+        db = try Connection("\(url)/solat.sqlite3")
     }
     
     func find(on date: String) throws -> Times? {
@@ -33,4 +36,8 @@ struct Times : Codable {
     let asr: String
     let maghrib: String
     let isha: String
+}
+
+enum DBError : Error {
+case urlErro(message: String)
 }
