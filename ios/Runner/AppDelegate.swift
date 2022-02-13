@@ -1,6 +1,8 @@
 import UIKit
 import Flutter
 
+let appGroup = "group.kz.azan.solat"
+
 @UIApplicationMain
 @objc class AppDelegate: FlutterAppDelegate {
     override func application(

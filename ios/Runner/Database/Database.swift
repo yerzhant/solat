@@ -20,8 +20,12 @@ struct Database {
     private let ishaColumn = Expression<String>("isha")
     
     init() throws {
-        let docsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
-        db = try Connection("\(docsPath)/solat.sqlite3")
+        guard let url = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: appGroup) else {
+            throw DBError.urlErro(message: "Can't get url.")
+        }
+
+        db = try Connection("\(url)/solat.sqlite3")
+
         try migrate()
     }
     
@@ -58,4 +62,8 @@ private extension Connection {
         get { return Int32(try! scalar("PRAGMA user_version") as! Int64)}
         set { try! run("PRAGMA user_version = \(newValue)") }
     }
+}
+
+enum DBError : Error {
+case urlErro(message: String)
 }
