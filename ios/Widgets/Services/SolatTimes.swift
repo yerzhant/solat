@@ -15,12 +15,8 @@ struct SolatTimes {
         format.dateFormat = "yyyy-MM-dd"
         let today = format.string(from: Date())
         
-        if let times = try Database().find(on: today) {
-            return times
-//            return Times(date: "19-01-2022", fadjr: "12:22", sunrise: "12:22", dhuhr: "12:22", asr: "12:22", maghrib: "12:22", isha: "19:11")
-        }
-        
-        return nil
+        return try Database().find(on: today)
+//        return Times(date: "19-01-2022", fadjr: "12:22", sunrise: "12:22", dhuhr: "12:22", asr: "12:22", maghrib: "12:22", isha: "19:11")
     }
     
     static func getHijrahDate() async throws -> String {

@@ -6,6 +6,7 @@
 //
 
 import Flutter
+import WidgetKit
 
 private let channelName = "solat.azan.kz/main"
 
@@ -40,6 +41,10 @@ class PlatformApi {
         })
     }
     
+    fileprivate func refreshWidget() {
+        WidgetCenter.shared.reloadTimelines(ofKind: "kz.azan.solat.widget")
+    }
+    
     private func refreshTimes(call: FlutterMethodCall, result: @escaping FlutterResult) {
         let args = call.arguments as? [String:String]
         
@@ -52,6 +57,7 @@ class PlatformApi {
             do {
                 try await SolatTimes.refresh(city: city, latitude: latitude, longitude: longitude)
                 AlarmService.rescheduleNotifications()
+                refreshWidget()
                 result(true)
             } catch {
                 result(FlutterError(code: "refresh-times-error", message: error.localizedDescription, details: nil))
@@ -137,6 +143,7 @@ class PlatformApi {
         }
         
         Settings.setRequestHidrahDateFromServer(to: value)
+        refreshWidget()
         
         result(nil)
     }
