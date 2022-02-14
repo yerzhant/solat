@@ -12,25 +12,34 @@ struct MediumWidget : View {
     var entry: SolatEntry
     
     var body: some View {
-        VStack {
-            HStack {
-                Text(entry.dateByHijrah)
-                    .font(.custom("Montserrat Medium", size: 13))
-                Spacer()
-                Text(entry.city)
-                    .font(.custom("Oswald Light", size: 14))
-            }
+        ZStack {
+            Image("Background")
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .opacity(0.15)
             
-            HStack {
-                SolatTime(type: AzanType.fadjr, time: entry.fadjr, isActive: entry.type == .fadjr)
-                SolatTime(type: AzanType.sunrise, time: entry.sunrise, isActive: entry.type == .sunrise)
-                SolatTime(type: AzanType.dhuhr, time: entry.dhuhr, isActive: entry.type == .dhuhr)
-                SolatTime(type: AzanType.asr, time: entry.asr, isActive: entry.type == .asr)
-                SolatTime(type: AzanType.maghrib, time: entry.maghrib, isActive: entry.type == .maghrib)
-                SolatTime(type: AzanType.isha, time: entry.isha, isActive: entry.type == .isha)
-            }
-        }.foregroundColor(Color.white)
-            .padding(7)
+            VStack {
+                HStack {
+                    Text(entry.dateByHijrah)
+                        .font(.custom("Montserrat Medium", size: 14))
+                    
+                    Spacer()
+                    
+                    Text(entry.city)
+                        .font(.custom("Oswald Light", size: 16))
+                }.padding(.horizontal, 10)
+                
+                HStack {
+                    SolatTime(type: AzanType.fadjr, time: entry.fadjr, isActive: entry.type == .fadjr)
+                    SolatTime(type: AzanType.sunrise, time: entry.sunrise, isActive: entry.type == .sunrise)
+                    SolatTime(type: AzanType.dhuhr, time: entry.dhuhr, isActive: entry.type == .dhuhr)
+                    SolatTime(type: AzanType.asr, time: entry.asr, isActive: entry.type == .asr)
+                    SolatTime(type: AzanType.maghrib, time: entry.maghrib, isActive: entry.type == .maghrib)
+                    SolatTime(type: AzanType.isha, time: entry.isha, isActive: entry.type == .isha)
+                }
+            }.foregroundColor(Color.white)
+                .padding(7)
+        }
     }
 }
 
