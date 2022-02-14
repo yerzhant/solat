@@ -52,15 +52,17 @@ struct SolatTime : View {
         VStack {
             Text(type.rawValue)
                 .font(.custom(isActive ? "Oswald Regular" : "Oswald Light", size: 12))
-                .padding(.bottom, -5)
+                .padding(.bottom, -3)
             
             Divider()
+                .frame(width: 36)
                 .background(Color.white)
             
             Text(time)
-                .font(.custom(isActive ? "Montserrat SemiBold" : "Montserrat Regular", size: 12))
-                .padding(.top, -5)
-        }.padding(5)
+                .font(.custom(isActive ? "Montserrat SemiBold" : "Montserrat Regular", size: 13))
+                .padding(.top, -3)
+        }.padding(.vertical, 8)
+            .padding(.horizontal, 5)
             .background(Color(red: 47 / 255, green: 128 / 255, blue: 237 / 255)
                             .opacity(isActive ? 1 : 0))
                             .clipShape(RoundedRectangle(cornerRadius: 6))
