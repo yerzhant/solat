@@ -23,9 +23,9 @@ struct Database {
         guard let url = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: appGroup) else {
             throw DBError.urlErro(message: "Can't get url.")
         }
-
+        
         db = try Connection("\(url)/solat.sqlite3")
-
+        
         try migrate()
     }
     
@@ -65,5 +65,5 @@ private extension Connection {
 }
 
 enum DBError : Error {
-case urlErro(message: String)
+    case urlErro(message: String)
 }

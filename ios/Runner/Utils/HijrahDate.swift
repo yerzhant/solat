@@ -5,6 +5,8 @@
 //  Created by Yerzhan Tulepov on 19.01.2022.
 //
 
+import Foundation
+
 func getCurrentHijrahDate() -> String {
     let calendar = Calendar(identifier: Calendar.Identifier.islamicUmmAlQura)
     

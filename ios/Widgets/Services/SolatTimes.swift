@@ -25,7 +25,7 @@ struct SolatTimes {
     
     static func getHijrahDate() async throws -> String {
         if Settings.getRequestHidjrahDateFromServer() {
-            return try await AzanApi.getCurrentDateByHijrah()
+            return try await AzanService.getCurrentDateByHijrah()
         } else {
             return getCurrentHijrahDate()
         }

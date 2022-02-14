@@ -5,6 +5,8 @@
 //  Created by Yerzhan Tulepov on 19.01.2022.
 //
 
+import Foundation
+
 struct Settings {
     private static let city = "city"
     private static let latitude = "latitude"
