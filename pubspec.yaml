@@ -2,7 +2,7 @@ name: solat
 description: Prayer times.
 publish_to: "none"
 
-version: 1.5.1+12
+version: 1.6.0+12
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
