@@ -28,10 +28,10 @@
 		638CBC9A27BA0DA00063215C /* HijrahDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 630250422797EA540043F8BF /* HijrahDate.swift */; };
 		63A0AE2E27B95901006E3803 /* montserrat.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 63A0AE2927B95901006E3803 /* montserrat.ttf */; };
 		63A0AE2F27B95901006E3803 /* montserrat_medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 63A0AE2A27B95901006E3803 /* montserrat_medium.ttf */; };
-		63A0AE3027B95901006E3803 /* oswald.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 63A0AE2B27B95901006E3803 /* oswald.ttf */; };
-		63A0AE3127B95901006E3803 /* oswald_light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 63A0AE2C27B95901006E3803 /* oswald_light.ttf */; };
 		63A0AE3227B95901006E3803 /* montserrat_semi_bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 63A0AE2D27B95901006E3803 /* montserrat_semi_bold.ttf */; };
 		63C762F827B8049800720A4C /* MediumWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C762F727B8049800720A4C /* MediumWidget.swift */; };
+		63CD80E827BADF3A00D293C6 /* Oswald-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 63CD80E727BADF3A00D293C6 /* Oswald-Regular.ttf */; };
+		63CD80EA27BAE14700D293C6 /* Oswald-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 63CD80E927BAE14700D293C6 /* Oswald-Light.ttf */; };
 		63D9C40927B0464400578B53 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63D9C40827B0464400578B53 /* WidgetKit.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		63D9C40B27B0464400578B53 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63D9C40A27B0464400578B53 /* SwiftUI.framework */; };
 		63D9C40E27B0464400578B53 /* Widgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D9C40D27B0464400578B53 /* Widgets.swift */; };
@@ -99,12 +99,12 @@
 		638CBC9327BA0C7C0063215C /* SolatTimes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolatTimes.swift; sourceTree = "<group>"; };
 		63A0AE2927B95901006E3803 /* montserrat.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = montserrat.ttf; path = ../../../android/app/src/main/res/font/montserrat.ttf; sourceTree = "<group>"; };
 		63A0AE2A27B95901006E3803 /* montserrat_medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = montserrat_medium.ttf; path = ../../../android/app/src/main/res/font/montserrat_medium.ttf; sourceTree = "<group>"; };
-		63A0AE2B27B95901006E3803 /* oswald.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = oswald.ttf; path = ../../../android/app/src/main/res/font/oswald.ttf; sourceTree = "<group>"; };
-		63A0AE2C27B95901006E3803 /* oswald_light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = oswald_light.ttf; path = ../../../android/app/src/main/res/font/oswald_light.ttf; sourceTree = "<group>"; };
 		63A0AE2D27B95901006E3803 /* montserrat_semi_bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = montserrat_semi_bold.ttf; path = ../../../android/app/src/main/res/font/montserrat_semi_bold.ttf; sourceTree = "<group>"; };
 		63A227DF27B974E100D3FE73 /* WidgetsExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WidgetsExtension.entitlements; sourceTree = "<group>"; };
 		63A227E027B977E500D3FE73 /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
 		63C762F727B8049800720A4C /* MediumWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediumWidget.swift; sourceTree = "<group>"; };
+		63CD80E727BADF3A00D293C6 /* Oswald-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Oswald-Regular.ttf"; path = "../../../assets/fonts/Oswald-Regular.ttf"; sourceTree = "<group>"; };
+		63CD80E927BAE14700D293C6 /* Oswald-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Oswald-Light.ttf"; path = "../../../assets/fonts/Oswald-Light.ttf"; sourceTree = "<group>"; };
 		63D9C40727B0464400578B53 /* WidgetsExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WidgetsExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		63D9C40827B0464400578B53 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		63D9C40A27B0464400578B53 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -219,8 +219,8 @@
 				63A0AE2A27B95901006E3803 /* montserrat_medium.ttf */,
 				63A0AE2D27B95901006E3803 /* montserrat_semi_bold.ttf */,
 				63A0AE2927B95901006E3803 /* montserrat.ttf */,
-				63A0AE2C27B95901006E3803 /* oswald_light.ttf */,
-				63A0AE2B27B95901006E3803 /* oswald.ttf */,
+				63CD80E927BAE14700D293C6 /* Oswald-Light.ttf */,
+				63CD80E727BADF3A00D293C6 /* Oswald-Regular.ttf */,
 			);
 			path = Fonts;
 			sourceTree = "<group>";
@@ -408,10 +408,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				63A0AE3227B95901006E3803 /* montserrat_semi_bold.ttf in Resources */,
-				63A0AE3027B95901006E3803 /* oswald.ttf in Resources */,
 				63D9C41027B0464500578B53 /* Assets.xcassets in Resources */,
+				63CD80E827BADF3A00D293C6 /* Oswald-Regular.ttf in Resources */,
+				63CD80EA27BAE14700D293C6 /* Oswald-Light.ttf in Resources */,
 				63A0AE2E27B95901006E3803 /* montserrat.ttf in Resources */,
-				63A0AE3127B95901006E3803 /* oswald_light.ttf in Resources */,
 				63A0AE2F27B95901006E3803 /* montserrat_medium.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

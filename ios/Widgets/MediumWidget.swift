@@ -58,7 +58,7 @@ struct SolatTime : View {
                 .background(Color.white)
             
             Text(time)
-                .font(.custom(isActive ? "Montserrat SemiBold" : "Montserrat Regular", size: 13))
+                .font(.custom(isActive ? "Montserrat SemiBold" : "Montserrat Regular", size: 12))
                 .padding(.top, -5)
         }.padding(5)
             .background(Color(red: 47 / 255, green: 128 / 255, blue: 237 / 255)
