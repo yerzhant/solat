@@ -27,7 +27,7 @@ struct NotificationService {
     }
     
     static func schedule(type: AzanType, time: String) {
-        let timeParts = time.trimmingCharacters(in: CharacterSet.whitespaces).split(separator: ":")
+        let timeParts = time.split(separator: ":")
         let hour = Int(timeParts[0])!
         let minute = Int(timeParts[1])!
 

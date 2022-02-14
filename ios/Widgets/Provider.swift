@@ -139,7 +139,7 @@ enum AzanType : String {
 
 fileprivate extension String {
     func toDate() -> Date {
-        let timeParts = trimmingCharacters(in: CharacterSet.whitespaces).split(separator: ":")
+        let timeParts = split(separator: ":")
         let hour = Int(timeParts[0])!
         let minute = Int(timeParts[1])!
         

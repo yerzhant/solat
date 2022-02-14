@@ -12,7 +12,7 @@ struct SolatTimes {
     static func getForToday() async throws -> Times? {
         let format = DateFormatter()
         format.locale = Locale(identifier: "ru")
-        format.dateFormat = "dd-MM-yyyy"
+        format.dateFormat = "yyyy-MM-dd"
         let today = format.string(from: Date())
         
         if let times = try Database().find(on: today) {

@@ -10,12 +10,12 @@ struct SolatTimes {
     static func getForToday() async throws -> Times? {
         let format = DateFormatter()
         format.locale = Locale(identifier: "ru")
-        format.dateFormat = "dd-MM-yyyy"
+        format.dateFormat = "yyyy-MM-dd"
         let today = format.string(from: Date())
         
         if let times = try Database().find(on: today) {
             return times
-//            return Times(date: "19-01-2022", fadjr: "12:22", sunrise: "12:22", dhuhr: "12:22", asr: "12:22", maghrib: "12:22", isha: "19:11")
+            //            return Times(date: "19-01-2022", fadjr: "12:22", sunrise: "12:22", dhuhr: "12:22", asr: "12:22", maghrib: "12:22", isha: "19:11")
         }
         
         return try await refreshTimesIfCityIsSet(today: today)
@@ -42,19 +42,21 @@ struct SolatTimes {
         Settings.setLatitude(to: latitude)
         Settings.setLongitude(to: longitude)
         Settings.setCity(name: city)
-        
-        AlarmService.rescheduleNotifications()
     }
     
     private static func getTimes(latitude: String, longitude: String) async throws -> [Times] {
         let result = try await MuftiyatService.getTimes(latitude: latitude, longitude: longitude)
         
-        guard result.success else {
-            throw Err.getTimesRequestFailed
-        }
-        
         return result.result.map { t in
-            Times(date: t.date, fadjr: t.Fajr, sunrise: t.Sunrise, dhuhr: t.Dhuhr, asr: t.Asr, maghrib: t.Maghrib, isha: t.Isha)
+            Times(
+                date: t.Date.trimmingCharacters(in: .whitespaces),
+                fadjr: t.fajr.trimmingCharacters(in: .whitespaces),
+                sunrise: t.sunrise.trimmingCharacters(in: .whitespaces),
+                dhuhr: t.dhuhr.trimmingCharacters(in: .whitespaces),
+                asr: t.asr.trimmingCharacters(in: .whitespaces),
+                maghrib: t.maghrib.trimmingCharacters(in: .whitespaces),
+                isha: t.isha.trimmingCharacters(in: .whitespaces)
+            )
         }
     }
     
@@ -64,9 +66,5 @@ struct SolatTimes {
         } else {
             return getCurrentHijrahDate()
         }
-    }
-    
-    enum Err : Error {
-        case getTimesRequestFailed
     }
 }

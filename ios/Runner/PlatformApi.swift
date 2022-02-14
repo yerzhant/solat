@@ -51,6 +51,7 @@ class PlatformApi {
         Task {
             do {
                 try await SolatTimes.refresh(city: city, latitude: latitude, longitude: longitude)
+                AlarmService.rescheduleNotifications()
                 result(true)
             } catch {
                 result(FlutterError(code: "refresh-times-error", message: error.localizedDescription, details: nil))
