@@ -233,8 +233,8 @@
 				63D9C41A27B04ED400578B53 /* Provider.swift */,
 				63D9C40D27B0464400578B53 /* Widgets.swift */,
 				63A0ADFF27B951D3006E3803 /* Fonts */,
-				63D9C40F27B0464500578B53 /* Assets.xcassets */,
 				63D9C41127B0464500578B53 /* Info.plist */,
+				63D9C40F27B0464500578B53 /* Assets.xcassets */,
 				63A227DF27B974E100D3FE73 /* WidgetsExtension.entitlements */,
 			);
 			path = Widgets;
@@ -286,10 +286,10 @@
 				1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */,
 				74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */,
 				63475F2E27AEA36900E6ED9A /* Sounds */,
+				97C147021CF9000F007C117D /* Info.plist */,
 				97C146FD1CF9000F007C117D /* Assets.xcassets */,
 				97C146FA1CF9000F007C117D /* Main.storyboard */,
 				97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */,
-				97C147021CF9000F007C117D /* Info.plist */,
 				63A227E027B977E500D3FE73 /* Runner.entitlements */,
 			);
 			path = Runner;

@@ -42,18 +42,15 @@ class PlatformApi {
     
     private func refreshTimes(call: FlutterMethodCall, result: @escaping FlutterResult) {
         let args = call.arguments as? [String:String]
-        let city = args?[paramCity]
-        let latitude = args?["latitude"]
-        let longitude = args?["longitude"]
         
-        guard city != nil && latitude != nil && longitude != nil else {
+        guard let city = args?[paramCity], let latitude = args?["latitude"], let longitude = args?["longitude"] else {
             result(FlutterError(code: errorNotEnoughParams, message: nil, details: nil))
             return
         }
         
         Task {
             do {
-                try await SolatTimes.refresh(city: city!, latitude: latitude!, longitude: longitude!)
+                try await SolatTimes.refresh(city: city, latitude: latitude, longitude: longitude)
                 result(true)
             } catch {
                 result(FlutterError(code: "refresh-times-error", message: error.localizedDescription, details: nil))
@@ -62,17 +59,13 @@ class PlatformApi {
     }
     
     private func getTodayTimes(result: @escaping FlutterResult) {
-        let city = Settings.getCity()
-        
-        guard city != nil else {
+        guard let city = Settings.getCity() else {
             result(FlutterError(code: "city-not-set", message: nil, details: nil))
             return
         }
         
         Task {
-            let times = try await SolatTimes.getForToday()
-            
-            guard times != nil else {
+            guard let times = try await SolatTimes.getForToday() else {
                 result(FlutterError(code: "no-times-for-today", message: nil, details: nil))
                 return
             }
@@ -82,12 +75,12 @@ class PlatformApi {
             result([
                 paramCity: city,
                 "currentDateByHidjra": dateByHidjrah,
-                1: times?.fadjr,
-                2: times?.sunrise,
-                3: times?.dhuhr,
-                4: times?.asr,
-                5: times?.maghrib,
-                6: times?.isha,
+                1: times.fadjr,
+                2: times.sunrise,
+                3: times.dhuhr,
+                4: times.asr,
+                5: times.maghrib,
+                6: times.isha,
             ])
         }
     }
@@ -105,22 +98,18 @@ class PlatformApi {
     
     private func setAzanFlag(call: FlutterMethodCall, result: FlutterResult) {
         let args = call.arguments as? [String: Any]
-        let typeId = args?["azanFlagType"] as? Int
-        let value = args?["azanFlagValue"] as? Bool
         
-        guard typeId != nil else {
+        guard let typeId = args?["azanFlagType"] as? Int else {
             result(FlutterError(code: errorNotEnoughParams, message: nil, details: nil))
             return
         }
         
-        let type = AzanType(rawValue: typeId!)
-        
-        guard type != nil && value != nil else {
+        guard let type = AzanType(rawValue: typeId), let value = args?["azanFlagValue"] as? Bool else {
             result(FlutterError(code: errorNotEnoughParams, message: nil, details: nil))
             return
         }
         
-        Settings.setAzanFlag(to: value!, type: type!)
+        Settings.setAzanFlag(to: value, type: type)
         AlarmService.rescheduleNotifications()
         
         result(true)
@@ -140,14 +129,13 @@ class PlatformApi {
     
     private func setRequestHidrahDateFromServer(call: FlutterMethodCall, result: FlutterResult) {
         let args = call.arguments as? [String:Bool]
-        let value = args?["request-hidjra-date-from-server"]
         
-        guard value != nil else {
+        guard let value = args?["request-hidjra-date-from-server"] else {
             result(FlutterError(code: errorNotEnoughParams, message: nil, details: nil))
             return
         }
         
-        Settings.setRequestHidrahDateFromServer(to: value!)
+        Settings.setRequestHidrahDateFromServer(to: value)
         
         result(nil)
     }
