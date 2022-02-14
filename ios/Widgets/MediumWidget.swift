@@ -49,16 +49,13 @@ struct SolatTime : View {
     let isActive: Bool
     
     var body: some View {
-        let dividerColor = Color(red: 94 / 255, green: 199 / 255, blue: 245 / 255)
-        let dividerActiveColor = Color(red: 190 / 255, green: 180 / 255, blue: 245 / 255)
-        
         VStack {
             Text(type.rawValue)
                 .font(.custom(isActive ? "Oswald Regular" : "Oswald Light", size: 12))
                 .padding(.bottom, -5)
             
             Divider()
-                .background(isActive ? dividerActiveColor : dividerColor)
+                .background(Color.white)
             
             Text(time)
                 .font(.custom(isActive ? "Montserrat SemiBold" : "Montserrat Regular", size: 13))

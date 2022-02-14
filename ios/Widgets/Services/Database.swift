@@ -18,7 +18,7 @@ struct Database {
             throw DBError.urlErro(message: "Can't get url.")
         }
 
-        db = try Connection("\(url)/solat.sqlite3")
+        db = try Connection("\(url)/solat.sqlite3", readonly: true)
     }
     
     func find(on date: String) throws -> Times? {

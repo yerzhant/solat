@@ -235,7 +235,6 @@
 		63D9C40C27B0464400578B53 /* Widgets */ = {
 			isa = PBXGroup;
 			children = (
-				63A227DF27B974E100D3FE73 /* WidgetsExtension.entitlements */,
 				63A0ADFF27B951D3006E3803 /* Fonts */,
 				63C762E827B6DE0200720A4C /* Services */,
 				63D9C40D27B0464400578B53 /* Widgets.swift */,
@@ -261,6 +260,7 @@
 		97C146E51CF9000F007C117D = {
 			isa = PBXGroup;
 			children = (
+				63A227DF27B974E100D3FE73 /* WidgetsExtension.entitlements */,
 				9740EEB11CF90186004384FC /* Flutter */,
 				97C146F01CF9000F007C117D /* Runner */,
 				63D9C40C27B0464400578B53 /* Widgets */,
@@ -780,6 +780,7 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_ENTITLEMENTS = WidgetsExtension.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = CJP4CNB573;
