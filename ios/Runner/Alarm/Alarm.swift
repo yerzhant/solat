@@ -41,7 +41,7 @@ struct AlarmService {
         task.setTaskCompleted(success: true)
     }
     
-    private static func rescheduleNotifications() {
+    static func rescheduleNotifications() {
         NotificationService.removeAllPending()
         
         Task {

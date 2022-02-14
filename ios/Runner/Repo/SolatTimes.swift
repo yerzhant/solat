@@ -32,7 +32,7 @@ struct SolatTimes {
         }
     }
     
-    private static func refresh(city: String, latitude: String, longitude: String) async throws {
+    static func refresh(city: String, latitude: String, longitude: String) async throws {
         let times = try await getTimes(latitude: latitude, longitude: longitude)
         
         Settings.removeCity()
