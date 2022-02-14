@@ -21,7 +21,7 @@ struct Database {
     
     init() throws {
         guard let url = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: appGroup) else {
-            throw DBError.urlErro(message: "Can't get url.")
+            throw DBError.urlErro(message: "Unable to get a container url.")
         }
         
         db = try Connection("\(url)/solat.sqlite3")

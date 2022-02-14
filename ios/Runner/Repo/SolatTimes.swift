@@ -18,11 +18,7 @@ struct SolatTimes {
 //            return Times(date: "19-01-2022", fadjr: "12:22", sunrise: "12:22", dhuhr: "12:22", asr: "12:22", maghrib: "12:22", isha: "19:11")
         }
         
-        if let times = try await refreshTimesIfCityIsSet(today: today) {
-            return times
-        }
-        
-        return nil
+        return try await refreshTimesIfCityIsSet(today: today)
     }
     
     private static func refreshTimesIfCityIsSet(today: String) async throws -> Times? {
@@ -36,7 +32,7 @@ struct SolatTimes {
         }
     }
     
-    static func refresh(city: String, latitude: String, longitude: String) async throws {
+    private static func refresh(city: String, latitude: String, longitude: String) async throws {
         let times = try await getTimes(latitude: latitude, longitude: longitude)
         
         Settings.removeCity()
