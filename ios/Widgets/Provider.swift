@@ -9,29 +9,27 @@ import WidgetKit
 
 struct Provider: TimelineProvider {
     func getSnapshot(in context: Context, completion: @escaping (SolatEntry) -> ()) {
-        let city = Settings.getCity()
-        guard city != nil else {
+        guard let city = Settings.getCity() else {
             completion(Provider.noDataEntry)
             return
         }
         
         Task {
-            let times = try await SolatTimes.getForToday()
-            guard times != nil else {
+            guard let times = try await SolatTimes.getForToday() else {
                 completion(Provider.noDataEntry)
                 return
             }
             
             let dateByHijrah = try await SolatTimes.getHijrahDate()
             
-            let type = getAzanType(times: times!)
+            let type = getAzanType(times: times)
             
             let entry = SolatEntry(
                 date: Date(),
-                city: city!,
+                city: city,
                 dateByHijrah: dateByHijrah,
                 type: type,
-                times: times!
+                times: times
             )
             
             completion(entry)
@@ -41,61 +39,50 @@ struct Provider: TimelineProvider {
     fileprivate func getAzanType(times: Times) -> AzanType {
         let now = Date()
         
-        if now < toDate(time: times.fadjr) { return .isha }
-        if now < toDate(time: times.sunrise) { return .fadjr }
-        if now < toDate(time: times.dhuhr) { return .sunrise }
-        if now < toDate(time: times.asr) { return .dhuhr }
-        if now < toDate(time: times.maghrib) { return .asr }
-        if now < toDate(time: times.isha) { return .maghrib }
+        if now < times.fadjr.toDate() { return .isha }
+        if now < times.sunrise.toDate() { return .fadjr }
+        if now < times.dhuhr.toDate() { return .sunrise }
+        if now < times.asr.toDate() { return .dhuhr }
+        if now < times.maghrib.toDate() { return .asr }
+        if now < times.isha.toDate() { return .maghrib }
         else { return .isha}
     }
     
-    fileprivate func toDate(time: String) -> Date {
-        let timeParts = time.trimmingCharacters(in: CharacterSet.whitespaces).split(separator: ":")
-        let hour = Int(timeParts[0])!
-        let minute = Int(timeParts[1])!
-        
-        return Calendar.current.date(bySettingHour: hour, minute: minute, second: 0, of: Date())!
-    }
-    
     fileprivate func getNoDataTimeline(_ completion: (Timeline<SolatEntry>) -> ()) {
-        var entries: [SolatEntry] = []
+        let entry = [Provider.noDataEntry]
         
-        entries.append(Provider.noDataEntry)
-        
-        let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: Date())!
-        let refreshDate = Calendar.current.date(bySettingHour: 0, minute: 11, second: 0, of: tomorrow)!
-        
-        let timeline = Timeline(entries: entries, policy: .after(refreshDate))
+        let timeline = Timeline(entries: entry, policy: .never)
         completion(timeline)
     }
     
     func getTimeline(in context: Context, completion: @escaping (Timeline<SolatEntry>) -> ()) {
         Task {
-            if let city = Settings.getCity() {
-                if let times = try await SolatTimes.getForToday() {
-                    let dateByHijrah = try await SolatTimes.getHijrahDate()
-                    
-                    var entries: [SolatEntry] = []
-                    
-                    entries.append(SolatEntry(date: toDate(time: times.fadjr), city: city, dateByHijrah: dateByHijrah, type: .fadjr, times: times))
-                    entries.append(SolatEntry(date: toDate(time: times.sunrise), city: city, dateByHijrah: dateByHijrah, type: .sunrise, times: times))
-                    entries.append(SolatEntry(date: toDate(time: times.dhuhr), city: city, dateByHijrah: dateByHijrah, type: .dhuhr, times: times))
-                    entries.append(SolatEntry(date: toDate(time: times.asr), city: city, dateByHijrah: dateByHijrah, type: .asr, times: times))
-                    entries.append(SolatEntry(date: toDate(time: times.maghrib), city: city, dateByHijrah: dateByHijrah, type: .maghrib, times: times))
-                    entries.append(SolatEntry(date: toDate(time: times.isha), city: city, dateByHijrah: dateByHijrah, type: .isha, times: times))
-                    
-                    let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: Date())!
-                    let refreshDate = Calendar.current.date(bySettingHour: 0, minute: 11, second: 0, of: tomorrow)!
-                    
-                    let timeline = Timeline(entries: entries, policy: .after(refreshDate))
-                    completion(timeline)
-                } else {
-                    getNoDataTimeline(completion)
-                }
-            } else {
+            guard let city = Settings.getCity() else {
                 getNoDataTimeline(completion)
+                return
             }
+                
+            guard let times = try await SolatTimes.getForToday() else {
+                getNoDataTimeline(completion)
+                return
+            }
+            
+            let dateByHijrah = try await SolatTimes.getHijrahDate()
+            
+            var entries: [SolatEntry] = []
+            
+            entries.append(SolatEntry(date: times.fadjr.toDate(), city: city, dateByHijrah: dateByHijrah, type: .fadjr, times: times))
+            entries.append(SolatEntry(date: times.sunrise.toDate(), city: city, dateByHijrah: dateByHijrah, type: .sunrise, times: times))
+            entries.append(SolatEntry(date: times.dhuhr.toDate(), city: city, dateByHijrah: dateByHijrah, type: .dhuhr, times: times))
+            entries.append(SolatEntry(date: times.asr.toDate(), city: city, dateByHijrah: dateByHijrah, type: .asr, times: times))
+            entries.append(SolatEntry(date: times.maghrib.toDate(), city: city, dateByHijrah: dateByHijrah, type: .maghrib, times: times))
+            entries.append(SolatEntry(date: times.isha.toDate(), city: city, dateByHijrah: dateByHijrah, type: .isha, times: times))
+            
+            let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: Date())!
+            let refreshDate = Calendar.current.date(bySettingHour: 0, minute: 11, second: 0, of: tomorrow)!
+            
+            let timeline = Timeline(entries: entries, policy: .after(refreshDate))
+            completion(timeline)
         }
     }
     
@@ -111,22 +98,12 @@ struct Provider: TimelineProvider {
         times: Times(date: "", fadjr: "", sunrise: "", dhuhr: "", asr: "", maghrib: "", isha: "")
     )
     
-    fileprivate static let times = Times(
-        date: "",
-        fadjr: "06:35",
-        sunrise: "07:52",
-        dhuhr: "13:09",
-        asr: "16:38",
-        maghrib: "18:22",
-        isha: "19:38"
-    )
-    
     static let previewEntry = SolatEntry(
         date: Calendar.current.date(from: DateComponents(year: 2022, month: 2, day: 12))!,
         city: "Алматы",
         dateByHijrah: "10 Раджаб 1443",
         type: .asr,
-        times: times
+        times: Times(date: "", fadjr: "06:35", sunrise: "07:52", dhuhr: "13:09", asr: "16:38", maghrib: "18:22", isha: "19:38")
     )
 }
 
@@ -158,4 +135,14 @@ struct SolatEntry: TimelineEntry {
 
 enum AzanType : String {
     case fadjr = "Фаджр", sunrise = "Восход", dhuhr = "Зухр", asr = "Аср", maghrib = "Магриб", isha = "Иша"
+}
+
+fileprivate extension String {
+    func toDate() -> Date {
+        let timeParts = trimmingCharacters(in: CharacterSet.whitespaces).split(separator: ":")
+        let hour = Int(timeParts[0])!
+        let minute = Int(timeParts[1])!
+        
+        return Calendar.current.date(bySettingHour: hour, minute: minute, second: 0, of: Date())!
+    }
 }
