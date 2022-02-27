@@ -41,7 +41,7 @@ class TimesBloc extends Bloc<TimesEvent, TimesState> {
     } else if (event is TimesTodayTicked) {
       final currentState = state as TimesTodaySuccess;
       yield TimesTodaySuccess(
-        DateTime.now().day,
+        currentState.day,
         currentState.times,
         currentState.azanFlags,
       );
