@@ -26,7 +26,8 @@ struct AlarmService {
     
     private static func wakeMeUp() {
         let request = BGAppRefreshTaskRequest(identifier: taskId)
-        request.earliestBeginDate = Date(timeIntervalSinceNow: 3600)
+        let spread = Double(Int.random(in: 0...300))
+        request.earliestBeginDate = Date(timeIntervalSinceNow: 3600 + spread)
         
         do {
             try BGTaskScheduler.shared.submit(request)
