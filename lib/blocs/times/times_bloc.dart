@@ -50,7 +50,7 @@ class TimesBloc extends Bloc<TimesEvent, TimesState> {
       final azanFlags = await _solatRepository.getAzanFlags();
       final currentState = state as TimesTodaySuccess;
       yield TimesTodaySuccess(
-        DateTime.now().day,
+        currentState.day,
         currentState.times,
         azanFlags,
       );
