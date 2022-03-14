@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 import kz.azan.solat.SolatWidget
 import kz.azan.solat.repository.SolatRepository
 import java.util.*
+import kotlin.random.Random
 
 const val AZAN_FADJR = 1
 const val AZAN_SUNRISE = 2
@@ -43,7 +44,9 @@ class AlarmService : BroadcastReceiver() {
             add(Calendar.DAY_OF_MONTH, 1)
             set(Calendar.HOUR_OF_DAY, 0)
             set(Calendar.MINUTE, 0)
-            set(Calendar.SECOND, 5) // Add some lag to make sure that the server has already "moved" to the next day (in case phone is not using NTP/Network time sync)
+            // Add some lag to make sure that the server has already "moved" to the next day (in case phone is not using NTP/Network time sync)
+            // + spread out reloading on a new year to decrease simultaneous requests to the server
+            set(Calendar.SECOND, Random.nextInt(10, 40))
         }
 
         val intent = Intent(context, this::class.java).let {
