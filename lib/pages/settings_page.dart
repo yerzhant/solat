@@ -226,7 +226,7 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
             Text.rich(
               TextSpan(
-                text: 'Время намаза предоставлено ',
+                text: 'Время намаза предоставлено\n',
                 style: TextStyle(
                   fontSize: 13,
                   height: 1.4,
@@ -240,6 +240,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   TextSpan(text: '.'),
                 ],
               ),
+              textAlign: TextAlign.center,
             ),
           ],
         ),
