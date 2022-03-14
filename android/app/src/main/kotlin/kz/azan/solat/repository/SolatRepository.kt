@@ -57,7 +57,7 @@ class SolatRepository(private val context: Context) {
         val day = calendar.get(Calendar.DAY_OF_MONTH)
         val month = calendar.get(Calendar.MONTH) + 1
         val year = calendar.get(Calendar.YEAR)
-        val date = "%02d-%02d-%d".format(day, month, year)
+        val date = "%d-%02d-%02d".format(year, month, day)
         val solatDatabase = getSolatDatabase()
         val times = solatDatabase.timesDao().findByDate(date)
                 ?: refreshTimesIfCityIsSet(solatDatabase, date)
@@ -110,19 +110,15 @@ class SolatRepository(private val context: Context) {
         val year = Calendar.getInstance().get(Calendar.YEAR)
         val muftiyatDto = muftiyatService.getTimes(year, latitude, longitude)
 
-        if (muftiyatDto.success) {
-            return muftiyatDto.result.map {
-                Times(it.date.trim(),
-                        it.Fajr.trim(),
-                        it.Sunrise.trim(),
-                        it.Dhuhr.trim(),
-                        it.Asr.trim(),
-                        it.Maghrib.trim(),
-                        it.Isha.trim())
-            }.toTypedArray()
-        }
-
-        throw Exception("Failed to retrieve solat times from muftiyat.")
+        return muftiyatDto.result.map {
+            Times(it.Date.trim(),
+                    it.fajr.trim(),
+                    it.sunrise.trim(),
+                    it.dhuhr.trim(),
+                    it.asr.trim(),
+                    it.maghrib.trim(),
+                    it.isha.trim())
+        }.toTypedArray()
     }
 
     fun getCityName(): String? {

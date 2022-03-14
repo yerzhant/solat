@@ -8,7 +8,7 @@ import retrofit2.http.Path
 
 interface MuftiyatService {
 
-    @GET("times/{year}/{latitude}/{longitude}")
+    @GET("{year}/{latitude}/{longitude}")
     suspend fun getTimes(@Path("year") year: Int,
                          @Path("latitude") latitude: String,
                          @Path("longitude") longitude: String): MuftiyatDto
@@ -16,7 +16,7 @@ interface MuftiyatService {
     companion object {
         fun create(): MuftiyatService {
             val retrofit = Retrofit.Builder()
-                    .baseUrl("https://namaz.muftyat.kz/kk/api/")
+                    .baseUrl("https://api.muftyat.kz/prayer-times/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build()
 

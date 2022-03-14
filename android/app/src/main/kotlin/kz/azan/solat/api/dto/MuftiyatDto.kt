@@ -10,11 +10,11 @@ data class MuftiyatDto(
 
 @Keep
 data class TimesDto(
-        val date: String,
-        val Fajr: String,
-        val Sunrise: String,
-        val Dhuhr: String,
-        val Asr: String,
-        val Maghrib: String,
-        val Isha: String
+        val Date: String,
+        val fajr: String,
+        val sunrise: String,
+        val dhuhr: String,
+        val asr: String,
+        val maghrib: String,
+        val isha: String
 )

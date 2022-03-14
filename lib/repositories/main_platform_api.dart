@@ -51,13 +51,13 @@ class MainPlatformApi {
     await channel.invokeMethod('set-azan-flag', params);
   }
 
-  Future<void> refreshTimes(City city) async {
+  Future<void> refreshTimes(City city) {
     final params = {
       cityName: city.title,
       latitude: city.lat,
       longitude: city.lng,
     };
-    await channel.invokeMethod("refresh-times", params);
+    return channel.invokeMethod("refresh-times", params);
   }
 
   Future<double> getFontsScale() {
