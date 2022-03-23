@@ -38,11 +38,11 @@ class NotificationService(private val context: Context) {
         }
 
         val mainActivityIntent = Intent(context, MainActivity::class.java).let {
-            PendingIntent.getActivity(context, 0, it, 0)
+            PendingIntent.getActivity(context, 0, it, PendingIntent.FLAG_IMMUTABLE)
         }
 
         val snoozeIntent = Intent(context, Snooze::class.java).let {
-            PendingIntent.getBroadcast(context, 0, it, 0)
+            PendingIntent.getBroadcast(context, 0, it, PendingIntent.FLAG_IMMUTABLE)
         }
 
         val solatRepository = SolatRepository(context)
@@ -67,7 +67,7 @@ class NotificationService(private val context: Context) {
                 .setAutoCancel(true)
                 .addAction(
                         R.drawable.ic_baseline_snooze_24,
-                        context.getString(R.string.snooze).toUpperCase(Locale.ROOT),
+                        context.getString(R.string.snooze).uppercase(Locale.ROOT),
                         snoozeIntent
                 )
 

@@ -7,7 +7,6 @@ import android.content.BroadcastReceiver
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -51,15 +50,11 @@ class AlarmService : BroadcastReceiver() {
 
         val intent = Intent(context, this::class.java).let {
             it.action = actionInit
-            PendingIntent.getBroadcast(context, 0, it, 0)
+            PendingIntent.getBroadcast(context, 0, it, PendingIntent.FLAG_IMMUTABLE)
         }
 
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, intent)
-        } else {
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, intent)
-        }
+        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, intent)
 
         setAll(context)
         refreshWidget(context)
@@ -117,15 +112,11 @@ class AlarmService : BroadcastReceiver() {
             it.action = actionAzan
             it.putExtra(azanType, type)
             it.putExtra(azanTime, time)
-            PendingIntent.getBroadcast(context, type, it, 0)
+            PendingIntent.getBroadcast(context, type, it, PendingIntent.FLAG_IMMUTABLE)
         }
 
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, intent)
-        } else {
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, intent)
-        }
+        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, intent)
     }
 
     private fun isBefore(currentHours: Int, currentMinutes: Int, time: String): Boolean {

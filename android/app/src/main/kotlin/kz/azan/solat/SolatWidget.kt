@@ -25,7 +25,7 @@ class SolatWidget : AppWidgetProvider() {
 
     private fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) {
         val mainActivityIntent = Intent(context, MainActivity::class.java).let {
-            PendingIntent.getActivity(context, 0, it, 0)
+            PendingIntent.getActivity(context, 0, it, PendingIntent.FLAG_IMMUTABLE)
         }
 
         CoroutineScope(Dispatchers.IO).launch {
