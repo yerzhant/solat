@@ -20,6 +20,7 @@ class MainActivity : FlutterActivity() {
     private val mainChannel = "solat.azan.kz/main"
 
     private val channelParamCity = "city"
+    private val channelParamCityId = "city-id"
     private val channelParamLatitude = "latitude"
     private val channelParamLongitude = "longitude"
 
@@ -136,16 +137,17 @@ class MainActivity : FlutterActivity() {
 
     private fun refreshTimes(call: MethodCall, result: MethodChannel.Result) {
         val city = call.argument<String>(channelParamCity)
+        val cityId = call.argument<Int>(channelParamCityId)
         val latitude = call.argument<String>(channelParamLatitude)
         val longitude = call.argument<String>(channelParamLongitude)
 
-        if (city == null || latitude == null || longitude == null) {
+        if (city == null || cityId == null || latitude == null || longitude == null) {
             result.error(channelErrorNotEnoughParams, null, null)
             return
         }
 
         CoroutineScope(Dispatchers.IO).launch {
-            SolatRepository(context).refresh(city, latitude, longitude)
+            SolatRepository(context).refresh(city, cityId, latitude, longitude)
 
             withContext(Dispatchers.Main.immediate) {
                 result.success(true)

@@ -3,6 +3,7 @@ import 'package:solat/models/city.dart';
 import 'package:solat/models/times.dart';
 
 class MainPlatformApi {
+  static const cityId = "city-id";
   static const cityName = "city";
   static const latitude = "latitude";
   static const longitude = "longitude";
@@ -53,6 +54,7 @@ class MainPlatformApi {
 
   Future<void> refreshTimes(City city) {
     final params = {
+      cityId: city.id,
       cityName: city.title,
       latitude: city.lat,
       longitude: city.lng,
