@@ -30,7 +30,7 @@ class _SettingsPageState extends State<SettingsPage> {
   final _formKey = GlobalKey<FormState>();
   final _cityNameController = TextEditingController();
 
-  final _tapRecognizer = TapGestureRecognizer();
+  final _muftiyatTapRecognizer = TapGestureRecognizer();
 
   String _selectedCity;
 
@@ -46,18 +46,18 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   void initState() {
     super.initState();
-    _tapRecognizer.onTap = _gotoMuftiyat;
+    _muftiyatTapRecognizer.onTap = _gotoMuftiyat;
   }
 
   @override
   void dispose() {
     _cityNameController.dispose();
-    _tapRecognizer.dispose();
+    _muftiyatTapRecognizer.dispose();
     super.dispose();
   }
 
   void _gotoMuftiyat() {
-    launch('https://namaz.muftyat.kz/kk/namaz/api');
+    launch('https://www.muftyat.kz/kk/namaz_times/');
   }
 
   @override
@@ -226,16 +226,17 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
             Text.rich(
               TextSpan(
-                text: 'Время намаза предоставлено\n',
+                text:
+                    'Время намаза рассчитано согласно PrayTimes.org с уточнениями ',
                 style: TextStyle(
                   fontSize: 13,
                   height: 1.4,
                 ),
                 children: <TextSpan>[
                   TextSpan(
-                    text: 'Духовным управлением мусульман Казахстана',
+                    text: 'Духовного управления мусульман Казахстана',
                     style: TextStyle(color: Theme.of(context).primaryColor),
-                    recognizer: _tapRecognizer,
+                    recognizer: _muftiyatTapRecognizer,
                   ),
                   TextSpan(text: '.'),
                 ],
@@ -311,7 +312,7 @@ class _SettingsPageState extends State<SettingsPage> {
               children: <Widget>[
                 Expanded(
                   child: ElevatedButton(
-                    child: Text('ЗАГРУЗИТЬ ВРЕМЯ НАМАЗА'),
+                    child: Text('СОХРАНИТЬ ГОРОД'),
                     onPressed: () async {
                       if (_formKey.currentState.validate()) {
                         _formKey.currentState.save();

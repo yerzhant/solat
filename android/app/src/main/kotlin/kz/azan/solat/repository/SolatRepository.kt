@@ -3,12 +3,11 @@ package kz.azan.solat.repository
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
-import androidx.room.Room
 import kz.azan.solat.alarm.AlarmService
 import kz.azan.solat.alarm.NotificationService
 import kz.azan.solat.api.azanService
-import kz.azan.solat.database.SolatDatabase
-import kz.azan.solat.model.Times
+import kz.azan.solat.domain.PrayTime
+import kz.azan.solat.domain.Times
 import java.text.SimpleDateFormat
 import java.time.chrono.HijrahDate
 import java.time.format.DateTimeFormatter
@@ -22,18 +21,11 @@ class SolatRepository(private val context: Context) {
     private val settingCityId = "city-id"
     private val settingLatitude = "latitude"
     private val settingLongitude = "longitude"
+    private val settingTimeZone = "time-zone"
     private val settingRefreshedOn = "refreshedOn"
     private val settingFontsScale = "fontsScale"
     private val settingAzanVolume = "azanVolume"
     private val settingRequestHidjraDateFromServer = "request-hidjra-date-from-server"
-
-    private fun getSolatDatabase(): SolatDatabase {
-        return Room.databaseBuilder(
-                context,
-                SolatDatabase::class.java,
-                "solat.db"
-        ).build()
-    }
 
     suspend fun getCurrentDateByHidjra(): String {
         return try {
@@ -52,38 +44,33 @@ class SolatRepository(private val context: Context) {
         SimpleDateFormat("d MMMM y").format(Date())
     }
 
-    suspend fun getTodayTimes(): Times? {
-        val calendar = Calendar.getInstance()
-        val day = calendar.get(Calendar.DAY_OF_MONTH)
-        val month = calendar.get(Calendar.MONTH) + 1
-        val year = calendar.get(Calendar.YEAR)
-        val date = "%d-%02d-%02d".format(year, month, day)
-        val solatDatabase = getSolatDatabase()
-        val times = solatDatabase.timesDao().findByDate(date)
-                ?: refreshTimesIfCityIsSet(solatDatabase, date)
-        solatDatabase.close()
-        return times
-//        return Times("", "04:40", "07:02", "13:01", "19:11", "23:36", "23:23")
-    }
-
-    private suspend fun refreshTimesIfCityIsSet(solatDatabase: SolatDatabase, date: String): Times? {
+    fun getTodayTimes(): Times? {
         val settings = context.getSharedPreferences(SETTINGS_NAME, Context.MODE_PRIVATE)
         val cityId = settings.getInt(settingCityId, -1)
-        if (cityId != -1) {
-            val city = settings.getString(settingCity, null)
-            val latitude = settings.getString(settingLatitude, null)
-            val longitude = settings.getString(settingLongitude, null)
+        if (cityId == -1) return null
 
-            refresh(city!!, cityId, latitude!!, longitude!!)
+        val calendar = Calendar.getInstance()
+        val latitude = settings.getString(settingLatitude, null)!!.toDouble()
+        val longitude = settings.getString(settingLongitude, null)!!.toDouble()
+        val timeZone = settings.getInt(settingTimeZone, 0).toDouble()
 
-            return solatDatabase.timesDao().findByDate(date)
+        val prayTime = PrayTime().apply {
+            calcMethod = ISNA
+            asrJuristic = Hanafi
+            adjustHighLats = AngleBased
         }
-        return null
+        val offsets = if (latitude < 48)
+            intArrayOf(0, -3, 3, 3, 0, 3, 0) // {Fadjr,Sunrise,Dhuhr,Asr,Sunset,Maghrib,Isha}
+        else
+            intArrayOf(0, -5, 5, 5, 0, 5, 0) // {Fadjr,Sunrise,Dhuhr,Asr,Sunset,Maghrib,Isha}
+        prayTime.tune(offsets)
+        val times = prayTime.getPrayerTimes(calendar, latitude, longitude, timeZone)
+
+        return Times(times[0], times[1], times[2], times[3], times[5], times[6])
+//        return Times("04:40", "07:02", "13:01", "19:11", "23:36", "23:23")
     }
 
-    suspend fun refresh(city: String, cityId: Int, latitude: String, longitude: String) {
-        val times = getTimes(cityId)
-
+    fun saveCityParams(city: String, cityId: Int, latitude: String, longitude: String, timeZone: Int) {
         val settings = context.getSharedPreferences(SETTINGS_NAME, Context.MODE_PRIVATE)
 
         NotificationService(context).setDefaultAzanFlags(settings)
@@ -93,11 +80,6 @@ class SolatRepository(private val context: Context) {
             apply()
         }
 
-        val solatDatabase = getSolatDatabase()
-        solatDatabase.timesDao().deleteAll()
-        solatDatabase.timesDao().addAll(*times)
-        solatDatabase.close()
-
         AlarmService().init(context)
 
         with(settings.edit()) {
@@ -105,24 +87,10 @@ class SolatRepository(private val context: Context) {
             putInt(settingCityId, cityId)
             putString(settingLatitude, latitude)
             putString(settingLongitude, longitude)
+            putInt(settingTimeZone, timeZone)
             putLong(settingRefreshedOn, Calendar.getInstance().timeInMillis)
             apply()
         }
-    }
-
-    private suspend fun getTimes(cityId: Int): Array<Times> {
-        val year = Calendar.getInstance().get(Calendar.YEAR)
-        val times = azanService.getTimes(cityId, year)
-
-        return times.map {
-            Times(it.date.trim(),
-                    it.fadjr.trim(),
-                    it.sunrise.trim(),
-                    it.dhuhr.trim(),
-                    it.asr.trim(),
-                    it.maghrib.trim(),
-                    it.isha.trim())
-        }.toTypedArray()
     }
 
     fun getCityName(): String? {

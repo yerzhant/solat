@@ -7,6 +7,7 @@ class MainPlatformApi {
   static const cityName = "city";
   static const latitude = "latitude";
   static const longitude = "longitude";
+  static const timeZone = "time-zone";
   static const fontsScale = "fontsScale";
   static const azanVolume = "azanVolume";
 
@@ -52,14 +53,15 @@ class MainPlatformApi {
     await channel.invokeMethod('set-azan-flag', params);
   }
 
-  Future<void> refreshTimes(City city) {
+  Future<void> saveCity(City city) {
     final params = {
       cityId: city.id,
       cityName: city.title,
       latitude: city.lat,
       longitude: city.lng,
+      timeZone: city.timeZone,
     };
-    return channel.invokeMethod("refresh-times", params);
+    return channel.invokeMethod("save-city", params);
   }
 
   Future<double> getFontsScale() {

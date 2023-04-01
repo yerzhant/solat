@@ -23,6 +23,7 @@ class MainActivity : FlutterActivity() {
     private val channelParamCityId = "city-id"
     private val channelParamLatitude = "latitude"
     private val channelParamLongitude = "longitude"
+    private val channelParamTimeZone = "time-zone"
 
     private val channelParamFontsScale = "fontsScale"
     private val channelParamAzanVolume = "azanVolume"
@@ -46,7 +47,7 @@ class MainActivity : FlutterActivity() {
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, mainChannel).setMethodCallHandler { call, result ->
             when (call.method) {
                 "get-today-times" -> getTodayTimes(result)
-                "refresh-times" -> refreshTimes(call, result)
+                "save-city" -> saveCity(call, result)
                 "get-azan-flags" -> getAzanFlags(result)
                 "set-azan-flag" -> setAzanFlag(call, result)
                 "get-fonts-scale" -> getFontsScale(result)
@@ -135,24 +136,20 @@ class MainActivity : FlutterActivity() {
         result.success(true)
     }
 
-    private fun refreshTimes(call: MethodCall, result: MethodChannel.Result) {
+    private fun saveCity(call: MethodCall, result: MethodChannel.Result) {
         val city = call.argument<String>(channelParamCity)
         val cityId = call.argument<Int>(channelParamCityId)
         val latitude = call.argument<String>(channelParamLatitude)
         val longitude = call.argument<String>(channelParamLongitude)
+        val timeZone = call.argument<Int>(channelParamTimeZone)
 
-        if (city == null || cityId == null || latitude == null || longitude == null) {
+        if (city == null || cityId == null || latitude == null || longitude == null || timeZone == null) {
             result.error(channelErrorNotEnoughParams, null, null)
             return
         }
 
-        CoroutineScope(Dispatchers.IO).launch {
-            SolatRepository(context).refresh(city, cityId, latitude, longitude)
-
-            withContext(Dispatchers.Main.immediate) {
-                result.success(true)
-            }
-        }
+        SolatRepository(context).saveCityParams(city, cityId, latitude, longitude, timeZone)
+        result.success(true)
     }
 
     private fun getTodayTimes(result: MethodChannel.Result) {

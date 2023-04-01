@@ -11,7 +11,7 @@ import android.widget.RemoteViews
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kz.azan.solat.model.Times
+import kz.azan.solat.domain.Times
 import kz.azan.solat.repository.SolatRepository
 import java.util.*
 
@@ -31,7 +31,6 @@ class SolatWidget : AppWidgetProvider() {
         CoroutineScope(Dispatchers.IO).launch {
             val views = RemoteViews(context.packageName, R.layout.solat_widget).apply {
                 setOnClickPendingIntent(R.id.solat_widget, mainActivityIntent)
-
 
                 val solatRepository = SolatRepository(context)
                 setTextViewText(R.id.widget_date, solatRepository.getCurrentDateByHidjra())
