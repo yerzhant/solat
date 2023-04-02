@@ -44,6 +44,16 @@ class SolatRepository(private val context: Context) {
         SimpleDateFormat("d MMMM y").format(Date())
     }
 
+    fun resetCityIdIfTimeZoneNotSet() {
+        val settings = context.getSharedPreferences(SETTINGS_NAME, Context.MODE_PRIVATE)
+        if (!settings.contains(settingTimeZone)) {
+            with(settings.edit()) {
+                remove(settingCityId)
+                apply()
+            }
+        }
+    }
+
     fun getTodayTimes(): Times? {
         val settings = context.getSharedPreferences(SETTINGS_NAME, Context.MODE_PRIVATE)
         val cityId = settings.getInt(settingCityId, -1)

@@ -44,6 +44,8 @@ class MainActivity : FlutterActivity() {
         AlarmService().init(context)
         createNotificationChannel()
 
+        SolatRepository(context).resetCityIdIfTimeZoneNotSet()
+
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, mainChannel).setMethodCallHandler { call, result ->
             when (call.method) {
                 "save-city" -> saveCity(call, result)
