@@ -17,6 +17,12 @@ struct Settings {
     
     private static let settings = UserDefaults(suiteName: appGroup)
     
+    static func removeCityIfTimeZoneNotSet() {
+        if settings?.object(forKey: timeZone) == nil {
+            removeCity()
+        }
+    }
+    
     static func getCity() -> String? {
         settings?.string(forKey: city)
     }

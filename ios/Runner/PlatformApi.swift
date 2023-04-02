@@ -17,6 +17,8 @@ private let errorNotEnoughParams = "not-enough-params"
 class PlatformApi {
     
     init(app: AppDelegate) {
+        Settings.removeCityIfTimeZoneNotSet()
+        
         NotificationService.initialize(app: app)
         AlarmService.initialize()
         
