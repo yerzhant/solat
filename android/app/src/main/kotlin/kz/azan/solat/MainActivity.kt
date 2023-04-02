@@ -46,8 +46,8 @@ class MainActivity : FlutterActivity() {
 
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, mainChannel).setMethodCallHandler { call, result ->
             when (call.method) {
-                "get-today-times" -> getTodayTimes(result)
                 "save-city" -> saveCity(call, result)
+                "get-today-times" -> getTodayTimes(result)
                 "get-azan-flags" -> getAzanFlags(result)
                 "set-azan-flag" -> setAzanFlag(call, result)
                 "get-fonts-scale" -> getFontsScale(result)
@@ -161,13 +161,13 @@ class MainActivity : FlutterActivity() {
             return
         }
 
-        CoroutineScope(Dispatchers.Main).launch {
-            val todayTimes = solatRepository.getTodayTimes()
-            if (todayTimes == null) {
-                result.error(channelErrorNoTimesForToday, null, null)
-                return@launch
-            }
+        val todayTimes = solatRepository.getTodayTimes()
+        if (todayTimes == null) {
+            result.error(channelErrorNoTimesForToday, null, null)
+            return
+        }
 
+        CoroutineScope(Dispatchers.Main).launch {
             val currentDateByHidjra = solatRepository.getCurrentDateByHidjra()
 
             withContext(Dispatchers.Main.immediate) {
