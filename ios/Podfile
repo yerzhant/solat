@@ -33,13 +33,13 @@ target 'Runner' do
 
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
 
-  pod 'Alamofire', '~> 5.5'
+  pod 'Alamofire', '~> 5.6.4'
 end
 
 target 'WidgetsExtension' do
   use_frameworks!
 
-  pod 'Alamofire', '~> 5.5'
+  pod 'Alamofire', '~> 5.6.4'
 end
 
 post_install do |installer|
