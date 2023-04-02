@@ -5,59 +5,58 @@
 //  Created by Yerzhan Tulepov on 19.01.2022.
 //
 
+import Foundation
+
 struct SolatTimes {
-    
-    static func getForToday() async throws -> Times? {
-        let format = DateFormatter()
-        format.locale = Locale(identifier: "ru")
-        format.dateFormat = "yyyy-MM-dd"
-        let today = format.string(from: Date())
-        
-        if let times = try Database().find(on: today) {
-            return times
-            //            return Times(date: "19-01-2022", fadjr: "12:22", sunrise: "12:22", dhuhr: "12:22", asr: "12:22", maghrib: "12:22", isha: "19:11")
+
+    static func getForToday() -> Times? {
+        if Settings.getCity() == nil { return nil }
+
+        func offsetOf(min: Int) -> NSMutableDictionary {
+            [
+                "fajr": 0,
+                "sunrise": -min,
+                "dhuhr": min,
+                "asr": min,
+                "sunset": 0,
+                "maghrib": min,
+                "isha": 0,
+            ]
         }
-        
-        return try await refreshTimesIfCityIsSet(today: today)
+
+        let prayTime = PrayTime()
+        prayTime.setCalcMethod(Int32(prayTime.isna))
+        prayTime.setAsrMethod(Int32(prayTime.hanafi))
+        prayTime.setHighLatsMethod(Int32(prayTime.angleBased))
+
+        let latitude = Double(Settings.getLatitude()!)!
+        let longitude = Double(Settings.getLongitude()!)!
+        let timeZone = Double(Settings.getTimeZone()!)
+
+        prayTime.tune(offsetOf(min: latitude < 48 ? 3 : 5))
+
+        let now = Date()
+        let cal = Calendar.current
+        let comps = cal.dateComponents([.year, .month, .day], from: now)
+        let times = prayTime.getPrayerTimes(comps, andLatitude: latitude, andLongitude: longitude, andtimeZone: timeZone)!
+
+        return Times(
+            fadjr: String(describing: times[0]),
+            sunrise: String(describing: times[1]),
+            dhuhr: String(describing: times[2]),
+            asr: String(describing: times[3]),
+            maghrib: String(describing: times[5]),
+            isha: String(describing: times[6])
+        )
     }
     
-    private static func refreshTimesIfCityIsSet(today: String) async throws -> Times? {
-        if let city = Settings.getCity() {
-            let latitude = Settings.getLatitude()!
-            let longitude = Settings.getLongitude()!
-            try await refresh(city: city, latitude: latitude, longitude: longitude)
-            return try Database().find(on: today)
-        } else {
-            return nil
-        }
-    }
-    
-    static func refresh(city: String, latitude: String, longitude: String) async throws {
-        let times = try await getTimes(latitude: latitude, longitude: longitude)
-        
+    static func saveCityParams(city: String, latitude: String, longitude: String, timeZone: Int) {
         Settings.removeCity()
-        
-        try Database().replaceAll(by: times)
         
         Settings.setLatitude(to: latitude)
         Settings.setLongitude(to: longitude)
+        Settings.setTimeZone(to: timeZone)
         Settings.setCity(name: city)
-    }
-    
-    private static func getTimes(latitude: String, longitude: String) async throws -> [Times] {
-        let result = try await MuftiyatService.getTimes(latitude: latitude, longitude: longitude)
-        
-        return result.result.map { t in
-            Times(
-                date: t.Date.trimmingCharacters(in: .whitespaces),
-                fadjr: t.fajr.trimmingCharacters(in: .whitespaces),
-                sunrise: t.sunrise.trimmingCharacters(in: .whitespaces),
-                dhuhr: t.dhuhr.trimmingCharacters(in: .whitespaces),
-                asr: t.asr.trimmingCharacters(in: .whitespaces),
-                maghrib: t.maghrib.trimmingCharacters(in: .whitespaces),
-                isha: t.isha.trimmingCharacters(in: .whitespaces)
-            )
-        }
     }
     
     static func getHijrahDate() async throws -> String {

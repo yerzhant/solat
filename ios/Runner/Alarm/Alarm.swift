@@ -45,32 +45,30 @@ struct AlarmService {
     static func rescheduleNotifications() {
         NotificationService.removeAllPending()
         
-        Task {
-            guard let times = try await SolatTimes.getForToday() else { return }
-            
-            if Settings.getAzanFlag(type: .fadjr) {
-                NotificationService.schedule(type: .fadjr, time: times.fadjr)
-            }
-            
-            if Settings.getAzanFlag(type: .sunrise) {
-                NotificationService.schedule(type: .sunrise, time: times.sunrise)
-            }
-            
-            if Settings.getAzanFlag(type: .dhuhr) {
-                NotificationService.schedule(type: .dhuhr, time: times.dhuhr)
-            }
-            
-            if Settings.getAzanFlag(type: .asr) {
-                NotificationService.schedule(type: .asr, time: times.asr)
-            }
-            
-            if Settings.getAzanFlag(type: .maghrib) {
-                NotificationService.schedule(type: .maghrib, time: times.maghrib)
-            }
-            
-            if Settings.getAzanFlag(type: .isha) {
-                NotificationService.schedule(type: .isha, time: times.isha)
-            }
+        guard let times = SolatTimes.getForToday() else { return }
+
+        if Settings.getAzanFlag(type: .fadjr) {
+            NotificationService.schedule(type: .fadjr, time: times.fadjr)
+        }
+        
+        if Settings.getAzanFlag(type: .sunrise) {
+            NotificationService.schedule(type: .sunrise, time: times.sunrise)
+        }
+        
+        if Settings.getAzanFlag(type: .dhuhr) {
+            NotificationService.schedule(type: .dhuhr, time: times.dhuhr)
+        }
+        
+        if Settings.getAzanFlag(type: .asr) {
+            NotificationService.schedule(type: .asr, time: times.asr)
+        }
+        
+        if Settings.getAzanFlag(type: .maghrib) {
+            NotificationService.schedule(type: .maghrib, time: times.maghrib)
+        }
+        
+        if Settings.getAzanFlag(type: .isha) {
+            NotificationService.schedule(type: .isha, time: times.isha)
         }
     }
 }

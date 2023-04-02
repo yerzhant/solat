@@ -11,6 +11,7 @@ struct Settings {
     private static let city = "city"
     private static let latitude = "latitude"
     private static let longitude = "longitude"
+    private static let timeZone = "time-zone"
     private static let requestHidjrahDateFromServer = "request-hijrah-date-from-server"
     private static let azanTypePrefix = "azan-type-"
     
@@ -42,6 +43,14 @@ struct Settings {
     
     static func setLongitude(to value: String) {
         settings?.set(value, forKey: longitude)
+    }
+    
+    static func getTimeZone() -> Int? {
+        settings?.integer(forKey: timeZone)
+    }
+    
+    static func setTimeZone(to value: Int) {
+        settings?.set(value, forKey: timeZone)
     }
     
     static func getRequestHidjrahDateFromServer() -> Bool {

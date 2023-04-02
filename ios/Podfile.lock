@@ -5,9 +5,6 @@ PODS:
   - Flutter (1.0.0)
   - flutter_keyboard_visibility (0.0.1):
     - Flutter
-  - SQLite.swift (0.13.1):
-    - SQLite.swift/standard (= 0.13.1)
-  - SQLite.swift/standard (0.13.1)
   - url_launcher (0.0.1):
     - Flutter
 
@@ -16,13 +13,11 @@ DEPENDENCIES:
   - app_settings (from `.symlinks/plugins/app_settings/ios`)
   - Flutter (from `Flutter`)
   - flutter_keyboard_visibility (from `.symlinks/plugins/flutter_keyboard_visibility/ios`)
-  - SQLite.swift (~> 0.13.1)
   - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
 
 SPEC REPOS:
   trunk:
     - Alamofire
-    - SQLite.swift
 
 EXTERNAL SOURCES:
   app_settings:
@@ -39,9 +34,8 @@ SPEC CHECKSUMS:
   app_settings: d103828c9f5d515c4df9ee754dabd443f7cedcf3
   Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
   flutter_keyboard_visibility: 0339d06371254c3eb25eeb90ba8d17dca8f9c069
-  SQLite.swift: 30f2cdb09627181d472e55c4bc6b3b161f28de33
   url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
 
-PODFILE CHECKSUM: 5d59dcf53ea12e8c88139bebac074a0d64f62664
+PODFILE CHECKSUM: e3e165e3685f504a1fb8d9bd0675ef69180c0133
 
 COCOAPODS: 1.10.1

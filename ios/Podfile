@@ -34,14 +34,12 @@ target 'Runner' do
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
 
   pod 'Alamofire', '~> 5.5'
-  pod 'SQLite.swift', '~> 0.13.1'
 end
 
 target 'WidgetsExtension' do
   use_frameworks!
 
   pod 'Alamofire', '~> 5.5'
-  pod 'SQLite.swift', '~> 0.13.1'
 end
 
 post_install do |installer|

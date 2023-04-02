@@ -32,7 +32,7 @@ class PlatformApi {
             case "get-fonts-scale": self.getFontsScale(result: result)
             case "get-azan-volume": self.getAzanVolume(result: result)
             case "set-azan-flag": self.setAzanFlag(call: call, result: result)
-            case "refresh-times": self.refreshTimes(call: call, result: result)
+            case "save-city": self.saveCity(call: call, result: result)
             case "get-request-hidjra-date-from-server": self.getRequestHijrahDateFromServer(result: result)
             case "set-request-hidjra-date-from-server": self.setRequestHidrahDateFromServer(call: call, result: result)
                 
@@ -45,24 +45,22 @@ class PlatformApi {
         WidgetCenter.shared.reloadTimelines(ofKind: "kz.azan.solat.widget")
     }
     
-    private func refreshTimes(call: FlutterMethodCall, result: @escaping FlutterResult) {
-        let args = call.arguments as? [String:String]
+    private func saveCity(call: FlutterMethodCall, result: @escaping FlutterResult) {
+        let args = call.arguments as? [String:Any]
         
-        guard let city = args?[paramCity], let latitude = args?["latitude"], let longitude = args?["longitude"] else {
+        guard let city = args?[paramCity] as? String,
+              let latitude = args?["latitude"] as? String,
+              let longitude = args?["longitude"] as? String,
+              let timeZone = args?["time-zone"] as? Int
+        else {
             result(FlutterError(code: errorNotEnoughParams, message: nil, details: nil))
             return
         }
         
-        Task {
-            do {
-                try await SolatTimes.refresh(city: city, latitude: latitude, longitude: longitude)
-                AlarmService.rescheduleNotifications()
-                refreshWidget()
-                result(true)
-            } catch {
-                result(FlutterError(code: "refresh-times-error", message: error.localizedDescription, details: nil))
-            }
-        }
+        SolatTimes.saveCityParams(city: city, latitude: latitude, longitude: longitude, timeZone: timeZone)
+        AlarmService.rescheduleNotifications()
+        refreshWidget()
+        result(true)
     }
     
     private func getTodayTimes(result: @escaping FlutterResult) {
@@ -71,12 +69,12 @@ class PlatformApi {
             return
         }
         
+        guard let times = SolatTimes.getForToday() else {
+            result(FlutterError(code: "no-times-for-today", message: nil, details: nil))
+            return
+        }
+        
         Task {
-            guard let times = try await SolatTimes.getForToday() else {
-                result(FlutterError(code: "no-times-for-today", message: nil, details: nil))
-                return
-            }
-            
             let dateByHidjrah = try await SolatTimes.getHijrahDate()
             
             result([

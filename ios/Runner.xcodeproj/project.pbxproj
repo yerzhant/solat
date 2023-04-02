@@ -9,9 +9,7 @@
 /* Begin PBXBuildFile section */
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
-		6302503527971F670043F8BF /* MuftiyatService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6302503427971F670043F8BF /* MuftiyatService.swift */; };
 		6302503827973A870043F8BF /* AzanService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6302503727973A870043F8BF /* AzanService.swift */; };
-		6302503B279745360043F8BF /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6302503A279745360043F8BF /* Database.swift */; };
 		6302503D2797525A0043F8BF /* Times.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6302503C2797525A0043F8BF /* Times.swift */; };
 		630250432797EA540043F8BF /* HijrahDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 630250422797EA540043F8BF /* HijrahDate.swift */; };
 		63025047279823F30043F8BF /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63025046279823F30043F8BF /* Settings.swift */; };
@@ -20,9 +18,10 @@
 		6314DDEE27985292003367DC /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6314DDED27985292003367DC /* Notification.swift */; };
 		633340402796FCCD00B6EF29 /* PlatformApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6333403F2796FCCD00B6EF29 /* PlatformApi.swift */; };
 		63475F3227AEAD3700E6ED9A /* azan.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 63475F3127AEAD3700E6ED9A /* azan.m4a */; };
-		638CBC9427BA0C9B0063215C /* SolatTimes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638CBC9327BA0C7C0063215C /* SolatTimes.swift */; };
-		638CBC9527BA0CA80063215C /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6302503A279745360043F8BF /* Database.swift */; };
-		638CBC9727BA0CE00063215C /* Times.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6302503C2797525A0043F8BF /* Times.swift */; };
+		63545D6029D8A5CF00627461 /* PrayTime.m in Sources */ = {isa = PBXBuildFile; fileRef = 63545D5F29D8A5CF00627461 /* PrayTime.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		63545D6129D9500500627461 /* Times.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6302503C2797525A0043F8BF /* Times.swift */; };
+		63545D6229D9510A00627461 /* PrayTime.m in Sources */ = {isa = PBXBuildFile; fileRef = 63545D5F29D8A5CF00627461 /* PrayTime.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		63545D6329D9528A00627461 /* SolatTimes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 630250482798277C0043F8BF /* SolatTimes.swift */; };
 		638CBC9827BA0CF80063215C /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63025046279823F30043F8BF /* Settings.swift */; };
 		638CBC9927BA0D610063215C /* AzanService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6302503727973A870043F8BF /* AzanService.swift */; };
 		638CBC9A27BA0DA00063215C /* HijrahDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 630250422797EA540043F8BF /* HijrahDate.swift */; };
@@ -85,9 +84,7 @@
 		1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneratedPluginRegistrant.m; sourceTree = "<group>"; };
 		15F66DBEA9B3CCE5980AC60C /* Pods_WidgetsExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WidgetsExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFrameworkInfo.plist; path = Flutter/AppFrameworkInfo.plist; sourceTree = "<group>"; };
-		6302503427971F670043F8BF /* MuftiyatService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuftiyatService.swift; sourceTree = "<group>"; };
 		6302503727973A870043F8BF /* AzanService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AzanService.swift; sourceTree = "<group>"; };
-		6302503A279745360043F8BF /* Database.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
 		6302503C2797525A0043F8BF /* Times.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Times.swift; sourceTree = "<group>"; };
 		630250422797EA540043F8BF /* HijrahDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HijrahDate.swift; sourceTree = "<group>"; };
 		63025046279823F30043F8BF /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
@@ -96,7 +93,9 @@
 		6314DDED27985292003367DC /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		6333403F2796FCCD00B6EF29 /* PlatformApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlatformApi.swift; sourceTree = "<group>"; };
 		63475F3127AEAD3700E6ED9A /* azan.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = azan.m4a; sourceTree = "<group>"; };
-		638CBC9327BA0C7C0063215C /* SolatTimes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolatTimes.swift; sourceTree = "<group>"; };
+		63545D5E29D8A58000627461 /* PrayTime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrayTime.h; sourceTree = "<group>"; };
+		63545D5F29D8A5CF00627461 /* PrayTime.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PrayTime.m; sourceTree = "<group>"; };
+		63545D6429D9563100627461 /* Widget-Bridging.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Widget-Bridging.h"; sourceTree = "<group>"; };
 		63A0AE2927B95901006E3803 /* montserrat.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = montserrat.ttf; path = ../../../android/app/src/main/res/font/montserrat.ttf; sourceTree = "<group>"; };
 		63A0AE2A27B95901006E3803 /* montserrat_medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = montserrat_medium.ttf; path = ../../../android/app/src/main/res/font/montserrat_medium.ttf; sourceTree = "<group>"; };
 		63A0AE2D27B95901006E3803 /* montserrat_semi_bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = montserrat_semi_bold.ttf; path = ../../../android/app/src/main/res/font/montserrat_semi_bold.ttf; sourceTree = "<group>"; };
@@ -157,7 +156,6 @@
 			isa = PBXGroup;
 			children = (
 				6302503727973A870043F8BF /* AzanService.swift */,
-				6302503427971F670043F8BF /* MuftiyatService.swift */,
 			);
 			path = Http;
 			sourceTree = "<group>";
@@ -179,15 +177,6 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
-		6302504A27984A710043F8BF /* Database */ = {
-			isa = PBXGroup;
-			children = (
-				6302503A279745360043F8BF /* Database.swift */,
-				6302503C2797525A0043F8BF /* Times.swift */,
-			);
-			path = Database;
-			sourceTree = "<group>";
-		};
 		6302504B279852150043F8BF /* Alarm */ = {
 			isa = PBXGroup;
 			children = (
@@ -205,12 +194,14 @@
 			path = Sounds;
 			sourceTree = "<group>";
 		};
-		638CBC9227BA0C7C0063215C /* Services */ = {
+		63545D5D29D8A54600627461 /* PrayTime */ = {
 			isa = PBXGroup;
 			children = (
-				638CBC9327BA0C7C0063215C /* SolatTimes.swift */,
+				63545D5E29D8A58000627461 /* PrayTime.h */,
+				63545D5F29D8A5CF00627461 /* PrayTime.m */,
+				6302503C2797525A0043F8BF /* Times.swift */,
 			);
-			path = Services;
+			path = PrayTime;
 			sourceTree = "<group>";
 		};
 		63A0ADFF27B951D3006E3803 /* Fonts */ = {
@@ -228,7 +219,6 @@
 		63D9C40C27B0464400578B53 /* Widgets */ = {
 			isa = PBXGroup;
 			children = (
-				638CBC9227BA0C7C0063215C /* Services */,
 				63C762F727B8049800720A4C /* MediumWidget.swift */,
 				63D9C41A27B04ED400578B53 /* Provider.swift */,
 				63D9C40D27B0464400578B53 /* Widgets.swift */,
@@ -236,6 +226,7 @@
 				63D9C41127B0464500578B53 /* Info.plist */,
 				63D9C40F27B0464500578B53 /* Assets.xcassets */,
 				63A227DF27B974E100D3FE73 /* WidgetsExtension.entitlements */,
+				63545D6429D9563100627461 /* Widget-Bridging.h */,
 			);
 			path = Widgets;
 			sourceTree = "<group>";
@@ -275,9 +266,9 @@
 		97C146F01CF9000F007C117D /* Runner */ = {
 			isa = PBXGroup;
 			children = (
+				63545D5D29D8A54600627461 /* PrayTime */,
 				6302504B279852150043F8BF /* Alarm */,
 				6302503627971F930043F8BF /* Http */,
-				6302504A27984A710043F8BF /* Database */,
 				6302503E2797EA1B0043F8BF /* Repo */,
 				630250452797F0810043F8BF /* Utils */,
 				74858FAE1ED2DC5600515810 /* AppDelegate.swift */,
@@ -527,13 +518,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63545D6129D9500500627461 /* Times.swift in Sources */,
 				638CBC9A27BA0DA00063215C /* HijrahDate.swift in Sources */,
-				638CBC9727BA0CE00063215C /* Times.swift in Sources */,
-				638CBC9427BA0C9B0063215C /* SolatTimes.swift in Sources */,
+				63545D6229D9510A00627461 /* PrayTime.m in Sources */,
 				638CBC9827BA0CF80063215C /* Settings.swift in Sources */,
 				63C762F827B8049800720A4C /* MediumWidget.swift in Sources */,
+				63545D6329D9528A00627461 /* SolatTimes.swift in Sources */,
 				63D9C41B27B04ED400578B53 /* Provider.swift in Sources */,
-				638CBC9527BA0CA80063215C /* Database.swift in Sources */,
 				63D9C40E27B0464400578B53 /* Widgets.swift in Sources */,
 				638CBC9927BA0D610063215C /* AzanService.swift in Sources */,
 			);
@@ -544,9 +535,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				6302503D2797525A0043F8BF /* Times.swift in Sources */,
-				6302503B279745360043F8BF /* Database.swift in Sources */,
+				63545D6029D8A5CF00627461 /* PrayTime.m in Sources */,
 				6302503827973A870043F8BF /* AzanService.swift in Sources */,
-				6302503527971F670043F8BF /* MuftiyatService.swift in Sources */,
 				74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */,
 				633340402796FCCD00B6EF29 /* PlatformApi.swift in Sources */,
 				63025047279823F30043F8BF /* Settings.swift in Sources */,
@@ -707,6 +697,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Widgets/Widget-Bridging.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -747,6 +738,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Widgets/Widget-Bridging.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -787,6 +779,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Widgets/Widget-Bridging.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

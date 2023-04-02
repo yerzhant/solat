@@ -14,12 +14,12 @@ struct Provider: TimelineProvider {
             return
         }
         
-        Task {
-            guard let times = try await SolatTimes.getForToday() else {
-                completion(Provider.noDataEntry)
-                return
-            }
+        guard let times = SolatTimes.getForToday() else {
+            completion(Provider.noDataEntry)
+            return
+        }
             
+        Task {
             let dateByHijrah = try await SolatTimes.getHijrahDate()
             
             let type = getAzanType(times: times)
@@ -90,17 +90,17 @@ struct Provider: TimelineProvider {
     }
     
     func getTimeline(in context: Context, completion: @escaping (Timeline<SolatEntry>) -> ()) {
+        guard let city = Settings.getCity() else {
+            getNoDataTimeline(completion)
+            return
+        }
+        
+        guard let times = SolatTimes.getForToday() else {
+            getNoDataTimeline(completion)
+            return
+        }
+            
         Task {
-            guard let city = Settings.getCity() else {
-                getNoDataTimeline(completion)
-                return
-            }
-            
-            guard let times = try await SolatTimes.getForToday() else {
-                getNoDataTimeline(completion)
-                return
-            }
-            
             let dateByHijrah = try await SolatTimes.getHijrahDate()
             
             let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: Date())!
@@ -121,7 +121,7 @@ struct Provider: TimelineProvider {
         city: "",
         dateByHijrah: "Нет данных",
         type: .fadjr,
-        times: Times(date: "", fadjr: "", sunrise: "", dhuhr: "", asr: "", maghrib: "", isha: "")
+        times: Times(fadjr: "", sunrise: "", dhuhr: "", asr: "", maghrib: "", isha: "")
     )
     
     static let previewEntry = SolatEntry(
@@ -129,7 +129,7 @@ struct Provider: TimelineProvider {
         city: "Алматы",
         dateByHijrah: "10 Раджаб 1443",
         type: .asr,
-        times: Times(date: "", fadjr: "06:35", sunrise: "07:52", dhuhr: "13:09", asr: "16:38", maghrib: "18:22", isha: "19:38")
+        times: Times(fadjr: "06:35", sunrise: "07:52", dhuhr: "13:09", asr: "16:38", maghrib: "18:22", isha: "19:38")
     )
 }
 

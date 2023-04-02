@@ -5,8 +5,7 @@
 //  Created by Yerzhan Tulepov on 19.01.2022.
 //
 
-struct Times : Codable {
-    let date: String
+struct Times {
     let fadjr: String
     let sunrise: String
     let dhuhr: String
