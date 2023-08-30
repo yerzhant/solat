@@ -46,7 +46,7 @@ android {
     defaultConfig {
         applicationId "kz.azan.solat"
         minSdkVersion 23
-        targetSdkVersion 32
+        targetSdkVersion 33
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
