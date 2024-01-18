@@ -13,14 +13,13 @@ void main() {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (context) =>
-                TimesBloc(context.repository<SolatRepository>())
-                  ..add(TimesTodayRequested()),
+            create: (context) => TimesBloc(context.read<SolatRepository>())
+              ..add(TimesTodayRequested()),
           ),
           BlocProvider(
             create: (context) => SettingsBloc(
-              context.repository<SolatRepository>(),
-              context.bloc<TimesBloc>(),
+              context.read<SolatRepository>(),
+              context.read<TimesBloc>(),
             ),
           ),
         ],
