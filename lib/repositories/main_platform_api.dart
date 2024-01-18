@@ -31,21 +31,22 @@ class MainPlatformApi {
   static const channel = MethodChannel('solat.azan.kz/main');
 
   Future<Times> getTodayTimes() async {
-    final result = await channel.invokeMapMethod("get-today-times");
+    final result =
+        (await channel.invokeMapMethod<String, String>("get-today-times"))!;
     return Times(
-      result[cityName],
-      result[currentDateByHidjra],
-      result[fadjr],
-      result[sunrise],
-      result[dhuhr],
-      result[asr],
-      result[maghrib],
-      result[isha],
+      result[cityName]!,
+      result[currentDateByHidjra]!,
+      result[fadjr]!,
+      result[sunrise]!,
+      result[dhuhr]!,
+      result[asr]!,
+      result[maghrib]!,
+      result[isha]!,
     );
   }
 
   Future<Map<int, bool>> getAzanFlags() {
-    return channel.invokeMapMethod('get-azan-flags');
+    return channel.invokeMapMethod('get-azan-flags') as Future<Map<int, bool>>;
   }
 
   Future<void> setAzanFlag(type, value) async {
@@ -65,7 +66,7 @@ class MainPlatformApi {
   }
 
   Future<double> getFontsScale() {
-    return channel.invokeMethod('get-fonts-scale');
+    return channel.invokeMethod('get-fonts-scale') as Future<double>;
   }
 
   Future<void> setFontsScale(double scale) {
@@ -73,7 +74,7 @@ class MainPlatformApi {
   }
 
   Future<double> getAzanVolume() {
-    return channel.invokeMethod('get-azan-volume');
+    return channel.invokeMethod('get-azan-volume') as Future<double>;
   }
 
   Future<void> setAzanVolume(double volume) {
@@ -81,7 +82,8 @@ class MainPlatformApi {
   }
 
   Future<bool> getRequestHidjraDateFromServer() {
-    return channel.invokeMethod('get-request-hidjra-date-from-server');
+    return channel.invokeMethod('get-request-hidjra-date-from-server')
+        as Future<bool>;
   }
 
   Future<void> setRequestHidjraDateFromServer(bool value) {
