@@ -7,7 +7,7 @@ class AzanApi {
   static const _baseUrl = 'https://azan.kz/api';
 
   Future<List<City>> getCities() async {
-    final response = await http.get('$_baseUrl/asr/cities');
+    final response = await http.get(Uri.parse('$_baseUrl/asr/cities'));
 
     if (response.statusCode != 200) {
       throw Exception('Unable to get cities: ${response.statusCode}');
