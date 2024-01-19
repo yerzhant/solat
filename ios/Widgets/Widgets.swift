@@ -21,5 +21,6 @@ struct Widgets: Widget {
         .configurationDisplayName("Время намаза")
         .description("Время намаза для Казахстана.")
         .supportedFamilies([.systemMedium])
+        .contentMarginsDisabled()
     }
 }

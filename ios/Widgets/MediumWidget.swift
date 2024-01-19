@@ -39,7 +39,7 @@ struct MediumWidget : View {
                 }
             }.foregroundColor(Color.white)
                 .padding(7)
-        }
+        }.widgetBackground(backgroundView: Color("WidgetBackground"))
     }
 }
 
@@ -55,7 +55,7 @@ struct SolatTime : View {
                 .padding(.bottom, -3)
             
             Divider()
-                .frame(width: 36)
+                .frame(width: 36, height: 0.5)
                 .background(Color.white)
             
             Text(time)
@@ -76,5 +76,17 @@ struct Preview: PreviewProvider {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color("WidgetBackground"))
             .previewContext(WidgetPreviewContext(family: .systemMedium))
+    }
+}
+
+extension View {
+    func widgetBackground(backgroundView: some View) -> some View {
+        if #available(iOSApplicationExtension 17.0, *) {
+            return containerBackground(for: .widget) {
+                backgroundView
+            }
+        } else {
+            return background(backgroundView)
+        }
     }
 }
