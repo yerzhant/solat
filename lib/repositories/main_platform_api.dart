@@ -45,8 +45,8 @@ class MainPlatformApi {
     );
   }
 
-  Future<Map<int, bool>> getAzanFlags() {
-    return channel.invokeMapMethod('get-azan-flags') as Future<Map<int, bool>>;
+  Future<Map<int, bool>> getAzanFlags() async {
+    return (await channel.invokeMapMethod<int, bool>('get-azan-flags'))!;
   }
 
   Future<void> setAzanFlag(type, value) async {
@@ -65,25 +65,24 @@ class MainPlatformApi {
     return channel.invokeMethod("save-city", params);
   }
 
-  Future<double> getFontsScale() {
-    return channel.invokeMethod('get-fonts-scale') as Future<double>;
+  Future<double> getFontsScale() async {
+    return await channel.invokeMethod('get-fonts-scale');
   }
 
   Future<void> setFontsScale(double scale) {
     return channel.invokeMethod('set-fonts-scale', {fontsScale: scale});
   }
 
-  Future<double> getAzanVolume() {
-    return channel.invokeMethod('get-azan-volume') as Future<double>;
+  Future<double> getAzanVolume() async {
+    return await channel.invokeMethod('get-azan-volume');
   }
 
   Future<void> setAzanVolume(double volume) {
     return channel.invokeMethod('set-azan-volume', {azanVolume: volume});
   }
 
-  Future<bool> getRequestHidjraDateFromServer() {
-    return channel.invokeMethod('get-request-hidjra-date-from-server')
-        as Future<bool>;
+  Future<bool> getRequestHidjraDateFromServer() async {
+    return await channel.invokeMethod('get-request-hidjra-date-from-server');
   }
 
   Future<void> setRequestHidjraDateFromServer(bool value) {
