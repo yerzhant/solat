@@ -41,7 +41,7 @@ class TimesWidget extends StatelessWidget {
                   else
                     GestureDetector(
                       child: Text(
-                        'Выберите город',
+                        'Выбрать город',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: widgetMainFontSize,

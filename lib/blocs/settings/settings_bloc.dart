@@ -1,8 +1,5 @@
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:solat/blocs/times/times_bloc.dart';
 import 'package:solat/models/city.dart';
 import 'package:solat/repositories/azan_repository.dart';
 import 'package:solat/repositories/solat_repository.dart';
@@ -13,18 +10,8 @@ part 'settings_state.dart';
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   final AzanRepository _azanRepository = AzanRepository();
   final SolatRepository _solatRepository;
-  final TimesBloc _timesBloc;
 
-  late StreamSubscription _timesBlocSubscription;
-
-  SettingsBloc(this._solatRepository, this._timesBloc)
-      : super(SettingsInProgress()) {
-    _timesBlocSubscription = _timesBloc.stream.listen((state) {
-      if (state is TimesTodayCityNotSet) {
-        add(SettingsRequested());
-      }
-    });
-
+  SettingsBloc(this._solatRepository) : super(SettingsInProgress()) {
     on<SettingsRequested>((event, emit) async {
       try {
         emit(SettingsInProgress());
@@ -111,11 +98,5 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         emit(SettingsFailure(e.toString()));
       }
     });
-  }
-
-  @override
-  Future<void> close() {
-    _timesBlocSubscription.cancel();
-    return super.close();
   }
 }

@@ -17,10 +17,7 @@ void main() {
               ..add(TimesTodayRequested()),
           ),
           BlocProvider(
-            create: (context) => SettingsBloc(
-              context.read<SolatRepository>(),
-              context.read<TimesBloc>(),
-            ),
+            create: (context) => SettingsBloc(context.read<SolatRepository>()),
           ),
         ],
         child: SolatApp(),
