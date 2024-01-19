@@ -1,7 +1,7 @@
 part of 'settings_bloc.dart';
 
 @immutable
-abstract class SettingsState {}
+sealed class SettingsState {}
 
 class SettingsInProgress extends SettingsState {}
 

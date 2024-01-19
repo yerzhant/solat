@@ -15,24 +15,19 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   final SolatRepository _solatRepository;
   final TimesBloc _timesBloc;
 
-  StreamSubscription _timesBlocSubscription;
+  late StreamSubscription _timesBlocSubscription;
 
-  SettingsBloc(this._solatRepository, this._timesBloc) {
-    _timesBlocSubscription = _timesBloc.listen((state) {
+  SettingsBloc(this._solatRepository, this._timesBloc)
+      : super(SettingsInProgress()) {
+    _timesBlocSubscription = _timesBloc.stream.listen((state) {
       if (state is TimesTodayCityNotSet) {
         add(SettingsRequested());
       }
     });
-  }
 
-  @override
-  SettingsState get initialState => SettingsInProgress();
-
-  @override
-  Stream<SettingsState> mapEventToState(SettingsEvent event) async* {
-    if (event is SettingsRequested) {
+    on<SettingsRequested>((event, emit) async {
       try {
-        yield SettingsInProgress();
+        emit(SettingsInProgress());
 
         final List<City> cities = await _azanRepository.getCities();
         final fontsScale = await _solatRepository.getFontsScale();
@@ -40,74 +35,82 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         final bool requestHidjraDateFromServer =
             await _solatRepository.getRequestHidjraDateFromServer();
 
-        yield SettingsSuccess(
+        emit(SettingsSuccess(
           cities,
           fontsScale,
           azanVolume,
           requestHidjraDateFromServer,
-        );
+        ));
       } catch (e) {
-        yield SettingsFailure(e.toString());
+        emit(SettingsFailure(e.toString()));
       }
-    } else if (event is SettingsCitySelected) {
+    });
+
+    on<SettingsCitySelected>((event, emit) async {
       try {
-        yield SettingsCitySelectInProgress(
+        emit(SettingsCitySelectInProgress(
           event.cities,
           event.fontsScale,
           event.azanVolume,
           event.requestHidjraDateFromServer,
-        );
+        ));
 
         await _solatRepository.saveCity(event.city);
 
-        yield SettingsCitySelectSuccess(event.city);
+        emit(SettingsCitySelectSuccess(event.city));
       } on Exception catch (e) {
-        yield SettingsCitySelectFailure(
+        emit(SettingsCitySelectFailure(
           event.cities,
           event.fontsScale,
           event.azanVolume,
           event.requestHidjraDateFromServer,
           e.toString(),
-        );
+        ));
       }
-    } else if (event is SettingsFontsScaleUpdated) {
+    });
+
+    on<SettingsFontsScaleUpdated>((event, emit) async {
       try {
         await _solatRepository.setFontsScale(event.scale);
-        yield SettingsSuccess(
+        emit(SettingsSuccess(
           event.cities,
           event.scale,
           event.azanVolume,
           event.requestHidjraDateFromServer,
-        );
+        ));
       } catch (e) {
-        yield SettingsFailure(e.toString());
+        emit(SettingsFailure(e.toString()));
       }
-    } else if (event is SettingsAzanVolumeUpdated) {
+    });
+
+    on<SettingsAzanVolumeUpdated>((event, emit) async {
       try {
         await _solatRepository.setAzanVolume(event.volume);
-        yield SettingsSuccess(
+        emit(SettingsSuccess(
           event.cities,
           event.fontScale,
           event.volume,
           event.requestHidjraDateFromServer,
-        );
+        ));
       } catch (e) {
-        yield SettingsFailure(e.toString());
+        emit(SettingsFailure(e.toString()));
       }
-    } else if (event is SettingsRequestHidjraDateFromServerUpdated) {
+    });
+
+    on<SettingsRequestHidjraDateFromServerUpdated>((event, emit) async {
       try {
         await _solatRepository
             .setRequestHidjraDateFromServer(event.requestHidjraDateFromServer);
-        yield SettingsSuccess(
+        emit(SettingsSuccess(
           event.cities,
           event.fontScale,
           event.volume,
           event.requestHidjraDateFromServer,
-        );
+        ));
       } catch (e) {
-        yield SettingsFailure(e.toString());
+        emit(SettingsFailure(e.toString()));
       }
-    }
+    });
   }
 
   @override

@@ -1,7 +1,7 @@
 part of 'settings_bloc.dart';
 
 @immutable
-abstract class SettingsEvent {}
+sealed class SettingsEvent {}
 
 class SettingsRequested extends SettingsEvent {}
 
@@ -18,7 +18,7 @@ class SettingsCitySelected extends SettingsEvent {
     this.fontsScale,
     this.azanVolume,
     this.requestHidjraDateFromServer,
-  ) : assert(city != null);
+  );
 }
 
 class SettingsFontsScaleUpdated extends SettingsEvent {
