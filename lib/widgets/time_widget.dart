@@ -11,12 +11,12 @@ class TimeWidget extends StatelessWidget {
   final bool isActive;
 
   const TimeWidget({
-    Key key,
-    @required this.title,
-    @required this.time,
-    @required this.type,
-    @required this.isAzanEnabled,
-    @required this.isActive,
+    Key? key,
+    required this.title,
+    required this.time,
+    required this.type,
+    required this.isAzanEnabled,
+    required this.isActive,
   }) : super(key: key);
 
   @override

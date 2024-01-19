@@ -7,7 +7,7 @@ import 'package:solat/repositories/main_platform_api.dart';
 import 'package:solat/widgets/time_widget.dart';
 
 class TimesWidget extends StatelessWidget {
-  const TimesWidget({Key key}) : super(key: key);
+  const TimesWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +50,7 @@ class TimesWidget extends StatelessWidget {
                         ),
                       ),
                       onTap: () =>
-                          context.bloc<SettingsBloc>().add(SettingsRequested()),
+                          context.read<SettingsBloc>().add(SettingsRequested()),
                     ),
                   if (state is TimesTodaySuccess)
                     Text(
@@ -184,23 +184,23 @@ class TimesWidget extends StatelessWidget {
     if (state is TimesTodaySuccess) {
       switch (type) {
         case 'fadjr':
-          return state.azanFlags[MainPlatformApi.fadjr];
+          return state.azanFlags[MainPlatformApi.fadjr]!;
         case 'sunrise':
-          return state.azanFlags[MainPlatformApi.sunrise];
+          return state.azanFlags[MainPlatformApi.sunrise]!;
         case 'dhuhr':
-          return state.azanFlags[MainPlatformApi.dhuhr];
+          return state.azanFlags[MainPlatformApi.dhuhr]!;
         case 'asr':
-          return state.azanFlags[MainPlatformApi.asr];
+          return state.azanFlags[MainPlatformApi.asr]!;
         case 'maghrib':
-          return state.azanFlags[MainPlatformApi.maghrib];
+          return state.azanFlags[MainPlatformApi.maghrib]!;
         case 'isha':
-          return state.azanFlags[MainPlatformApi.isha];
+          return state.azanFlags[MainPlatformApi.isha]!;
       }
     }
     return false;
   }
 
-  String _getActiveType(TimesState state) {
+  String? _getActiveType(TimesState state) {
     if (state is TimesTodaySuccess) {
       final now = DateTime.now();
 
@@ -218,6 +218,10 @@ class TimesWidget extends StatelessWidget {
 
   bool _isBefore(int currentHour, int currentMinute, String time) {
     var hourMinute = _splitTime(time);
+    if (hourMinute == null) {
+      return false;
+    }
+
     if (currentHour < hourMinute[0]) return true;
     if (currentHour == hourMinute[0] && currentMinute < hourMinute[1])
       return true;
@@ -225,7 +229,7 @@ class TimesWidget extends StatelessWidget {
     return false;
   }
 
-  List<int> _splitTime(String time) {
+  List<int>? _splitTime(String time) {
     if (time.isEmpty) return null;
 
     final parts = time.split(':');
@@ -234,7 +238,7 @@ class TimesWidget extends StatelessWidget {
     return [hour, minute];
   }
 
-  String _getNextTypeText(String activeType) {
+  String _getNextTypeText(String? activeType) {
     switch (activeType) {
       case 'fadjr':
         return 'Восход';
@@ -253,7 +257,7 @@ class TimesWidget extends StatelessWidget {
     }
   }
 
-  String _getNextType(String activeType) {
+  String _getNextType(String? activeType) {
     switch (activeType) {
       case 'fadjr':
         return 'sunrise';
@@ -275,7 +279,7 @@ class TimesWidget extends StatelessWidget {
   String _getLeftTime(
     BuildContext context,
     TimesState state,
-    String activeType,
+    String? activeType,
   ) {
     final nextTime = _getTime(state, _getNextType(activeType));
     final nextHourMinute = _splitTime(nextTime);
@@ -284,7 +288,7 @@ class TimesWidget extends StatelessWidget {
     if (state is TimesTodaySuccess) {
       final now = DateTime.now();
       if (now.day != state.day) {
-        context.bloc<TimesBloc>().add(TimesTodayRequested());
+        context.read<TimesBloc>().add(TimesTodayRequested());
         return '';
       }
 
