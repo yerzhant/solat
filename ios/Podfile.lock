@@ -1,11 +1,13 @@
 PODS:
   - Alamofire (5.6.4)
-  - "app_settings (3.0.0+1)":
+  - app_settings (5.1.1):
     - Flutter
   - Flutter (1.0.0)
   - flutter_keyboard_visibility (0.0.1):
     - Flutter
-  - url_launcher (0.0.1):
+  - pointer_interceptor_ios (0.0.1):
+    - Flutter
+  - url_launcher_ios (0.0.1):
     - Flutter
 
 DEPENDENCIES:
@@ -13,7 +15,8 @@ DEPENDENCIES:
   - app_settings (from `.symlinks/plugins/app_settings/ios`)
   - Flutter (from `Flutter`)
   - flutter_keyboard_visibility (from `.symlinks/plugins/flutter_keyboard_visibility/ios`)
-  - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
+  - pointer_interceptor_ios (from `.symlinks/plugins/pointer_interceptor_ios/ios`)
+  - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
 
 SPEC REPOS:
   trunk:
@@ -26,16 +29,19 @@ EXTERNAL SOURCES:
     :path: Flutter
   flutter_keyboard_visibility:
     :path: ".symlinks/plugins/flutter_keyboard_visibility/ios"
-  url_launcher:
-    :path: ".symlinks/plugins/url_launcher/ios"
+  pointer_interceptor_ios:
+    :path: ".symlinks/plugins/pointer_interceptor_ios/ios"
+  url_launcher_ios:
+    :path: ".symlinks/plugins/url_launcher_ios/ios"
 
 SPEC CHECKSUMS:
   Alamofire: 4e95d97098eacb88856099c4fc79b526a299e48c
-  app_settings: d103828c9f5d515c4df9ee754dabd443f7cedcf3
-  Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
+  app_settings: 017320c6a680cdc94c799949d95b84cb69389ebc
+  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   flutter_keyboard_visibility: 0339d06371254c3eb25eeb90ba8d17dca8f9c069
-  url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
+  pointer_interceptor_ios: 9280618c0b2eeb80081a343924aa8ad756c21375
+  url_launcher_ios: bbd758c6e7f9fd7b5b1d4cde34d2b95fcce5e812
 
-PODFILE CHECKSUM: 08dc3d2f93faf6dc21a967cb4e86586b11800ad6
+PODFILE CHECKSUM: 9f1e0ea386df4d0699ad1a96afbd6e8a40d580eb
 
-COCOAPODS: 1.12.0
+COCOAPODS: 1.14.3
