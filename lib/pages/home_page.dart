@@ -5,10 +5,10 @@ import 'package:solat/blocs/times/times_bloc.dart';
 import 'package:solat/consts.dart';
 import 'package:solat/pages/settings_page.dart';
 import 'package:solat/widgets/times_widget.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key key}) : super(key: key);
+  HomePage({Key? key}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -61,7 +61,7 @@ class _HomePageState extends State<HomePage> {
                   children: <Widget>[
                     GestureDetector(
                       child: Image.asset('assets/images/logo.png'),
-                      onTap: () => launch('https://azan.kz'),
+                      onTap: () => launchUrlString('https://azan.kz'),
                     ),
                     Expanded(
                       child: Center(
@@ -74,7 +74,7 @@ class _HomePageState extends State<HomePage> {
                         color: Color(primaryColor),
                       ),
                       onPressed: () =>
-                          context.bloc<SettingsBloc>().add(SettingsRequested()),
+                          context.read<SettingsBloc>().add(SettingsRequested()),
                     ),
                   ],
                 ),
