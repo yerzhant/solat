@@ -7,7 +7,7 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:solat/blocs/settings/settings_bloc.dart';
 import 'package:solat/blocs/times/times_bloc.dart';
 import 'package:solat/consts.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 const fontsScaleMin = 0.8;
 const fontsScaleMax = 1.2;
@@ -20,7 +20,7 @@ const azanVolumeDefault = .3;
 const azanVolumeSteps = 30;
 
 class SettingsPage extends StatefulWidget {
-  const SettingsPage({Key key}) : super(key: key);
+  const SettingsPage({Key? key}) : super(key: key);
 
   @override
   _SettingsPageState createState() => _SettingsPageState();
@@ -32,16 +32,14 @@ class _SettingsPageState extends State<SettingsPage> {
 
   final _muftiyatTapRecognizer = TapGestureRecognizer();
 
-  String _selectedCity;
-
   var _fontsScale = fontsScaleDefault;
   var _fontsScaling = false;
-  var _fontScaleLabel = 'По умолчанию';
+  String? _fontScaleLabel = 'По умолчанию';
   var _fontScaleColor = Color(primaryColor);
 
   var _azanVolume = azanVolumeDefault;
   var _azanVolumeUpdating = false;
-  var _azanVolumeLabel = 'По умолчанию';
+  String? _azanVolumeLabel = 'По умолчанию';
 
   @override
   void initState() {
@@ -57,12 +55,12 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   void _gotoMuftiyat() {
-    launch('https://www.muftyat.kz/kk/namaz_times/');
+    launchUrlString('https://www.muftyat.kz/kk/namaz_times/');
   }
 
   @override
   Widget build(BuildContext context) {
-    final timesState = context.bloc<TimesBloc>().state;
+    final timesState = context.read<TimesBloc>().state;
     if (timesState is TimesTodaySuccess) {
       _cityNameController.text = timesState.times.city;
     }
@@ -82,7 +80,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     SnackBar(content: Text('Ошибка: ${state.message}')),
                   );
                 } else if (state is SettingsCitySelectSuccess) {
-                  context.bloc<TimesBloc>().add(TimesTodayRequested());
+                  context.read<TimesBloc>().add(TimesTodayRequested());
                   Navigator.of(context).pop();
                 }
               },
@@ -116,14 +114,14 @@ class _SettingsPageState extends State<SettingsPage> {
                       else if (state is SettingsSuccess ||
                           state is SettingsCitySelectInProgress ||
                           state is SettingsCitySelectFailure)
-                        _form(state)
+                        _form(state as SettingsSuccess)
                       else
                         Text('Нет соединения с сервером.'),
                       SizedBox(height: 15),
                       Row(
                         children: <Widget>[
                           Expanded(
-                            child: ElevatedButton(
+                            child: FilledButton(
                               child: Text('НАСТРОЙКА УВЕДОМЛЕНИЙ'),
                               onPressed: () => AppSettings.openAppSettings(),
                             ),
@@ -155,7 +153,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                 onChangeEnd: (value) {
                                   _fontsScaling = false;
 
-                                  context.bloc<SettingsBloc>().add(
+                                  context.read<SettingsBloc>().add(
                                         SettingsFontsScaleUpdated(
                                           value,
                                           state.azanVolume,
@@ -184,7 +182,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                 onChangeEnd: (value) {
                                   _azanVolumeUpdating = false;
 
-                                  context.bloc<SettingsBloc>().add(
+                                  context.read<SettingsBloc>().add(
                                         SettingsAzanVolumeUpdated(
                                           value,
                                           state.fontsScale,
@@ -203,9 +201,9 @@ class _SettingsPageState extends State<SettingsPage> {
                               ),
                               controlAffinity: ListTileControlAffinity.leading,
                               onChanged: (value) {
-                                context.bloc<SettingsBloc>().add(
+                                context.read<SettingsBloc>().add(
                                       SettingsRequestHidjraDateFromServerUpdated(
-                                        value,
+                                        value!,
                                         state.fontsScale,
                                         state.azanVolume,
                                         state.cities,
@@ -213,7 +211,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                     );
 
                                 context
-                                    .bloc<TimesBloc>()
+                                    .read<TimesBloc>()
                                     .add(TimesTodayRequested());
                               },
                             ),
@@ -256,9 +254,9 @@ class _SettingsPageState extends State<SettingsPage> {
     } else {
       _fontScaleLabel = null;
       if (value < fontsScaleDefault)
-        _fontScaleColor = Colors.green[400];
+        _fontScaleColor = Colors.green[400]!;
       else
-        _fontScaleColor = Colors.red[400];
+        _fontScaleColor = Colors.red[400]!;
     }
   }
 
@@ -275,34 +273,30 @@ class _SettingsPageState extends State<SettingsPage> {
       key: _formKey,
       child: Column(
         children: <Widget>[
-          TypeAheadFormField(
-            textFieldConfiguration: TextFieldConfiguration(
-              controller: _cityNameController,
-              decoration: InputDecoration(labelText: 'Город'),
-            ),
-            onSuggestionSelected: (value) {
-              _cityNameController.text = value;
-            },
-            itemBuilder: (_, value) {
-              return ListTile(
-                title: Text(value),
+          TypeAheadField(
+            controller: _cityNameController,
+            builder: (context, controller, focusNode) {
+              return TextFormField(
+                controller: controller,
+                focusNode: focusNode,
+                decoration: InputDecoration(labelText: 'Город'),
+                validator: (value) {
+                  if (value == null) {
+                    return 'Введите город';
+                  }
+                  if (!state.cities
+                      .map((e) => e.title)
+                      .any((c) => c.toLowerCase() == value.toLowerCase())) {
+                    return 'Указанный город не найден';
+                  }
+                  return null;
+                },
               );
             },
+            onSelected: (value) => _cityNameController.text = value,
+            itemBuilder: (_, value) => ListTile(title: Text(value)),
             suggestionsCallback: (pattern) => _filterCities(pattern, state),
-            validator: (value) {
-              if (value.isEmpty) {
-                return 'Введите город';
-              }
-              if (!state.cities
-                  .map((e) => e.title)
-                  .any((c) => c.toLowerCase() == value.toLowerCase())) {
-                return 'Указанный город не найден';
-              }
-              return null;
-            },
-            onSaved: (newValue) => _selectedCity = newValue,
-            noItemsFoundBuilder: (context) =>
-                ListTile(title: Text('Не найдено')),
+            emptyBuilder: (context) => ListTile(title: Text('Не найдено')),
           ),
           SizedBox(height: 7),
           if (state is SettingsCitySelectInProgress)
@@ -311,17 +305,17 @@ class _SettingsPageState extends State<SettingsPage> {
             Row(
               children: <Widget>[
                 Expanded(
-                  child: ElevatedButton(
+                  child: FilledButton(
                     child: Text('СОХРАНИТЬ ГОРОД'),
                     onPressed: () async {
-                      if (_formKey.currentState.validate()) {
-                        _formKey.currentState.save();
+                      if (_formKey.currentState!.validate()) {
+                        _formKey.currentState!.save();
 
                         final city = state.cities.firstWhere((element) =>
                             element.title.toLowerCase() ==
-                            _selectedCity.toLowerCase());
+                            _cityNameController.text.toLowerCase());
 
-                        context.bloc<SettingsBloc>().add(
+                        context.read<SettingsBloc>().add(
                               SettingsCitySelected(
                                 city,
                                 state.cities,
