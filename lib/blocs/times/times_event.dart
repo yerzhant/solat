@@ -1,7 +1,7 @@
 part of 'times_bloc.dart';
 
 @immutable
-abstract class TimesEvent {}
+sealed class TimesEvent {}
 
 class TimesTodayRequested extends TimesEvent {}
 
@@ -17,5 +17,5 @@ class TimesAzanFlagSwitched extends TimesEvent {
 class TimesRefreshed extends TimesEvent {
   final City city;
 
-  TimesRefreshed(this.city) : assert(city != null);
+  TimesRefreshed(this.city);
 }

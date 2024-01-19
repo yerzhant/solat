@@ -14,54 +14,51 @@ part 'times_state.dart';
 
 class TimesBloc extends Bloc<TimesEvent, TimesState> {
   final SolatRepository _solatRepository;
-  StreamSubscription _ticker;
+  StreamSubscription? _ticker;
 
-  TimesBloc(this._solatRepository);
-
-  @override
-  TimesState get initialState => TimesTodayInProgress();
-
-  @override
-  Stream<TimesState> mapEventToState(TimesEvent event) async* {
-    if (event is TimesTodayRequested) {
+  TimesBloc(this._solatRepository) : super(TimesTodayInProgress()) {
+    on<TimesTodayRequested>((event, emit) async {
       _ticker?.cancel();
-      yield TimesTodayInProgress();
+      emit(TimesTodayInProgress());
+
       try {
         final times = await _solatRepository.getTodayTimes();
         final azanFlags = await _solatRepository.getAzanFlags();
-        yield TimesTodaySuccess(DateTime.now().day, times, azanFlags);
+        emit(TimesTodaySuccess(DateTime.now().day, times, azanFlags));
         _startTicker();
       } on PlatformException catch (e) {
         if (e.code == MainPlatformApi.errorCityNotSet ||
             e.code == MainPlatformApi.errorNoTimesForToday)
-          yield TimesTodayCityNotSet();
+          emit(TimesTodayCityNotSet());
         else
-          yield TimesTodayFailure();
+          emit(TimesTodayFailure());
       }
-    } else if (event is TimesTodayTicked) {
+    });
+
+    on<TimesTodayTicked>((event, emit) async {
       final currentState = state as TimesTodaySuccess;
-      yield TimesTodaySuccess(
+      emit(TimesTodaySuccess(
         currentState.day,
         currentState.times,
         currentState.azanFlags,
-      );
-    } else if (event is TimesAzanFlagSwitched) {
+      ));
+    });
+
+    on<TimesAzanFlagSwitched>((event, emit) async {
       await _solatRepository.setAzanFlag(event.type, event.value);
       final azanFlags = await _solatRepository.getAzanFlags();
       final currentState = state as TimesTodaySuccess;
-      yield TimesTodaySuccess(
+      emit(TimesTodaySuccess(
         currentState.day,
         currentState.times,
         azanFlags,
-      );
-    }
+      ));
+    });
   }
 
   void _startTicker() {
     _ticker?.cancel();
-    _ticker = Stream.periodic(
-      Duration(seconds: 1),
-    ).listen((_) {
+    _ticker = Stream.periodic(Duration(seconds: 1)).listen((_) {
       add(TimesTodayTicked());
     });
   }

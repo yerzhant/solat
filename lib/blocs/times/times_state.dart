@@ -1,7 +1,7 @@
 part of 'times_bloc.dart';
 
 @immutable
-abstract class TimesState {}
+sealed class TimesState {}
 
 class TimesTodayInProgress extends TimesState {}
 
