@@ -32,6 +32,8 @@ class _SettingsPageState extends State<SettingsPage> {
 
   final _muftiyatTapRecognizer = TapGestureRecognizer();
 
+  String? _selectedCity;
+
   var _fontsScale = fontsScaleDefault;
   var _fontsScaling = false;
   String? _fontScaleLabel = 'По умолчанию';
@@ -281,7 +283,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 focusNode: focusNode,
                 decoration: InputDecoration(labelText: 'Город'),
                 validator: (value) {
-                  if (value == null) {
+                  if (value!.isEmpty) {
                     return 'Введите город';
                   }
                   if (!state.cities
@@ -291,6 +293,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   }
                   return null;
                 },
+                onSaved: (newValue) => _selectedCity = newValue,
               );
             },
             onSelected: (value) => _cityNameController.text = value,
@@ -298,7 +301,7 @@ class _SettingsPageState extends State<SettingsPage> {
             suggestionsCallback: (pattern) => _filterCities(pattern, state),
             emptyBuilder: (context) => ListTile(title: Text('Не найдено')),
           ),
-          SizedBox(height: 7),
+          SizedBox(height: 17),
           if (state is SettingsCitySelectInProgress)
             CircularProgressIndicator()
           else
@@ -313,7 +316,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
                         final city = state.cities.firstWhere((element) =>
                             element.title.toLowerCase() ==
-                            _cityNameController.text.toLowerCase());
+                            _selectedCity?.toLowerCase());
 
                         context.read<SettingsBloc>().add(
                               SettingsCitySelected(
