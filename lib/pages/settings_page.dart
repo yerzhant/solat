@@ -72,180 +72,204 @@ class _SettingsPageState extends State<SettingsPage> {
         title: Text('Настройки'),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: <Widget>[
-            BlocConsumer<SettingsBloc, SettingsState>(
-              listener: (context, state) {
-                if (state is SettingsCitySelectFailure) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Ошибка: ${state.message}')),
-                  );
-                } else if (state is SettingsCitySelectSuccess) {
-                  context.read<TimesBloc>().add(TimesTodayRequested());
-                  Navigator.of(context).pop();
-                }
-              },
-              builder: (context, state) {
-                if (state is SettingsSuccess) {
-                  if (!_fontsScaling) {
-                    _fontsScale = state.fontsScale;
+        padding: const EdgeInsets.all(16),
+        child: CustomScrollView(
+          slivers: [
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: Column(
+                children: [
+                  BlocConsumer<SettingsBloc, SettingsState>(
+                    listener: (context, state) {
+                      if (state is SettingsCitySelectFailure) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Ошибка: ${state.message}')),
+                        );
+                      } else if (state is SettingsCitySelectSuccess) {
+                        context.read<TimesBloc>().add(TimesTodayRequested());
+                        Navigator.of(context).pop();
+                      }
+                    },
+                    builder: (context, state) {
+                      if (state is SettingsSuccess) {
+                        if (!_fontsScaling) {
+                          _fontsScale = state.fontsScale;
 
-                    if (_fontsScale < fontsScaleMin)
-                      _fontsScale = fontsScaleMin;
-                    else if (_fontsScale > fontsScaleMax)
-                      _fontsScale = fontsScaleMax;
+                          if (_fontsScale < fontsScaleMin)
+                            _fontsScale = fontsScaleMin;
+                          else if (_fontsScale > fontsScaleMax)
+                            _fontsScale = fontsScaleMax;
 
-                    _setFontScalerColor(_fontsScale);
-                  }
+                          _setFontScalerColor(_fontsScale);
+                        }
 
-                  if (!_azanVolumeUpdating) {
-                    _azanVolume = state.azanVolume;
+                        if (!_azanVolumeUpdating) {
+                          _azanVolume = state.azanVolume;
 
-                    if (_azanVolume < azanVolumeMin)
-                      _azanVolume = azanVolumeMin;
-                    else if (_azanVolume > azanVolumeMax)
-                      _azanVolume = azanVolumeMax;
-                  }
-                }
-                return Expanded(
-                  child: Column(
-                    children: <Widget>[
-                      if (state is SettingsInProgress)
-                        Center(child: CircularProgressIndicator())
-                      else if (state is SettingsSuccess ||
-                          state is SettingsCitySelectInProgress ||
-                          state is SettingsCitySelectFailure)
-                        _form(state as SettingsSuccess)
-                      else
-                        Text('Нет соединения с сервером.'),
-                      SizedBox(height: 15),
-                      Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: FilledButton(
-                              child: Text('НАСТРОЙКА УВЕДОМЛЕНИЙ'),
-                              onPressed: () => AppSettings.openAppSettings(),
+                          if (_azanVolume < azanVolumeMin)
+                            _azanVolume = azanVolumeMin;
+                          else if (_azanVolume > azanVolumeMax)
+                            _azanVolume = azanVolumeMax;
+                        }
+                      }
+                      return Column(
+                        children: [
+                          if (state is SettingsInProgress)
+                            Center(child: CircularProgressIndicator())
+                          else if (state is SettingsSuccess ||
+                              state is SettingsCitySelectInProgress ||
+                              state is SettingsCitySelectFailure)
+                            _form(state as SettingsSuccess)
+                          else
+                            Text('Нет соединения с сервером.'),
+                          SizedBox(height: 15),
+                          _setupSettingsButton(),
+                          SizedBox(height: widgetItemPadding + 13),
+                          if (state is SettingsSuccess)
+                            Column(
+                              children: [
+                                if (defaultTargetPlatform ==
+                                    TargetPlatform.android) ...[
+                                  Text('Размер шрифта виджета'),
+                                  _fontSizeSlider(context, state),
+                                  SizedBox(height: widgetItemPadding),
+                                  Text('Громкость азана'),
+                                  _azanVolumeSlider(context, state),
+                                ],
+                                _hidjrahDateSource(state, context),
+                              ],
                             ),
-                          ),
                         ],
-                      ),
-                      SizedBox(height: 10),
-                      if (state is SettingsSuccess)
-                        Column(
-                          children: <Widget>[
-                            if (defaultTargetPlatform ==
-                                TargetPlatform.android) ...[
-                              Text('Размер шрифта виджета'),
-                              Slider(
-                                min: fontsScaleMin,
-                                max: fontsScaleMax,
-                                divisions: fontsScaleSteps,
-                                value: _fontsScale,
-                                label: _fontScaleLabel,
-                                activeColor: _fontScaleColor,
-                                onChanged: (value) {
-                                  setState(() {
-                                    _fontsScaling = true;
-                                    _fontsScale = value;
-
-                                    _setFontScalerColor(value);
-                                  });
-                                },
-                                onChangeEnd: (value) {
-                                  _fontsScaling = false;
-
-                                  context.read<SettingsBloc>().add(
-                                        SettingsFontsScaleUpdated(
-                                          value,
-                                          state.azanVolume,
-                                          state.requestHidjraDateFromServer,
-                                          state.cities,
-                                        ),
-                                      );
-                                },
-                              ),
-                              SizedBox(height: widgetItemPadding),
-                              Text('Громкость азана'),
-                              Slider(
-                                min: azanVolumeMin,
-                                max: azanVolumeMax,
-                                divisions: azanVolumeSteps,
-                                value: _azanVolume,
-                                label: _azanVolumeLabel,
-                                activeColor: Color(primaryColor),
-                                onChanged: (value) {
-                                  setState(() {
-                                    _azanVolumeUpdating = true;
-                                    _azanVolume = value;
-                                    _setAzanVolumeLabel(value);
-                                  });
-                                },
-                                onChangeEnd: (value) {
-                                  _azanVolumeUpdating = false;
-
-                                  context.read<SettingsBloc>().add(
-                                        SettingsAzanVolumeUpdated(
-                                          value,
-                                          state.fontsScale,
-                                          state.requestHidjraDateFromServer,
-                                          state.cities,
-                                        ),
-                                      );
-                                },
-                              ),
-                            ],
-                            CheckboxListTile(
-                              value: state.requestHidjraDateFromServer,
-                              title: Text(
-                                'Получать дату по Хиджре с azan.kz',
-                                style: TextStyle(fontSize: 14),
-                              ),
-                              controlAffinity: ListTileControlAffinity.leading,
-                              onChanged: (value) {
-                                context.read<SettingsBloc>().add(
-                                      SettingsRequestHidjraDateFromServerUpdated(
-                                        value!,
-                                        state.fontsScale,
-                                        state.azanVolume,
-                                        state.cities,
-                                      ),
-                                    );
-
-                                context
-                                    .read<TimesBloc>()
-                                    .add(TimesTodayRequested());
-                              },
-                            ),
-                          ],
-                        ),
-                    ],
+                      );
+                    },
                   ),
-                );
-              },
-            ),
-            Text.rich(
-              TextSpan(
-                text:
-                    'Время намаза рассчитано согласно PrayTimes.org с уточнениями ',
-                style: TextStyle(
-                  fontSize: 13,
-                  height: 1.4,
-                ),
-                children: <TextSpan>[
-                  TextSpan(
-                    text: 'Духовного управления мусульман Казахстана',
-                    style: TextStyle(color: Theme.of(context).primaryColor),
-                    recognizer: _muftiyatTapRecognizer,
-                  ),
-                  TextSpan(text: '.'),
+                  Spacer(),
+                  _aNote(context),
                 ],
               ),
-              textAlign: TextAlign.center,
             ),
           ],
         ),
       ),
+    );
+  }
+
+  Row _setupSettingsButton() {
+    return Row(
+      children: <Widget>[
+        Expanded(
+          child: FilledButton(
+            child: Text('НАСТРОЙКА УВЕДОМЛЕНИЙ'),
+            onPressed: () => AppSettings.openAppSettings(),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Slider _fontSizeSlider(BuildContext context, SettingsSuccess state) {
+    return Slider(
+      min: fontsScaleMin,
+      max: fontsScaleMax,
+      divisions: fontsScaleSteps,
+      value: _fontsScale,
+      label: _fontScaleLabel,
+      activeColor: _fontScaleColor,
+      onChanged: (value) {
+        setState(() {
+          _fontsScaling = true;
+          _fontsScale = value;
+
+          _setFontScalerColor(value);
+        });
+      },
+      onChangeEnd: (value) {
+        _fontsScaling = false;
+
+        context.read<SettingsBloc>().add(
+              SettingsFontsScaleUpdated(
+                value,
+                state.azanVolume,
+                state.requestHidjraDateFromServer,
+                state.cities,
+              ),
+            );
+      },
+    );
+  }
+
+  Slider _azanVolumeSlider(BuildContext context, SettingsSuccess state) {
+    return Slider(
+      min: azanVolumeMin,
+      max: azanVolumeMax,
+      divisions: azanVolumeSteps,
+      value: _azanVolume,
+      label: _azanVolumeLabel,
+      activeColor: Color(primaryColor),
+      onChanged: (value) {
+        setState(() {
+          _azanVolumeUpdating = true;
+          _azanVolume = value;
+          _setAzanVolumeLabel(value);
+        });
+      },
+      onChangeEnd: (value) {
+        _azanVolumeUpdating = false;
+
+        context.read<SettingsBloc>().add(
+              SettingsAzanVolumeUpdated(
+                value,
+                state.fontsScale,
+                state.requestHidjraDateFromServer,
+                state.cities,
+              ),
+            );
+      },
+    );
+  }
+
+  CheckboxListTile _hidjrahDateSource(
+      SettingsSuccess state, BuildContext context) {
+    return CheckboxListTile(
+      value: state.requestHidjraDateFromServer,
+      title: Text(
+        'Получать дату по Хиджре с azan.kz',
+        style: TextStyle(fontSize: 14),
+      ),
+      controlAffinity: ListTileControlAffinity.leading,
+      onChanged: (value) {
+        context.read<SettingsBloc>().add(
+              SettingsRequestHidjraDateFromServerUpdated(
+                value!,
+                state.fontsScale,
+                state.azanVolume,
+                state.cities,
+              ),
+            );
+
+        context.read<TimesBloc>().add(TimesTodayRequested());
+      },
+    );
+  }
+
+  Text _aNote(BuildContext context) {
+    return Text.rich(
+      TextSpan(
+        text: 'Время намаза рассчитано согласно PrayTimes.org с уточнениями ',
+        style: TextStyle(
+          fontSize: 13,
+          height: 1.4,
+        ),
+        children: <TextSpan>[
+          TextSpan(
+            text: 'Духовного управления мусульман Казахстана',
+            style: TextStyle(color: Theme.of(context).primaryColor),
+            recognizer: _muftiyatTapRecognizer,
+          ),
+          TextSpan(text: '.'),
+        ],
+      ),
+      textAlign: TextAlign.center,
     );
   }
 
