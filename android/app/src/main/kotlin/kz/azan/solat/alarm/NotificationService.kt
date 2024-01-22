@@ -1,20 +1,26 @@
 package kz.azan.solat.alarm
 
+import android.Manifest.permission.POST_NOTIFICATIONS
+import android.app.Activity
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.media.Ringtone
 import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Build
+import android.os.Build.VERSION.SDK_INT
+import android.os.Build.VERSION_CODES.TIRAMISU
+import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import kz.azan.solat.MainActivity
 import kz.azan.solat.R
 import kz.azan.solat.repository.SETTINGS_NAME
 import kz.azan.solat.repository.SolatRepository
-import java.util.*
+import java.util.Locale
 
 const val AZAN_CHANNEL_ID = "azan-human"
 
@@ -56,28 +62,43 @@ class NotificationService(private val context: Context) {
         val azanUri: Uri = Uri.parse("android.resource://${context.packageName}/$azan")
 
         val builder = NotificationCompat.Builder(context, AZAN_CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_logo)
-                .setContentTitle("$title · $time")
-                .setContentText(cityName)
-                .setPriority(NotificationCompat.PRIORITY_MAX)
-                .setCategory(NotificationCompat.CATEGORY_ALARM)
-                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setContentIntent(mainActivityIntent)
-                .setDeleteIntent(snoozeIntent)
-                .setAutoCancel(true)
-                .addAction(
-                        R.drawable.ic_baseline_snooze_24,
-                        context.getString(R.string.snooze).uppercase(Locale.ROOT),
-                        snoozeIntent
-                )
+            .setSmallIcon(R.drawable.ic_logo)
+            .setContentTitle("$title · $time")
+            .setContentText(cityName)
+            .setPriority(NotificationCompat.PRIORITY_MAX)
+            .setCategory(NotificationCompat.CATEGORY_ALARM)
+            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+            .setContentIntent(mainActivityIntent)
+            .setDeleteIntent(snoozeIntent)
+            .setAutoCancel(true)
+            .addAction(
+                R.drawable.ic_baseline_snooze_24,
+                context.getString(R.string.snooze).uppercase(Locale.ROOT),
+                snoozeIntent
+            )
 
         azanRingtone = RingtoneManager.getRingtone(context, azanUri)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+        if (SDK_INT >= Build.VERSION_CODES.P) {
             azanRingtone?.volume = solatRepository.getAzanVolume()
         }
         azanRingtone?.play()
 
         with(NotificationManagerCompat.from(context)) {
+            if (SDK_INT >= TIRAMISU) {
+                if (ActivityCompat.checkSelfPermission(
+                        context,
+                        POST_NOTIFICATIONS
+                    ) != PERMISSION_GRANTED
+                ) {
+                    ActivityCompat.requestPermissions(
+                        context as Activity,
+                        arrayOf(POST_NOTIFICATIONS),
+                        0
+                    )
+                    return
+                }
+            }
+
             notify(0, builder.build())
         }
     }
@@ -111,12 +132,12 @@ class NotificationService(private val context: Context) {
 
     fun getAzanFlags(): HashMap<Int, Boolean> {
         return hashMapOf(
-                AZAN_FADJR to isEnabled(AZAN_FADJR),
-                AZAN_SUNRISE to isEnabled(AZAN_SUNRISE),
-                AZAN_DHUHR to isEnabled(AZAN_DHUHR),
-                AZAN_ASR to isEnabled(AZAN_ASR),
-                AZAN_MAGHRIB to isEnabled(AZAN_MAGHRIB),
-                AZAN_ISHA to isEnabled(AZAN_ISHA)
+            AZAN_FADJR to isEnabled(AZAN_FADJR),
+            AZAN_SUNRISE to isEnabled(AZAN_SUNRISE),
+            AZAN_DHUHR to isEnabled(AZAN_DHUHR),
+            AZAN_ASR to isEnabled(AZAN_ASR),
+            AZAN_MAGHRIB to isEnabled(AZAN_MAGHRIB),
+            AZAN_ISHA to isEnabled(AZAN_ISHA)
         )
     }
 }
