@@ -126,12 +126,12 @@ class NotificationService(
         if (settings.contains("$azanTypePrefix-$AZAN_FADJR")) return
 
         with(settings.edit()) {
-            putBoolean("$azanTypePrefix-$AZAN_FADJR", true)
+            putBoolean("$azanTypePrefix-$AZAN_FADJR", false)
             putBoolean("$azanTypePrefix-$AZAN_SUNRISE", false)
-            putBoolean("$azanTypePrefix-$AZAN_DHUHR", true)
-            putBoolean("$azanTypePrefix-$AZAN_ASR", true)
-            putBoolean("$azanTypePrefix-$AZAN_MAGHRIB", true)
-            putBoolean("$azanTypePrefix-$AZAN_ISHA", true)
+            putBoolean("$azanTypePrefix-$AZAN_DHUHR", false)
+            putBoolean("$azanTypePrefix-$AZAN_ASR", false)
+            putBoolean("$azanTypePrefix-$AZAN_MAGHRIB", false)
+            putBoolean("$azanTypePrefix-$AZAN_ISHA", false)
             apply()
         }
     }
