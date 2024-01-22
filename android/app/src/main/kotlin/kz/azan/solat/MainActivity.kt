@@ -1,9 +1,16 @@
 package kz.azan.solat
 
+import android.Manifest.permission.SCHEDULE_EXACT_ALARM
+import android.app.AlarmManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
+import android.content.Intent
 import android.os.Build
+import android.os.Build.VERSION.SDK_INT
+import android.os.Build.VERSION_CODES.TIRAMISU
+import android.provider.Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM
+import androidx.core.app.ActivityCompat
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodCall
@@ -50,6 +57,8 @@ class MainActivity : FlutterActivity() {
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
+
+        requestPermissions()
 
         AlarmService().init(context)
         createNotificationChannel()
@@ -208,7 +217,7 @@ class MainActivity : FlutterActivity() {
     }
 
     private fun createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (SDK_INT >= Build.VERSION_CODES.O) {
             val name = context.getString(R.string.azan)
             val importance = NotificationManager.IMPORTANCE_HIGH
             val channel = NotificationChannel(AZAN_CHANNEL_ID, name, importance)
@@ -221,5 +230,18 @@ class MainActivity : FlutterActivity() {
     override fun onResume() {
         super.onResume()
         azanRingtone?.stop()
+    }
+
+    private fun requestPermissions() {
+        if (SDK_INT >= TIRAMISU) {
+            val alarmManager = context.getSystemService(ALARM_SERVICE) as AlarmManager
+            if (!alarmManager.canScheduleExactAlarms()) {
+                ActivityCompat.requestPermissions(this, arrayOf(SCHEDULE_EXACT_ALARM), 1)
+                Intent().also { intent ->
+                    intent.action = ACTION_REQUEST_SCHEDULE_EXACT_ALARM
+                    context.startActivity(intent)
+                }
+            }
+        }
     }
 }

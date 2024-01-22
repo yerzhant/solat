@@ -77,7 +77,7 @@ class SolatRepository(private val context: Context) {
         val times = prayTime.getPrayerTimes(calendar, latitude, longitude, timeZone)
 
         return Times(times[0], times[1], times[2], times[3], times[5], times[6])
-//        return Times("04:40", "07:02", "13:01", "14:11", "15:36", "18:41")
+//        return Times("04:40", "07:02", "13:01", "14:11", "15:36", "21:15")
     }
 
     fun saveCityParams(

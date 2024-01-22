@@ -1,5 +1,7 @@
 package kz.azan.solat.alarm
 
+import android.Manifest.permission.SCHEDULE_EXACT_ALARM
+import android.app.Activity
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
@@ -7,6 +9,9 @@ import android.content.BroadcastReceiver
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.os.Build.VERSION.SDK_INT
+import android.os.Build.VERSION_CODES.TIRAMISU
+import android.provider.Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -54,6 +59,19 @@ class AlarmService : BroadcastReceiver() {
         }
 
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+        if (SDK_INT >= TIRAMISU) {
+            if (!alarmManager.canScheduleExactAlarms()) {
+                (context as? Activity)?.requestPermissions(arrayOf(SCHEDULE_EXACT_ALARM), 0)
+                Intent().also { i ->
+                    i.action = ACTION_REQUEST_SCHEDULE_EXACT_ALARM
+                    context.startActivity(i)
+                }
+
+                return
+            }
+        }
+
         alarmManager.setExactAndAllowWhileIdle(
             AlarmManager.RTC_WAKEUP,
             calendar.timeInMillis,
