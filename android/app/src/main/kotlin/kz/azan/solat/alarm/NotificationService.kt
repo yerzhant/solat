@@ -26,9 +26,15 @@ const val AZAN_CHANNEL_ID = "azan-human"
 
 var azanRingtone: Ringtone? = null
 
-class NotificationService(private val context: Context) {
+lateinit var notificationService: NotificationService
+
+class NotificationService(
+    private val mainActivity: MainActivity,
+) {
 
     private val azanTypePrefix = "azan-type"
+
+    private val context get() = mainActivity.context
 
     fun notify(type: Int, time: String) {
         if (!isEnabled(type)) return
@@ -86,7 +92,7 @@ class NotificationService(private val context: Context) {
         with(NotificationManagerCompat.from(context)) {
             if (SDK_INT >= TIRAMISU) {
                 if (ActivityCompat.checkSelfPermission(
-                        context,
+                        mainActivity,
                         POST_NOTIFICATIONS
                     ) != PERMISSION_GRANTED
                 ) {

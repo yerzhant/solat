@@ -12,7 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kz.azan.solat.SolatWidget
 import kz.azan.solat.repository.SolatRepository
-import java.util.*
+import java.util.Calendar
 import kotlin.random.Random
 
 const val AZAN_FADJR = 1
@@ -54,7 +54,11 @@ class AlarmService : BroadcastReceiver() {
         }
 
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, intent)
+        alarmManager.setExactAndAllowWhileIdle(
+            AlarmManager.RTC_WAKEUP,
+            calendar.timeInMillis,
+            intent
+        )
 
         setAll(context)
         refreshWidget(context)
@@ -63,7 +67,7 @@ class AlarmService : BroadcastReceiver() {
     private fun azan(context: Context, intent: Intent) {
         val type = intent.getIntExtra(azanType, 0)
         val time = intent.getStringExtra(azanTime) ?: ""
-        NotificationService(context).notify(type, time)
+        notificationService.notify(type, time)
 
         refreshWidget(context)
     }
@@ -89,12 +93,36 @@ class AlarmService : BroadcastReceiver() {
             val currentHours = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
             val currentMinutes = Calendar.getInstance().get(Calendar.MINUTE)
 
-            if (isBefore(currentHours, currentMinutes, times.fadjr)) setAt(AZAN_FADJR, times.fadjr, context)
-            if (isBefore(currentHours, currentMinutes, times.sunrise)) setAt(AZAN_SUNRISE, times.sunrise, context)
-            if (isBefore(currentHours, currentMinutes, times.dhuhr)) setAt(AZAN_DHUHR, times.dhuhr, context)
-            if (isBefore(currentHours, currentMinutes, times.asr)) setAt(AZAN_ASR, times.asr, context)
-            if (isBefore(currentHours, currentMinutes, times.maghrib)) setAt(AZAN_MAGHRIB, times.maghrib, context)
-            if (isBefore(currentHours, currentMinutes, times.isha)) setAt(AZAN_ISHA, times.isha, context)
+            if (isBefore(currentHours, currentMinutes, times.fadjr)) setAt(
+                AZAN_FADJR,
+                times.fadjr,
+                context
+            )
+            if (isBefore(currentHours, currentMinutes, times.sunrise)) setAt(
+                AZAN_SUNRISE,
+                times.sunrise,
+                context
+            )
+            if (isBefore(currentHours, currentMinutes, times.dhuhr)) setAt(
+                AZAN_DHUHR,
+                times.dhuhr,
+                context
+            )
+            if (isBefore(currentHours, currentMinutes, times.asr)) setAt(
+                AZAN_ASR,
+                times.asr,
+                context
+            )
+            if (isBefore(currentHours, currentMinutes, times.maghrib)) setAt(
+                AZAN_MAGHRIB,
+                times.maghrib,
+                context
+            )
+            if (isBefore(currentHours, currentMinutes, times.isha)) setAt(
+                AZAN_ISHA,
+                times.isha,
+                context
+            )
         }
     }
 
@@ -116,7 +144,11 @@ class AlarmService : BroadcastReceiver() {
         }
 
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, intent)
+        alarmManager.setExactAndAllowWhileIdle(
+            AlarmManager.RTC_WAKEUP,
+            calendar.timeInMillis,
+            intent
+        )
     }
 
     private fun isBefore(currentHours: Int, currentMinutes: Int, time: String): Boolean {

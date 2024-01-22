@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
 import kz.azan.solat.alarm.AlarmService
-import kz.azan.solat.alarm.NotificationService
+import kz.azan.solat.alarm.notificationService
 import kz.azan.solat.api.azanService
 import kz.azan.solat.domain.PrayTime
 import kz.azan.solat.domain.Times
@@ -77,13 +77,19 @@ class SolatRepository(private val context: Context) {
         val times = prayTime.getPrayerTimes(calendar, latitude, longitude, timeZone)
 
         return Times(times[0], times[1], times[2], times[3], times[5], times[6])
-//        return Times("04:40", "07:02", "13:01", "19:11", "23:36", "23:23")
+//        return Times("04:40", "07:02", "13:01", "14:11", "15:36", "18:41")
     }
 
-    fun saveCityParams(city: String, cityId: Int, latitude: String, longitude: String, timeZone: Int) {
+    fun saveCityParams(
+        city: String,
+        cityId: Int,
+        latitude: String,
+        longitude: String,
+        timeZone: Int
+    ) {
         val settings = context.getSharedPreferences(SETTINGS_NAME, Context.MODE_PRIVATE)
 
-        NotificationService(context).setDefaultAzanFlags(settings)
+        notificationService.setDefaultAzanFlags(settings)
 
         with(settings.edit()) {
             remove(settingCityId)

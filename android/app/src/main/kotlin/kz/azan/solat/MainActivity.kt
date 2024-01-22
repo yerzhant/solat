@@ -12,7 +12,17 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kz.azan.solat.alarm.*
+import kz.azan.solat.alarm.AZAN_ASR
+import kz.azan.solat.alarm.AZAN_CHANNEL_ID
+import kz.azan.solat.alarm.AZAN_DHUHR
+import kz.azan.solat.alarm.AZAN_FADJR
+import kz.azan.solat.alarm.AZAN_ISHA
+import kz.azan.solat.alarm.AZAN_MAGHRIB
+import kz.azan.solat.alarm.AZAN_SUNRISE
+import kz.azan.solat.alarm.AlarmService
+import kz.azan.solat.alarm.NotificationService
+import kz.azan.solat.alarm.azanRingtone
+import kz.azan.solat.alarm.notificationService
 import kz.azan.solat.repository.SolatRepository
 
 class MainActivity : FlutterActivity() {
@@ -43,10 +53,14 @@ class MainActivity : FlutterActivity() {
 
         AlarmService().init(context)
         createNotificationChannel()
+        notificationService = NotificationService(this)
 
         SolatRepository(context).resetCityIdIfTimeZoneNotSet()
 
-        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, mainChannel).setMethodCallHandler { call, result ->
+        MethodChannel(
+            flutterEngine.dartExecutor.binaryMessenger,
+            mainChannel
+        ).setMethodCallHandler { call, result ->
             when (call.method) {
                 "save-city" -> saveCity(call, result)
                 "get-today-times" -> getTodayTimes(result)
@@ -57,7 +71,11 @@ class MainActivity : FlutterActivity() {
                 "get-azan-volume" -> getAzanVolume(result)
                 "set-azan-volume" -> setAzanVolume(call, result)
                 "get-request-hidjra-date-from-server" -> getRequestHidjraDateFromServer(result)
-                "set-request-hidjra-date-from-server" -> setRequestHidjraDateFromServer(call, result)
+                "set-request-hidjra-date-from-server" -> setRequestHidjraDateFromServer(
+                    call,
+                    result
+                )
+
                 else -> result.notImplemented()
             }
         }
@@ -121,7 +139,7 @@ class MainActivity : FlutterActivity() {
     }
 
     private fun getAzanFlags(result: MethodChannel.Result) {
-        val azanFlags = NotificationService(context).getAzanFlags()
+        val azanFlags = notificationService.getAzanFlags()
         result.success(azanFlags)
     }
 
@@ -134,7 +152,7 @@ class MainActivity : FlutterActivity() {
             return
         }
 
-        NotificationService(context).setFlag(type, value)
+        notificationService.setFlag(type, value)
         result.success(true)
     }
 
@@ -173,7 +191,8 @@ class MainActivity : FlutterActivity() {
             val currentDateByHidjra = solatRepository.getCurrentDateByHidjra()
 
             withContext(Dispatchers.Main.immediate) {
-                result.success(hashMapOf(
+                result.success(
+                    hashMapOf(
                         channelParamCity to cityName,
                         channelParamCurrentDateByHidjra to currentDateByHidjra,
                         AZAN_FADJR to todayTimes.fadjr,
@@ -182,7 +201,8 @@ class MainActivity : FlutterActivity() {
                         AZAN_ASR to todayTimes.asr,
                         AZAN_MAGHRIB to todayTimes.maghrib,
                         AZAN_ISHA to todayTimes.isha
-                ))
+                    )
+                )
             }
         }
     }
@@ -193,7 +213,7 @@ class MainActivity : FlutterActivity() {
             val importance = NotificationManager.IMPORTANCE_HIGH
             val channel = NotificationChannel(AZAN_CHANNEL_ID, name, importance)
             val notificationManager: NotificationManager =
-                    context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
         }
     }
