@@ -32,7 +32,10 @@ class SolatApp extends StatelessWidget {
     return MaterialApp(
       title: 'Время намаза',
       theme: ThemeData(
-        colorSchemeSeed: Color(primaryColor),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Color(primaryColor),
+          primary: Color(primaryColor),
+        ),
         snackBarTheme: SnackBarThemeData(
           backgroundColor: Color(primaryColor),
           behavior: SnackBarBehavior.floating,
