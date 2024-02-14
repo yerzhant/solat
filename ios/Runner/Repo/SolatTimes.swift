@@ -29,13 +29,14 @@ struct SolatTimes {
         prayTime.setAsrMethod(Int32(prayTime.hanafi))
         prayTime.setHighLatsMethod(Int32(prayTime.angleBased))
 
+        let now = Date()
         let latitude = Double(Settings.getLatitude()!)!
         let longitude = Double(Settings.getLongitude()!)!
-        let timeZone = Double(Settings.getTimeZone()!)
+        let timeZoneSwitchDate = Calendar.current.date(from: DateComponents(year: 2024, month: 3, day: 1))!
+        let timeZone = if now < timeZoneSwitchDate { Double(Settings.getTimeZone()!) } else { 5.0 }
 
         prayTime.tune(offsetOf(min: latitude < 48 ? 3 : 5))
 
-        let now = Date()
         let cal = Calendar.current
         let comps = cal.dateComponents([.year, .month, .day], from: now)
         let times = prayTime.getPrayerTimes(comps, andLatitude: latitude, andLongitude: longitude, andtimeZone: timeZone)!

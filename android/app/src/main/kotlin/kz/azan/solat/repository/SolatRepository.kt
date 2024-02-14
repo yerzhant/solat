@@ -60,9 +60,12 @@ class SolatRepository(private val context: Context) {
         if (cityId == -1) return null
 
         val calendar = Calendar.getInstance()
+        val timeZoneSwitchDate = Calendar.getInstance().apply { set(2024, 2, 1) }
         val latitude = settings.getString(settingLatitude, null)!!.toDouble()
         val longitude = settings.getString(settingLongitude, null)!!.toDouble()
-        val timeZone = settings.getInt(settingTimeZone, 0).toDouble()
+        val timeZone = if (calendar < timeZoneSwitchDate)
+            settings.getInt(settingTimeZone, 0).toDouble()
+        else 5.0
 
         val prayTime = PrayTime().apply {
             calcMethod = ISNA

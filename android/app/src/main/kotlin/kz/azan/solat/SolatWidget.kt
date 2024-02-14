@@ -75,8 +75,7 @@ class SolatWidget : AppWidgetProvider() {
         val minutes = timeParts[1].toInt()
 
         if (currentHours < hours) return true
-        if (currentHours == hours && currentMinutes < minutes) return true
-        return false
+        return currentHours == hours && currentMinutes < minutes
     }
 
     private fun RemoteViews.setFadjrActive(times: Times, fontsScale: Float) {

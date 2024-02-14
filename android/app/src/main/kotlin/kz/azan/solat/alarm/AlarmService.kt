@@ -173,9 +173,7 @@ class AlarmService : BroadcastReceiver() {
         val (hours, minutes) = parseTime(time)
 
         if (currentHours < hours) return true
-        if (currentHours == hours && currentMinutes < minutes) return true
-
-        return false
+        return currentHours == hours && currentMinutes < minutes
     }
 
     private fun parseTime(time: String): Pair<Int, Int> {
