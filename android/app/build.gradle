@@ -29,6 +29,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
+    namespace "kz.azan.solat"
     compileSdkVersion flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
 
