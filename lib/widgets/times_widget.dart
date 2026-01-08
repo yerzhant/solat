@@ -13,6 +13,10 @@ class TimesWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<TimesBloc, TimesState>(
       builder: (context, state) {
+        if (state is TimesTodayInProgress) {
+          return CircularProgressIndicator();
+        }
+
         final activeType = _getActiveType(state);
 
         return Column(
