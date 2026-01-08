@@ -19,6 +19,11 @@ const azanVolumeMax = 1.0;
 const azanVolumeDefault = .3;
 const azanVolumeSteps = 30;
 
+const bgOpacityMin = 0.0;
+const bgOpacityMax = 1.0;
+const bgOpacityDefault = .7;
+const bgOpacitySteps = 20;
+
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
 
@@ -42,6 +47,10 @@ class _SettingsPageState extends State<SettingsPage> {
   var _azanVolume = azanVolumeDefault;
   var _azanVolumeUpdating = false;
   String? _azanVolumeLabel = 'По умолчанию';
+
+  var _bgOpacity = bgOpacityDefault;
+  var _bgOpacityUpdating = false;
+  String? _bgOpacityLabel = 'По умолчанию';
 
   @override
   void initState() {
@@ -67,88 +76,103 @@ class _SettingsPageState extends State<SettingsPage> {
       _cityNameController.text = timesState.times.city;
     }
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Настройки'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: CustomScrollView(
-          slivers: [
-            SliverFillRemaining(
-              hasScrollBody: false,
-              child: Column(
-                children: [
-                  BlocConsumer<SettingsBloc, SettingsState>(
-                    listener: (context, state) {
-                      if (state is SettingsCitySelectFailure) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Ошибка: ${state.message}')),
-                        );
-                      } else if (state is SettingsCitySelectSuccess) {
-                        context.read<TimesBloc>().add(TimesTodayRequested());
-                        Navigator.of(context).pop();
-                      }
-                    },
-                    builder: (context, state) {
-                      if (state is SettingsSuccess) {
-                        if (!_fontsScaling) {
-                          _fontsScale = state.fontsScale;
-
-                          if (_fontsScale < fontsScaleMin)
-                            _fontsScale = fontsScaleMin;
-                          else if (_fontsScale > fontsScaleMax)
-                            _fontsScale = fontsScaleMax;
-
-                          _setFontScalerColor(_fontsScale);
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('Настройки'),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(16),
+          child: CustomScrollView(
+            slivers: [
+              SliverFillRemaining(
+                hasScrollBody: false,
+                child: Column(
+                  children: [
+                    BlocConsumer<SettingsBloc, SettingsState>(
+                      listener: (context, state) {
+                        if (state is SettingsCitySelectFailure) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Ошибка: ${state.message}')),
+                          );
+                        } else if (state is SettingsCitySelectSuccess) {
+                          context.read<TimesBloc>().add(TimesTodayRequested());
+                          Navigator.of(context).pop();
                         }
+                      },
+                      builder: (context, state) {
+                        if (state is SettingsSuccess) {
+                          if (!_fontsScaling) {
+                            _fontsScale = state.fontsScale;
 
-                        if (!_azanVolumeUpdating) {
-                          _azanVolume = state.azanVolume;
+                            if (_fontsScale < fontsScaleMin)
+                              _fontsScale = fontsScaleMin;
+                            else if (_fontsScale > fontsScaleMax)
+                              _fontsScale = fontsScaleMax;
 
-                          if (_azanVolume < azanVolumeMin)
-                            _azanVolume = azanVolumeMin;
-                          else if (_azanVolume > azanVolumeMax)
-                            _azanVolume = azanVolumeMax;
+                            _setFontScalerColor(_fontsScale);
+                          }
+
+                          if (!_azanVolumeUpdating) {
+                            _azanVolume = state.azanVolume;
+
+                            if (_azanVolume < azanVolumeMin)
+                              _azanVolume = azanVolumeMin;
+                            else if (_azanVolume > azanVolumeMax)
+                              _azanVolume = azanVolumeMax;
+                          }
+
+                          if (!_bgOpacityUpdating) {
+                            _bgOpacity = state.bgOpacity;
+
+                            if (_bgOpacity < bgOpacityMin) {
+                              _bgOpacity = bgOpacityMin;
+                            } else if (_bgOpacity > bgOpacityMax) {
+                              _bgOpacity = bgOpacityMax;
+                            }
+                          }
                         }
-                      }
-                      return Column(
-                        children: [
-                          if (state is SettingsInProgress)
-                            Center(child: CircularProgressIndicator())
-                          else if (state is SettingsSuccess ||
-                              state is SettingsCitySelectInProgress ||
-                              state is SettingsCitySelectFailure)
-                            _form(state as SettingsSuccess)
-                          else
-                            Text('Нет соединения с сервером.'),
-                          SizedBox(height: 15),
-                          _setupSettingsButton(),
-                          SizedBox(height: widgetItemPadding + 13),
-                          if (state is SettingsSuccess)
-                            Column(
-                              children: [
-                                if (defaultTargetPlatform ==
-                                    TargetPlatform.android) ...[
-                                  Text('Размер шрифта виджета'),
-                                  _fontSizeSlider(context, state),
-                                  SizedBox(height: widgetItemPadding),
-                                  Text('Громкость азана'),
-                                  _azanVolumeSlider(context, state),
+                        return Column(
+                          children: [
+                            if (state is SettingsInProgress)
+                              Center(child: CircularProgressIndicator())
+                            else if (state is SettingsSuccess ||
+                                state is SettingsCitySelectInProgress ||
+                                state is SettingsCitySelectFailure)
+                              _form(state as SettingsSuccess)
+                            else
+                              Text('Нет соединения с сервером.'),
+                            SizedBox(height: 15),
+                            _setupSettingsButton(),
+                            SizedBox(height: widgetItemPadding + 13),
+                            if (state is SettingsSuccess)
+                              Column(
+                                children: [
+                                  if (defaultTargetPlatform ==
+                                      TargetPlatform.android) ...[
+                                    Text('Размер шрифта виджета'),
+                                    _fontSizeSlider(context, state),
+                                    SizedBox(height: widgetItemPadding),
+                                    Text('Непрозрачность виджета'),
+                                    _bgOpacitySlider(context, state),
+                                    SizedBox(height: widgetItemPadding),
+                                    Text('Громкость азана'),
+                                    _azanVolumeSlider(context, state),
+                                  ],
+                                  _hidjrahDateSource(state, context),
                                 ],
-                                _hidjrahDateSource(state, context),
-                              ],
-                            ),
-                        ],
-                      );
-                    },
-                  ),
-                  Spacer(),
-                  _aNote(context),
-                ],
+                              ),
+                          ],
+                        );
+                      },
+                    ),
+                    Spacer(),
+                    _aNote(context),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -190,6 +214,7 @@ class _SettingsPageState extends State<SettingsPage> {
               SettingsFontsScaleUpdated(
                 value,
                 state.azanVolume,
+                state.bgOpacity,
                 state.requestHidjraDateFromServer,
                 state.cities,
               ),
@@ -220,6 +245,38 @@ class _SettingsPageState extends State<SettingsPage> {
               SettingsAzanVolumeUpdated(
                 value,
                 state.fontsScale,
+                state.bgOpacity,
+                state.requestHidjraDateFromServer,
+                state.cities,
+              ),
+            );
+      },
+    );
+  }
+
+  Slider _bgOpacitySlider(BuildContext context, SettingsSuccess state) {
+    return Slider(
+      min: bgOpacityMin,
+      max: bgOpacityMax,
+      divisions: bgOpacitySteps,
+      value: _bgOpacity,
+      label: _bgOpacityLabel,
+      activeColor: Color(primaryColor),
+      onChanged: (value) {
+        setState(() {
+          _bgOpacityUpdating = true;
+          _bgOpacity = value;
+          _setBgOpacityLabel(value);
+        });
+      },
+      onChangeEnd: (value) {
+        _bgOpacityUpdating = false;
+
+        context.read<SettingsBloc>().add(
+              SettingsBgOpacityUpdated(
+                value,
+                state.fontsScale,
+                state.azanVolume,
                 state.requestHidjraDateFromServer,
                 state.cities,
               ),
@@ -243,6 +300,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 value!,
                 state.fontsScale,
                 state.azanVolume,
+                state.bgOpacity,
                 state.cities,
               ),
             );
@@ -291,6 +349,14 @@ class _SettingsPageState extends State<SettingsPage> {
       _azanVolumeLabel = 'По умолчанию';
     } else {
       _azanVolumeLabel = null;
+    }
+  }
+
+  void _setBgOpacityLabel(double value) {
+    if (value == bgOpacityDefault) {
+      _bgOpacityLabel = 'По умолчанию';
+    } else {
+      _bgOpacityLabel = null;
     }
   }
 
@@ -348,6 +414,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                 state.cities,
                                 state.fontsScale,
                                 state.azanVolume,
+                                state.bgOpacity,
                                 state.requestHidjraDateFromServer,
                               ),
                             );

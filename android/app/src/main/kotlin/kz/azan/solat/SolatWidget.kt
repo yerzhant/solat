@@ -5,6 +5,7 @@ import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.util.TypedValue
 import android.view.View
 import android.widget.RemoteViews
@@ -13,7 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kz.azan.solat.domain.Times
 import kz.azan.solat.repository.SolatRepository
-import java.util.*
+import java.util.Calendar
 
 class SolatWidget : AppWidgetProvider() {
 
@@ -45,6 +46,10 @@ class SolatWidget : AppWidgetProvider() {
                     setAllInactive(context)
                     setActiveTime(times, context)
                 }
+
+                val opacity = solatRepository.getBackgroundOpacity().let { (it * 255).toInt() }
+                val bgColor = Color.argb(opacity, 0x1B, 0xA2, 0xDD)
+                setInt(R.id.solat_widget, "setBackgroundColor", bgColor)
             }
 
             appWidgetManager.updateAppWidget(appWidgetId, views)

@@ -10,6 +10,7 @@ class MainPlatformApi {
   static const timeZone = "time-zone";
   static const fontsScale = "fontsScale";
   static const azanVolume = "azanVolume";
+  static const bgOpacity = "bg-opacity";
 
   static const currentDateByHidjra = "currentDateByHidjra";
   static const requestHidjraDateFromServer = "request-hidjra-date-from-server";
@@ -79,6 +80,14 @@ class MainPlatformApi {
 
   Future<void> setAzanVolume(double volume) {
     return channel.invokeMethod('set-azan-volume', {azanVolume: volume});
+  }
+
+  Future<double> getBgOpacity() async {
+    return await channel.invokeMethod('get-bg-opacity');
+  }
+
+  Future<void> setBgOpacity(double value) {
+    return channel.invokeMethod('set-bg-opacity', {bgOpacity: value});
   }
 
   Future<bool> getRequestHidjraDateFromServer() async {

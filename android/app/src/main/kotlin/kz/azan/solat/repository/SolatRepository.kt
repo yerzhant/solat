@@ -3,6 +3,7 @@ package kz.azan.solat.repository
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
+import androidx.core.content.edit
 import kz.azan.solat.alarm.AlarmService
 import kz.azan.solat.alarm.notificationService
 import kz.azan.solat.api.azanService
@@ -11,7 +12,8 @@ import kz.azan.solat.domain.Times
 import java.text.SimpleDateFormat
 import java.time.chrono.HijrahDate
 import java.time.format.DateTimeFormatter
-import java.util.*
+import java.util.Calendar
+import java.util.Date
 
 const val SETTINGS_NAME = "kz.azan.solat.settings"
 
@@ -25,6 +27,7 @@ class SolatRepository(private val context: Context) {
     private val settingRefreshedOn = "refreshedOn"
     private val settingFontsScale = "fontsScale"
     private val settingAzanVolume = "azanVolume"
+    private val settingBackgroundOpacity = "background-opacity"
     private val settingRequestHidjraDateFromServer = "request-hidjra-date-from-server"
 
     suspend fun getCurrentDateByHidjra(): String {
@@ -142,6 +145,17 @@ class SolatRepository(private val context: Context) {
             putFloat(settingAzanVolume, scale)
             apply()
         }
+    }
+
+    fun getBackgroundOpacity(): Float {
+        val settings = context.getSharedPreferences(SETTINGS_NAME, Context.MODE_PRIVATE)
+        return settings.getFloat(settingBackgroundOpacity, .7F)
+    }
+
+    fun setBackgroundOpacity(value: Float) {
+        val settings = context.getSharedPreferences(SETTINGS_NAME, Context.MODE_PRIVATE)
+        settings.edit { putFloat(settingBackgroundOpacity, value) }
+        AlarmService().refreshWidget(context)
     }
 
     fun getRequestHidjraDateFromServer(): Boolean {

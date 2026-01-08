@@ -37,6 +37,14 @@ class SolatRepository {
     return _mainPlatformApi.setAzanVolume(volume);
   }
 
+  Future<double> getBgOpacity() {
+    return _mainPlatformApi.getBgOpacity();
+  }
+
+  Future<void> setBgOpacity(double value) {
+    return _mainPlatformApi.setBgOpacity(value);
+  }
+
   Future<bool> getRequestHidjraDateFromServer() {
     return _mainPlatformApi.getRequestHidjraDateFromServer();
   }

@@ -44,6 +44,7 @@ class MainActivity : FlutterActivity() {
 
     private val channelParamFontsScale = "fontsScale"
     private val channelParamAzanVolume = "azanVolume"
+    private val channelParamBgOpacity = "bg-opacity"
 
     private val channelParamCurrentDateByHidjra = "currentDateByHidjra"
     private val channelParamRequestHidjraDateFromServer = "request-hidjra-date-from-server"
@@ -79,6 +80,8 @@ class MainActivity : FlutterActivity() {
                 "set-fonts-scale" -> setFontsScale(call, result)
                 "get-azan-volume" -> getAzanVolume(result)
                 "set-azan-volume" -> setAzanVolume(call, result)
+                "get-bg-opacity" -> getBackgroundOpacity(result)
+                "set-bg-opacity" -> setBackgroundOpacity(call, result)
                 "get-request-hidjra-date-from-server" -> getRequestHidjraDateFromServer(result)
                 "set-request-hidjra-date-from-server" -> setRequestHidjraDateFromServer(
                     call,
@@ -143,6 +146,25 @@ class MainActivity : FlutterActivity() {
 
         val solatRepository = SolatRepository(context)
         solatRepository.setFontsScale(scale.toFloat())
+
+        result.success(true)
+    }
+
+    private fun getBackgroundOpacity(result: MethodChannel.Result) {
+        val solatRepository = SolatRepository(context)
+        result.success(solatRepository.getBackgroundOpacity())
+    }
+
+    private fun setBackgroundOpacity(call: MethodCall, result: MethodChannel.Result) {
+        val value = call.argument<Double>(channelParamBgOpacity)
+
+        if (value == null) {
+            result.error(channelErrorNotEnoughParams, null, null)
+            return
+        }
+
+        val solatRepository = SolatRepository(context)
+        solatRepository.setBackgroundOpacity(value.toFloat())
 
         result.success(true)
     }

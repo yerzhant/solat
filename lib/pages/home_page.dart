@@ -56,7 +56,7 @@ class _HomePageState extends State<HomePage> {
             },
             child: Center(
               child: Padding(
-                padding: const EdgeInsets.only(top: 70, bottom: 30),
+                padding: const EdgeInsets.only(top: 70, bottom: 50),
                 child: Column(
                   children: <Widget>[
                     GestureDetector(

@@ -19,6 +19,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         final List<City> cities = await _azanRepository.getCities();
         final fontsScale = await _solatRepository.getFontsScale();
         final azanVolume = await _solatRepository.getAzanVolume();
+        final bgOpacity = await _solatRepository.getBgOpacity();
         final bool requestHidjraDateFromServer =
             await _solatRepository.getRequestHidjraDateFromServer();
 
@@ -26,6 +27,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
           cities,
           fontsScale,
           azanVolume,
+          bgOpacity,
           requestHidjraDateFromServer,
         ));
       } catch (e) {
@@ -39,6 +41,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
           event.cities,
           event.fontsScale,
           event.azanVolume,
+          event.bgOpacity,
           event.requestHidjraDateFromServer,
         ));
 
@@ -50,6 +53,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
           event.cities,
           event.fontsScale,
           event.azanVolume,
+          event.bgOpacity,
           event.requestHidjraDateFromServer,
           e.toString(),
         ));
@@ -63,6 +67,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
           event.cities,
           event.scale,
           event.azanVolume,
+          event.bgOpacity,
           event.requestHidjraDateFromServer,
         ));
       } catch (e) {
@@ -77,6 +82,22 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
           event.cities,
           event.fontScale,
           event.volume,
+          event.bgOpacity,
+          event.requestHidjraDateFromServer,
+        ));
+      } catch (e) {
+        emit(SettingsFailure(e.toString()));
+      }
+    });
+
+    on<SettingsBgOpacityUpdated>((event, emit) async {
+      try {
+        await _solatRepository.setBgOpacity(event.opacity);
+        emit(SettingsSuccess(
+          event.cities,
+          event.fontScale,
+          event.azanVolume,
+          event.opacity,
           event.requestHidjraDateFromServer,
         ));
       } catch (e) {
@@ -91,7 +112,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         emit(SettingsSuccess(
           event.cities,
           event.fontScale,
-          event.volume,
+          event.azanVolume,
+          event.bgOpacity,
           event.requestHidjraDateFromServer,
         ));
       } catch (e) {
